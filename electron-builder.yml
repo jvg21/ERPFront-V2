@@ -1,5 +1,5 @@
 appId: com.electron.app
-productName: erpfront-v2
+productName: xpfront
 directories:
   buildResources: build
 files:
@@ -12,7 +12,7 @@ files:
 asarUnpack:
   - resources/**
 win:
-  executableName: erpfront-v2
+  executableName: xpfront
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}

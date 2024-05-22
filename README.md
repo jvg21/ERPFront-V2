@@ -1,4 +1,4 @@
-# erpfront-v2
+# xpfront
 
 An Electron application with React and TypeScript
 
