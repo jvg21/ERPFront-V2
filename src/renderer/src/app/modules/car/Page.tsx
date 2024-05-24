@@ -1,3 +1,3 @@
 export function CarPage(){
-    return(<p>asdasdsasadsad</p>)
+    return(<p style={{color:"red"}}>asdasdsasadsad</p>)
 }

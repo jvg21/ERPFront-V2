@@ -8,7 +8,7 @@ export default function DashRoutes() {
     return (
         <>
             <Routes>
-                
+                <Route path="/" element={<a/>}/>
                 <Route path="/car" element={<CarPage/>}/>
                 <Route path="/reseller" element={<ResellerPage/>}/>
             </Routes>

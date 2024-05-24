@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   DesktopOutlined,
   FileOutlined,
@@ -7,13 +7,15 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { Layout, Menu, theme } from 'antd';
-import { SidebarContext } from '@renderer/app/contexts/SidebarContext';
-import styled from 'styled-components';
-import { ActiveModules, ActiveModulesIndexes } from '@renderer/app/config/ActiveModules';
+import { Breadcrumb, Layout, Menu, theme } from 'antd';
+import MenuItem from 'antd/es/menu/MenuItem';
+import { Navigate, useNavigate } from "react-router-dom";
 import DashRoutes from '@renderer/app/routes/Router';
+import { SidebarContext } from '@renderer/app/contexts/SidebarContext';
+import { ActiveModules, ActiveModulesIndexes } from '@renderer/app/config/ActiveModules';
 
-const { Header, Content, Sider } = Layout;
+
+const { Header, Content, Footer, Sider } = Layout;
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -31,12 +33,12 @@ function getItem(
   } as MenuItem;
 }
 
-
 function assembleItem(id: string) {
   // console.log(ActivePages[id].config.options)
   const label = ActiveModules[id].label
   const icon = ActiveModules[id].icon;
-  const key = ActiveModules[id].name;
+  const key = ActiveModules[id].path;
+
   return { label, icon, key } as MenuItem
 }
 
@@ -47,46 +49,52 @@ function getMenuItems() {
 
   }
   return Items;
-
 }
-const StyledMenu = styled(Menu)`
-
-`;
 
 
+const AppLayout = () => {
 
-const App: React.FC = () => {
-  const { isSidebarActive, setSidebarActive } = useContext(SidebarContext);
-  const { token: { colorBgContainer, borderRadiusLG },} = theme.useToken();
-  const [menuItens,setMenuItens] = useState<MenuItem[]>(getMenuItems())
+  const [menuItems, setItens] = useState<MenuItem[]>(getMenuItems());
+  const navigate = useNavigate();
+
+  const onClick: MenuProps['onClick'] = (e) => {
+    console.log('click ', e);
+    navigate(e.key)    
+  };
+
+  const {isSidebarActive, setSidebarActive} = useContext(SidebarContext);
+  const {
+    token: { colorBgContainer, borderRadiusLG },
+  } = theme.useToken();
 
   return (
     <Layout style={{ minHeight: '100vh', width: "100vw" }}>
-
-      <Sider collapsible collapsed={isSidebarActive} onCollapse={(value) => setSidebarActive(value)} >
-        <div style={{height:"150px"}}></div>
-        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={menuItens}  />
+      <Sider collapsible collapsed={isSidebarActive} onCollapse={(value) => setSidebarActive(value)}>
+        <div style={{height:'150px'}}></div>
+        <Menu theme="dark" onClick={onClick} defaultSelectedKeys={['1']} mode="inline" items={menuItems} />
       </Sider>
-
       <Layout>
         <Header style={{ padding: 0, background: colorBgContainer }} />
         <Content style={{ margin: '0 16px' }}>
           <div
             style={{
-              margin: "16px",
               padding: 24,
-              minHeight: 360,
+              minHeight: "95%",
               background: colorBgContainer,
               borderRadius: borderRadiusLG,
-              height: "95%"
+              margin: '16px 0',
+              overflow:'hidden'
             }}
           >
             <DashRoutes/>
           </div>
         </Content>
+        {/* <Footer style={{ textAlign: 'center' }}>
+          Ant Design ©{new Date().getFullYear()} Created by Ant UED
+        </Footer> */}
       </Layout>
     </Layout>
   );
 };
 
-export default App;
+export default AppLayout;
