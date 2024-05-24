@@ -1,4 +1,4 @@
-import { createContext, useState, ReactNode, useContext } from 'react';
+import { createContext, useState, ReactNode } from 'react';
 
 type SidebarContextType = {
   isSidebarActive: boolean;
@@ -10,7 +10,7 @@ const defaultValue = {
   setSidebarActive:(_:boolean)=>{},
 }
 
-const SidebarContext = createContext<SidebarContextType >(defaultValue);
+export const SidebarContext = createContext<SidebarContextType >(defaultValue);
 
 export function SidebarContextProvider({ children }: { children: ReactNode }) {
   const [isSidebarActive, setSidebarActive] = useState<boolean>(defaultValue.isSidebarActive);
@@ -21,4 +21,3 @@ export function SidebarContextProvider({ children }: { children: ReactNode }) {
     </SidebarContext.Provider>
   );
 }
-export const useSidebar = useContext(SidebarContext)

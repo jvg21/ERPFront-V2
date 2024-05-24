@@ -1,5 +1,5 @@
 import { LanguageType } from '@renderer/@types/LanguageType';
-import { createContext, useState, ReactNode, useContext } from 'react';
+import { createContext, useState, ReactNode } from 'react';
 import { EnglishLanguage } from '../languages/English.language';
 
 type LanguageContextType = {
@@ -11,7 +11,7 @@ const defaultValue = {
   language:EnglishLanguage,
   changeLanguage:(_:LanguageType)=>{},
 }
-const LanguageContext = createContext<LanguageContextType >(defaultValue);
+export const LanguageContext = createContext<LanguageContextType >(defaultValue);
 
 export function LanguageContextProvider({ children }: { children: ReactNode }) {
   const [language, setLanguage] = useState(defaultValue.language);
@@ -26,5 +26,3 @@ export function LanguageContextProvider({ children }: { children: ReactNode }) {
     </LanguageContext.Provider>
   );
 }
-
-export const useLanguage = useContext(LanguageContext)
