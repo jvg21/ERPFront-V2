@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Button, Space, Table } from 'antd';
 import type { TableProps } from 'antd';
 import { notification } from 'antd';
@@ -7,6 +7,7 @@ import { ReselerModel } from "./model/Model";
 import { ReselerService } from "./service/Service";
 import { CloseButton, Modal, ModalContent, ModuleContainer } from "@renderer/components/layout/modal/ModalComponents";
 import { FormButton, FormInput, FormLabel, FormStyle } from "@renderer/components/layout/form/FormComponents";
+import { LanguageContext } from "@renderer/app/contexts/LanguageContext";
 
 
 export function ResellerMainPage() {
@@ -23,6 +24,9 @@ export function ResellerMainPage() {
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState<ModelType>(defaltValue);
   const [formSubmit, setFormSubmit] = useState<string>(StaticConfig.createFormId)
+  const { language } = useContext(LanguageContext)
+  const Words = language.words
+  const ResellerWords = language.modules.resellerModule.words
 
   useEffect(() => {
     setList();
@@ -59,13 +63,10 @@ export function ResellerMainPage() {
     const response = await ApiService.create(data)
     if (response) {
       notification.success({
-        message: 'revendedora criado com sucesso',
-        description: `O revendedora foi criado com sucesso.`,
+        message: Words.success,
+        description: ResellerWords.createNotificationDescription,
       });
       setList()
-    } else {
-      console.log("Falha");
-
     }
     handleCloseModal()
   }
@@ -76,12 +77,10 @@ export function ResellerMainPage() {
       const response = await ApiService.update(data.id, data)
       if (response) {
         notification.success({
-          message: 'revendedora Alterado com sucesso',
-          description: `A revendedora foi alterada com sucesso.`,
+          message: Words.success,
+          description: ResellerWords.updateNotificationDescription,
         });
         setList()
-      } else {
-        console.log("Falha");
       }
     }
     handleCloseModal()
@@ -113,23 +112,23 @@ export function ResellerMainPage() {
       render: (text) => <a>{text}</a>,
     },
     {
-      title: 'Nome',
+      title: ResellerWords.name,
       dataIndex: 'name',
       key: 'name',
       render: (text) => <a>{text}</a>,
     },
     {
-      title: 'Endereço',
-      dataIndex: 'adress',
-      key: 'adress',
+      title: ResellerWords.address,
+      dataIndex: 'address',
+      key: 'address',
       render: (text) => <a>{text}</a>,
     },
     {
-      title: 'Ações',
+      title: Words.actions,
       key: 'actions',
-      render: (text, record) => (
+      render: (_, record) => (
         <Space size="middle">
-          <Button onClick={() => handleEdit(record)}>Editar</Button>
+          <Button onClick={() => handleEdit(record)}>{Words.edit}</Button>
         </Space>
       ),
     }
@@ -138,8 +137,8 @@ export function ResellerMainPage() {
 
   return (
     <ModuleContainer>
-      <h1>Revendedor</h1>
-      <FormButton onClick={() => handleCreate()} >Criar</FormButton>
+      <h1>{language.modules.resellerModule.label}</h1>
+      <FormButton onClick={() => handleCreate()} >{Words.create}</FormButton>
       <Table columns={columns} dataSource={entries} style={{width:"90%"}} />
 
       {showModal &&
@@ -148,11 +147,11 @@ export function ResellerMainPage() {
             <CloseButton onClick={handleCloseModal}>&times;</CloseButton>
             <FormStyle onSubmit={handleSubmit}>
               <FormInput type="hidden" name="id" disabled value={formData.id} />
-              <FormLabel htmlFor="name">Nome</FormLabel>
-              <FormInput type="text" name="name" onChange={handleOnChange} placeholder="Insira o Modelo" value={formData.name} />
-              <FormLabel htmlFor="name">Endereço</FormLabel>
+              <FormLabel htmlFor="name">{ResellerWords.name}</FormLabel>
+              <FormInput type="text" name="name" onChange={handleOnChange} placeholder="Insira o Nome" value={formData.name} />
+              <FormLabel htmlFor="address">{ResellerWords.address}</FormLabel>
               <FormInput type="text" name="address" onChange={handleOnChange} placeholder="Insira o Endereço" value={formData.address} />
-              <FormButton type="submit" >Enviar</FormButton>
+              <FormButton type="submit" >{Words.send}</FormButton>
             </FormStyle>
           </ModalContent>
         </Modal>

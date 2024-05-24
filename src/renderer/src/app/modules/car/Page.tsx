@@ -129,30 +129,30 @@ export function CarMainPage() {
       render: (text) => <a>{text}</a>,
     },
     {
-      title: 'Modelo',
+      title: CarWords.model,
       dataIndex: 'name',
       key: 'name',
       render: (text) => <a>{text}</a>,
     },
     {
-      title: 'Marca',
+      title: CarWords.brand,
       dataIndex: 'brand',
       key: 'brand',
       render: (text) => <a>{text}</a>,
     },
     {
-      title: 'Ano',
+      title: CarWords.year,
       dataIndex: 'year',
       key: 'year',
       render: (text) => <a>{text}</a>,
     },
     {
-      title: 'Ações',
+      title: Words.actions,
       key: 'actions',
       render: (text, record) => (
         <Space size="middle">
-          <Button onClick={() => handleEdit(record)}>Editar</Button>
-          <Button onClick={() => handleDelete(record)}>Deletar</Button>
+          <Button onClick={() => handleEdit(record)}>{Words.edit}</Button>
+          <Button onClick={() => handleDelete(record)}>{Words.cancel}</Button>
         </Space>
       ),
     }
@@ -161,8 +161,8 @@ export function CarMainPage() {
 
   return (
     <ModuleContainer>
-      <h1>Carros</h1>
-      <FormButton onClick={() => handleCreate()} >Criar</FormButton>
+      <h1>{language.modules.carModule.label}</h1>
+      <FormButton onClick={() => handleCreate()} >{Words.create}</FormButton>
       <Table columns={columns} dataSource={entries} style={{ width: "90%" }} />
 
       {showModal &&
@@ -171,13 +171,13 @@ export function CarMainPage() {
             <CloseButton onClick={handleCloseModal}>&times;</CloseButton>
             <FormStyle onSubmit={handleSubmit}>
               <FormInput type="hidden" name="id" disabled value={formData.id} />
-              <FormLabel htmlFor="name">Modelo</FormLabel>
+              <FormLabel htmlFor="name"> {CarWords.model}</FormLabel>
               <FormInput type="text" name="name" onChange={handleOnChange} placeholder="Insira o Modelo" value={formData.name} />
-              <FormLabel htmlFor="name">Marca</FormLabel>
+              <FormLabel htmlFor="name">{ CarWords.brand}</FormLabel>
               <FormInput type="text" name="brand" onChange={handleOnChange} placeholder="Insira a Marca" value={formData.brand} />
-              <FormLabel htmlFor="name">Ano</FormLabel>
+              <FormLabel htmlFor="name">{ CarWords.year}</FormLabel>
               <FormInput type="number" name="year" onChange={handleOnChange} placeholder="Insira o Ano de Fabricação" value={formData.year} />
-              <FormButton type="submit" >Enviar</FormButton>
+              <FormButton type="submit" >{Words.send}</FormButton>
             </FormStyle>
           </ModalContent>
         </Modal>
@@ -188,9 +188,9 @@ export function CarMainPage() {
           <div style={{ display: "flex", alignItems: "center", textAlign: "center", justifyContent: "center" }}>
 
             <ModalContent>
-              <p>Tem certeza que deseja deletar este carro?</p>
-              <Button onClick={() => handleConfirmDelete(formData.id)}>Sim</Button>
-              <Button onClick={() => setConfirmDelete(false)}>Cancelar</Button>
+              <p>{Words.confirmationDelete}</p>
+              <Button onClick={() => handleConfirmDelete(formData.id)}>{Words.confirm}</Button>
+              <Button onClick={() => setConfirmDelete(false)}>{Words.cancel}</Button>
 
             </ModalContent>
           </div>
