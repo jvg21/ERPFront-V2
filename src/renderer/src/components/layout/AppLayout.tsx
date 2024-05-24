@@ -77,12 +77,15 @@ const AppLayout = () => {
               background: colorBgContainer,
               borderRadius: borderRadiusLG,
               margin: '16px 0',
-              overflow:'hidden'
+              overflowY: "auto",  // Enable vertical scrolling
+              maxHeight: 'calc(100vh - 128px)',  // Adjust this as needed to fit your layout
             }}
           >
             <DashRoutes/>
           </div>
         </Content>
+
+        <p>sadsa</p>
       </Layout>
     </Layout>
   );

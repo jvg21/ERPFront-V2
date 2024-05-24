@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Button, Space, Table } from 'antd';
 import type { TableProps } from 'antd';
 import { notification } from 'antd';
@@ -7,6 +7,7 @@ import { CarService } from "./service/Service";
 import { CloseButton, Modal, ModalContent, ModuleContainer } from "@renderer/components/layout/modal/ModalComponents";
 import { FormButton, FormInput, FormLabel, FormStyle } from "@renderer/components/layout/form/FormComponents";
 import { StaticConfig } from "@renderer/app/config/config";
+import { LanguageContext } from "@renderer/app/contexts/LanguageContext";
 
 export function CarMainPage() {
 
@@ -24,6 +25,9 @@ export function CarMainPage() {
   const [formData, setFormData] = useState<ModelType>(defaltValue);
   const [formSubmit, setFormSubmit] = useState<string>(StaticConfig.createFormId)
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const { language } = useContext(LanguageContext)
+  const Words = language.words
+  const CarWords = language.modules.carModule.words
 
   useEffect(() => {
     setList();
@@ -53,25 +57,21 @@ export function CarMainPage() {
     setList()
   }
 
-  const handleConfirmDelete = async (id: number|undefined) => {
+  const handleConfirmDelete = async (id: number | undefined) => {
     if (id) {
       const response = await ApiService.delete(id);
       if (response) {
-        console.log("deletando");
         notification.success({
-          message: 'Carro deletado com sucesso',
-          description: `O carro foi deletado com sucesso.`,
+          message: Words.success,
+          description: CarWords.deleteNotificationDescription,
         });
-        setList(); 
-      } else {
-        
-        console.log("Falha ao deletar");
+        setList();
       }
     }
-    setConfirmDelete(false); 
+    setConfirmDelete(false);
   };
 
-  const handleDelete = (entry:ModelType) => {
+  const handleDelete = (entry: ModelType) => {
     setFormData(entry)
     setConfirmDelete(true);
   };
@@ -81,30 +81,24 @@ export function CarMainPage() {
     const response = await ApiService.create(data)
     if (response) {
       notification.success({
-        message: 'Carro criado com sucesso',
-        description: `O carro ${response.name} foi criado com sucesso.`,
+        message: Words.success,
+        description: CarWords.createNotificationDescription,
       });
       setList()
-    } else {
-      console.log("Falha");
-
     }
     handleCloseModal()
   }
 
-  const handleUpdateSubmit = async (event: React.FormEvent<HTMLFormElement>,  data: ModelType) => {
+  const handleUpdateSubmit = async (event: React.FormEvent<HTMLFormElement>, data: ModelType) => {
     event.preventDefault()
     if (data.id) {
       const response = await ApiService.update(data.id, data)
       if (response) {
-        console.log("Criado com sucesso");
         notification.success({
-          message: 'Carro Alterado com sucesso',
-          description: `O carro ${response.name} foi alterado com sucesso.`,
+          message: Words.success,
+          description: CarWords.updateNotificationDescription,
         });
         setList()
-      } else {
-        console.log("Falha");
       }
     }
     handleCloseModal()
@@ -118,7 +112,6 @@ export function CarMainPage() {
       handleUpdateSubmit(event, formData);
     }
   }
-
 
   function handleOnChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
@@ -170,7 +163,7 @@ export function CarMainPage() {
     <ModuleContainer>
       <h1>Carros</h1>
       <FormButton onClick={() => handleCreate()} >Criar</FormButton>
-      <Table columns={columns} dataSource={entries} style={{width:"90%"}} />
+      <Table columns={columns} dataSource={entries} style={{ width: "90%" }} />
 
       {showModal &&
         <Modal>
@@ -192,22 +185,17 @@ export function CarMainPage() {
       }
       {confirmDelete && (
         <Modal>
-            <div style={{display:"flex",alignItems:"center",textAlign:"center",justifyContent:"center"}}>
+          <div style={{ display: "flex", alignItems: "center", textAlign: "center", justifyContent: "center" }}>
 
-          <ModalContent>
+            <ModalContent>
               <p>Tem certeza que deseja deletar este carro?</p>
               <Button onClick={() => handleConfirmDelete(formData.id)}>Sim</Button>
               <Button onClick={() => setConfirmDelete(false)}>Cancelar</Button>
-            
-          </ModalContent>
+
+            </ModalContent>
           </div>
         </Modal>
       )}
     </ModuleContainer>
-
-
   )
-
-
-
 }

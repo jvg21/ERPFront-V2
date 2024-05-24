@@ -1,3 +1,4 @@
+import { CarModuleLanguageType } from "@renderer/app/modules/car/language/CarModuleLanguageType"
 import { ReactElement } from "react"
 
 export type LanguageType = {
@@ -19,9 +20,10 @@ export type LanguageType = {
         confirmationDelete:string
         edit:string,
         delete:string,
-        confirm:string
+        confirm:string,
+        success:string
     },
     modules:{
-        carModule:null
+        carModule:CarModuleLanguageType
     }
 }
