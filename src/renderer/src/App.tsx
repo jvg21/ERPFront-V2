@@ -8,10 +8,12 @@ import { useContext } from "react"
 function App(): JSX.Element {
   // const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
   const { themeString } = useContext(ThemeStyleContext)
+  console.log(themeString);
+  
   return (
     <BrowserRouter>
       <ThemeStyleContextProvider>
-        <ThemeProvider theme={themeString}>
+        <ThemeProvider theme={themeString.style}>
           <SidebarContextProvider>
             <AppLayout/>
           </SidebarContextProvider>
