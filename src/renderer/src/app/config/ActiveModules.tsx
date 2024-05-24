@@ -1,6 +1,6 @@
 import { ModuleType } from "@renderer/@types/ModuleType";
-import { CarPage } from "../modules/car/Page";
 import { FaBuilding, FaCar } from "react-icons/fa";
+import { CarMainPage } from "../modules/car/Page";
 
 type ActiveModulesType = {
     carModule:ModuleType,
@@ -12,14 +12,14 @@ export const ActiveModules:ActiveModulesType = {
         name:"Car",
         label:"Car",
         path:"/car",
-        element: <CarPage/>,
+        element: <CarMainPage/>,
         icon: <FaCar />,
     },
     resellerModule:{
         name:"Reseller",
         label:"Reseller",
         path:"/reseller",
-        element:<CarPage/>,
+        element:<CarMainPage/>,
         icon:<FaBuilding/>
     }
 }

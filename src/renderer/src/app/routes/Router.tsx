@@ -1,7 +1,6 @@
 
 import { Route, Routes } from "react-router-dom";
-import { CarPage } from "../modules/car/Page";
-import { ResellerPage } from "../modules/base copy/Page";
+import { CarMainPage } from "../modules/car/Page";
 
 export default function DashRoutes() {
 
@@ -9,8 +8,8 @@ export default function DashRoutes() {
         <>
             <Routes>
                 <Route path="/" element={<a/>}/>
-                <Route path="/car" element={<CarPage/>}/>
-                <Route path="/reseller" element={<ResellerPage/>}/>
+                <Route path="/car" element={<CarMainPage/>}/>
+                <Route path="/reseller" element={<CarMainPage/>}/>
             </Routes>
 
         </>

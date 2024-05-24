@@ -4,9 +4,9 @@ import type { TableProps } from 'antd';
 import { notification } from 'antd';
 import { CarModel } from "./model/Model";
 import { CarService } from "./service/Service";
-
-
-
+import { CloseButton, Modal, ModalContent, ModuleContainer } from "@renderer/components/layout/modal/ModalComponents";
+import { FormButton, FormInput, FormLabel, FormStyle } from "@renderer/components/layout/form/FormComponents";
+import { StaticConfig } from "@renderer/app/config/config";
 
 export function CarMainPage() {
 
