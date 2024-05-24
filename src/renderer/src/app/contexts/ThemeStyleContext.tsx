@@ -9,7 +9,7 @@ type ThemeContextType = {
 
 const defaultValue = {
   themeString:LightTheme,
-  changeTheme:(theme:ThemeType)=>{},
+  changeTheme:(_:ThemeType)=>{},
 }
 
 const ThemeStyleContext = createContext<ThemeContextType >(defaultValue);

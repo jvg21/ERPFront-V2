@@ -9,7 +9,7 @@ type LanguageContextType = {
 
 const defaultValue = {
   language:EnglishLanguage,
-  changeLanguage:(language:LanguageType)=>{},
+  changeLanguage:(_:LanguageType)=>{},
 }
 const LanguageContext = createContext<LanguageContextType >(defaultValue);
 

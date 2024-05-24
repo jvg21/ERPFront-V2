@@ -1,6 +1,7 @@
 import { BrowserRouter } from "react-router-dom"
 import { ThemeProvider } from "styled-components"
 import { ThemeStyleContextProvider, useThemeStyle } from "./app/contexts/ThemeStyleContext"
+import { SidebarContextProvider } from "./app/contexts/SidebarContext"
 
 function App(): JSX.Element {
   // const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
@@ -9,7 +10,10 @@ function App(): JSX.Element {
     <BrowserRouter>
       <ThemeStyleContextProvider>
         <ThemeProvider theme={themeString}>
-          <p>ds</p>
+          <SidebarContextProvider>
+            <p>ds</p>
+
+          </SidebarContextProvider>
         </ThemeProvider>
       </ThemeStyleContextProvider>
     </BrowserRouter>
