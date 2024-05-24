@@ -1,4 +1,4 @@
-import { createContext, useState, ReactNode, useContext } from 'react';
+import { createContext, useState, ReactNode } from 'react';
 import { ThemeType } from '../../@types/ThemeType';
 import { LightTheme } from '@renderer/app/themes/Light.theme';
 
@@ -12,7 +12,7 @@ const defaultValue = {
   changeTheme:(_:ThemeType)=>{},
 }
 
-const ThemeStyleContext = createContext<ThemeContextType >(defaultValue);
+export const ThemeStyleContext = createContext<ThemeContextType >(defaultValue);
 
 export function ThemeStyleContextProvider({ children }: { children: ReactNode }) {
   const [themeString, setThemeString] = useState(defaultValue.themeString);
@@ -27,5 +27,3 @@ export function ThemeStyleContextProvider({ children }: { children: ReactNode })
     </ThemeStyleContext.Provider>
   );
 }
-
-export const useThemeStyle = useContext(ThemeStyleContext);

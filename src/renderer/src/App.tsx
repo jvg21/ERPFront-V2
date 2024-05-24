@@ -1,18 +1,21 @@
 import { BrowserRouter } from "react-router-dom"
 import { ThemeProvider } from "styled-components"
-import { ThemeStyleContextProvider, useThemeStyle } from "./app/contexts/ThemeStyleContext"
+import { ThemeStyleContext, ThemeStyleContextProvider } from "./app/contexts/ThemeStyleContext"
 import { SidebarContextProvider } from "./app/contexts/SidebarContext"
+import AppLayout from "./components/layout/AppLayout"
+import { useContext } from "react"
 
 function App(): JSX.Element {
   // const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
-  const { themeString } = useThemeStyle
+  const { themeString } = useContext(ThemeStyleContext)
+  console.log(themeString);
+  
   return (
     <BrowserRouter>
       <ThemeStyleContextProvider>
-        <ThemeProvider theme={themeString}>
+        <ThemeProvider theme={themeString.style}>
           <SidebarContextProvider>
-            <p>ds</p>
-
+            <AppLayout/>
           </SidebarContextProvider>
         </ThemeProvider>
       </ThemeStyleContextProvider>
