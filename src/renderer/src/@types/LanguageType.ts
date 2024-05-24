@@ -1,4 +1,5 @@
 import { CarModuleLanguageType } from "@renderer/app/modules/car/language/CarModuleLanguageType"
+import { PersonModuleLanguageType } from "@renderer/app/modules/person/language/PersonModuleLanguageType"
 import { ResellerModuleLanguageType } from "@renderer/app/modules/reseller/language/ResellerModuleLanguageType"
 import { ReactElement } from "react"
 
@@ -26,6 +27,7 @@ export type LanguageType = {
     },
     modules:{
         carModule:CarModuleLanguageType,
-        resellerModule:ResellerModuleLanguageType
+        resellerModule:ResellerModuleLanguageType,
+        personModule:PersonModuleLanguageType
     }
 }

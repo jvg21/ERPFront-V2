@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import DashRoutes from '@renderer/app/routes/Router';
 import { SidebarContext } from '@renderer/app/contexts/SidebarContext';
 import { ActiveModules, ActiveModulesIndexes } from '@renderer/app/config/ActiveModules';
+import { LayoutHeader } from './header/LayoutHeader';
 
 
 const { Header, Content, Sider } = Layout;
@@ -68,7 +69,7 @@ const AppLayout = () => {
         <Menu theme="dark" onClick={onClick} defaultSelectedKeys={['1']} mode="inline" items={menuItems} />
       </Sider>
       <Layout>
-        <Header style={{ padding: 0, background: colorBgContainer }} />
+        <LayoutHeader />
         <Content style={{ margin: '0 16px' }}>
           <div
             style={{
