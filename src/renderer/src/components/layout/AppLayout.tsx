@@ -1,21 +1,15 @@
-import React, { useContext, useEffect, useState } from 'react';
-import {
-  DesktopOutlined,
-  FileOutlined,
-  PieChartOutlined,
-  TeamOutlined,
-  UserOutlined,
-} from '@ant-design/icons';
+import React, { useContext, useState } from 'react';
+
 import type { MenuProps } from 'antd';
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
+import { Layout, Menu, theme } from 'antd';
 import MenuItem from 'antd/es/menu/MenuItem';
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import DashRoutes from '@renderer/app/routes/Router';
 import { SidebarContext } from '@renderer/app/contexts/SidebarContext';
 import { ActiveModules, ActiveModulesIndexes } from '@renderer/app/config/ActiveModules';
 
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Content, Sider } = Layout;
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -54,7 +48,7 @@ function getMenuItems() {
 
 const AppLayout = () => {
 
-  const [menuItems, setItens] = useState<MenuItem[]>(getMenuItems());
+  const [menuItems,_] = useState<MenuItem[]>(getMenuItems());
   const navigate = useNavigate();
 
   const onClick: MenuProps['onClick'] = (e) => {
@@ -89,9 +83,6 @@ const AppLayout = () => {
             <DashRoutes/>
           </div>
         </Content>
-        {/* <Footer style={{ textAlign: 'center' }}>
-          Ant Design ©{new Date().getFullYear()} Created by Ant UED
-        </Footer> */}
       </Layout>
     </Layout>
   );
