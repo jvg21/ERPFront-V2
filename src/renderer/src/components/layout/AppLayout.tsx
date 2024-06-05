@@ -8,6 +8,9 @@ import DashRoutes from '@renderer/app/routes/Router';
 import { SidebarContext } from '@renderer/app/contexts/SidebarContext';
 import { ActiveModules, ActiveModulesIndexes } from '@renderer/app/config/ActiveModules';
 import { LayoutHeader } from './header/LayoutHeader';
+import { LanguageContext } from '@renderer/app/contexts/LanguageContext';
+import { ActiveLanguages } from '@renderer/app/config/ActiveLanguages';
+import { StaticConfig } from '@renderer/app/config/config';
 
 
 const { Header, Content, Sider } = Layout;
@@ -49,15 +52,16 @@ function getMenuItems() {
 
 const AppLayout = () => {
 
-  const [menuItems,_] = useState<MenuItem[]>(getMenuItems());
   const navigate = useNavigate();
+  const {isSidebarActive, setSidebarActive} = useContext(SidebarContext);
+  const {language} = useContext(LanguageContext)
+  const [menuItems,_] = useState<MenuItem[]>(getMenuItems());
 
   const onClick: MenuProps['onClick'] = (e) => {
     console.log('click ', e);
     navigate(e.key)    
   };
 
-  const {isSidebarActive, setSidebarActive} = useContext(SidebarContext);
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
@@ -83,6 +87,7 @@ const AppLayout = () => {
             }}
           >
             <DashRoutes/>
+            <p>{language.name}</p>
           </div>
         </Content>
 

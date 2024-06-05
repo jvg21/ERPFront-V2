@@ -1,5 +1,7 @@
+
 export const StaticConfig = {
     createFormId : 'create',
-    updateFormId : 'update'
+    updateFormId : 'update',
+    languageKeyString:"LANGUAGE_STRING",
+    themeKeyString:'THEME_STRING'
 }
-
