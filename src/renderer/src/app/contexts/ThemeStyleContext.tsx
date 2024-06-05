@@ -1,13 +1,14 @@
 import { createContext, useState, ReactNode } from 'react';
 import { ThemeType } from '../../@types/ThemeType';
-import { DarkTheme } from '../themes/Dark.theme';
+import { ActiveThemes } from '../config/ActiveThemes';
+import { StaticConfig } from '../config/config';
 
 type ThemeContextType = {
   themeString: ThemeType;
 };
 
 const defaultValue = {
-  themeString: DarkTheme,
+  themeString: ActiveThemes[localStorage.getItem(StaticConfig.themeKeyString)||"Light"],
 }
 
 export const ThemeStyleContext = createContext<ThemeContextType>(defaultValue);

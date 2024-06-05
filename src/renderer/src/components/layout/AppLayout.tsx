@@ -82,8 +82,8 @@ const AppLayout = () => {
               background: colorBgContainer,
               borderRadius: borderRadiusLG,
               margin: '16px 0',
-              overflowY: "auto",  // Enable vertical scrolling
-              maxHeight: 'calc(100vh - 128px)',  // Adjust this as needed to fit your layout
+              overflowY: "auto",  
+              maxHeight: 'calc(100vh - 128px)',
             }}
           >
             <DashRoutes/>
