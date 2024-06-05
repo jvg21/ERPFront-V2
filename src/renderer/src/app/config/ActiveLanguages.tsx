@@ -3,10 +3,10 @@ import { BrazilianLanguage } from "../languages/Brazilian.language";
 import { EnglishLanguage } from "../languages/English.language";
 
 type ActiveLanguageType = {
-    english:LanguageType,
-    portuguese:LanguageType
+    English:LanguageType,
+    Portuguese:LanguageType
 }
 export const ActiveLanguages:ActiveLanguageType = {
-    english:EnglishLanguage,
-    portuguese:BrazilianLanguage,
+    English:EnglishLanguage,
+    Portuguese:BrazilianLanguage,
 }

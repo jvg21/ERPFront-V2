@@ -1,6 +1,6 @@
 import { LanguageType } from '@renderer/@types/LanguageType';
 import { createContext, useState, ReactNode } from 'react';
-import { EnglishLanguage } from '../languages/English.language';
+import { ActiveLanguages } from '../config/ActiveLanguages';
 
 type LanguageContextType = {
   language: LanguageType;
@@ -8,7 +8,7 @@ type LanguageContextType = {
 };
 
 const defaultValue = {
-  language:EnglishLanguage,
+  language:ActiveLanguages[localStorage.getItem("theme_String")||"english"],
   changeLanguage:(_:LanguageType)=>{},
 }
 export const LanguageContext = createContext<LanguageContextType >(defaultValue);
@@ -18,6 +18,7 @@ export function LanguageContextProvider({ children }: { children: ReactNode }) {
 
   function changeLanguage(language:LanguageType){
     setLanguage(language)
+    localStorage.setItem("theme_string",language.name)
   }
   
   return (

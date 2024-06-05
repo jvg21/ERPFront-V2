@@ -3,8 +3,8 @@ import { CarModuleEnglish } from "../modules/car/language/English";
 import { ResellerModuleEnglish } from "../modules/reseller/language/English";
 
 export const BrazilianLanguage: LanguageType = {
-    code: "PtBR001",
-    name: "Portugues-Br",
+    label: "Portugues-Br",
+    name: "Portuguese",
     abbreviation: "Pt-Br",
     words: {
         cancel: "Cancelar",
@@ -25,6 +25,7 @@ export const BrazilianLanguage: LanguageType = {
     },
     modules: {
         carModule: CarModuleEnglish,
-        resellerModule:ResellerModuleEnglish
+        resellerModule:ResellerModuleEnglish,
+        personModule:null
     }
 }

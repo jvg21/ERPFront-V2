@@ -4,7 +4,7 @@ import { ResellerModuleLanguageType } from "@renderer/app/modules/reseller/langu
 import { ReactElement } from "react"
 
 export type LanguageType = {
-    code:string,
+    label:string,
     name:string,
     abbreviation:string,
     icon?: ReactElement,

@@ -8,7 +8,7 @@ type ThemeContextType = {
 };
 
 const defaultValue = {
-  themeString:LightTheme,
+  themeString:Ac,
   changeTheme:(_:ThemeType)=>{},
 }
 
@@ -19,6 +19,7 @@ export function ThemeStyleContextProvider({ children }: { children: ReactNode })
 
   function changeTheme(theme:ThemeType){
     setThemeString(theme)
+    localStorage.setItem("theme_string",theme.name)
   }
   
   return (

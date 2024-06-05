@@ -4,6 +4,7 @@ import { ThemeStyleContext, ThemeStyleContextProvider } from "./app/contexts/The
 import { SidebarContextProvider } from "./app/contexts/SidebarContext"
 import AppLayout from "./components/layout/AppLayout"
 import { useContext } from "react"
+import { ActiveLanguages } from "./app/config/ActiveLanguages"
 
 function App(): JSX.Element {
   // const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')

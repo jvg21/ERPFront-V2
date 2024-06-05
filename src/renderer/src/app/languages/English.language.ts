@@ -4,7 +4,7 @@ import { PersonModuleEnglish } from "../modules/person/language/English";
 import { ResellerModuleEnglish } from "../modules/reseller/language/English";
 
 export const EnglishLanguage: LanguageType = {
-    code: "Engs001",
+    label: "English",
     name: "English",
     abbreviation: "Eng",
     words: {
