@@ -11,6 +11,7 @@ import { LayoutHeader } from './header/LayoutHeader';
 import { LanguageContext } from '@renderer/app/contexts/LanguageContext';
 import { ActiveLanguages } from '@renderer/app/config/ActiveLanguages';
 import { StaticConfig } from '@renderer/app/config/config';
+import styled from 'styled-components';
 
 
 const { Header, Content, Sider } = Layout;
@@ -62,10 +63,6 @@ const AppLayout = () => {
     navigate(e.key)    
   };
 
-  const {
-    token: { colorBgContainer, borderRadiusLG },
-  } = theme.useToken();
-
   return (
     <Layout style={{ minHeight: '100vh', width: "100vw" }}>
       <Sider collapsible collapsed={isSidebarActive} onCollapse={(value) => setSidebarActive(value)}>
@@ -74,27 +71,29 @@ const AppLayout = () => {
       </Sider>
       <Layout>
         <LayoutHeader />
-        <Content style={{ margin: '0 16px' }}>
-          <div
-            style={{
-              padding: 24,
-              minHeight: "95%",
-              background: colorBgContainer,
-              borderRadius: borderRadiusLG,
-              margin: '16px 0',
-              overflowY: "auto",  
-              maxHeight: 'calc(100vh - 128px)',
-            }}
-          >
+        <ContentContainerStyle >
+          <ContentStyle>
             <DashRoutes/>
-            <p>{language.name}</p>
-          </div>
-        </Content>
-
-        <p>sadsa</p>
+          </ContentStyle>
+        </ContentContainerStyle>
       </Layout>
     </Layout>
   );
 };
 
 export default AppLayout;
+
+const ContentContainerStyle = styled(Content)`
+  background-color: ${(props)=>props.theme.body};
+`;
+const ContentStyle = styled(Content)`
+  background-color: ${(props)=>props.theme.background};
+  padding: 24px;
+  min-height: 95%;
+  margin: 16px;
+  border-radius: 4px;
+  overflow-y: auto;
+  max-height: calc(100vh - 128px);
+
+`;
+

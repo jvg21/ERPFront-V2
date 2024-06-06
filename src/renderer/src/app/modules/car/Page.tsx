@@ -8,6 +8,7 @@ import { CloseButton, Modal, ModalContent, ModuleContainer } from "@renderer/com
 import { FormButton, FormInput, FormLabel, FormStyle } from "@renderer/components/layout/form/FormComponents";
 import { StaticConfig } from "@renderer/app/config/config";
 import { LanguageContext } from "@renderer/app/contexts/LanguageContext";
+import styled from "styled-components";
 
 export function CarMainPage() {
 
@@ -161,7 +162,7 @@ export function CarMainPage() {
 
   return (
     <ModuleContainer>
-      <h1>{language.modules.carModule.label}</h1>
+      <ModuleTitleStyle>{language.modules.carModule.label}</ModuleTitleStyle>
       <FormButton onClick={() => handleCreate()} >{Words.create}</FormButton>
       <Table columns={columns} dataSource={entries} style={{ width: "90%" }} />
 
@@ -199,3 +200,7 @@ export function CarMainPage() {
     </ModuleContainer>
   )
 }
+
+const ModuleTitleStyle = styled.h1`
+    color:${(props)=>props.theme.text}
+`;
