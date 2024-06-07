@@ -1,7 +1,9 @@
 export type CarModel = {
     id: number|undefined;
-    name: string;
+    model: string;
     brand: string;
     year: number;
+    color:number;
+    price:number;
   };
   

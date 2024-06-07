@@ -6,6 +6,8 @@ export const CarModuleBrazilianPortuguese:CarModuleLanguageType = {
         model: "Modelo",
         brand: "Marca",
         year: "Ano",
+        color:"Cor",
+        price:"Preço",
         createNotificationDescription: "Car Created",
         updateNotificationDescription: "Car Updated",
         deleteNotificationDescription: "Car Deleted"

@@ -16,9 +16,11 @@ export function CarMainPage() {
   const ApiService = new CarService();
   const defaltValue: ModelType = {
     id: undefined,
-    name: '',
+    model: '',
     brand: '',
-    year: 0
+    year: 0,
+    price:0,
+    color:0
   }
 
   const [entries, setEntries] = useState<ModelType[]>([]);
@@ -131,14 +133,26 @@ export function CarMainPage() {
     },
     {
       title: CarWords.model,
-      dataIndex: 'name',
-      key: 'name',
+      dataIndex: 'model',
+      key: 'model',
       render: (text) => <a>{text}</a>,
     },
     {
       title: CarWords.brand,
       dataIndex: 'brand',
       key: 'brand',
+      render: (text) => <a>{text}</a>,
+    },
+    {
+      title: CarWords.color,
+      dataIndex: 'color',
+      key: 'model',
+      render: (text) => <a>{text}</a>,
+    },
+    {
+      title: CarWords.price,
+      dataIndex: 'price',
+      key: 'price',
       render: (text) => <a>{text}</a>,
     },
     {
@@ -172,11 +186,11 @@ export function CarMainPage() {
             <CloseButton onClick={handleCloseModal}>&times;</CloseButton>
             <FormStyle onSubmit={handleSubmit}>
               <FormInput type="hidden" name="id" disabled value={formData.id} />
-              <FormLabel htmlFor="name"> {CarWords.model}</FormLabel>
-              <FormInput type="text" name="name" onChange={handleOnChange} placeholder="Insira o Modelo" value={formData.name} />
-              <FormLabel htmlFor="name">{ CarWords.brand}</FormLabel>
+              <FormLabel htmlFor="model"> {CarWords.model}</FormLabel>
+              <FormInput type="text" name="model" onChange={handleOnChange} placeholder="Insira o Modelo" value={formData.model} />
+              <FormLabel htmlFor="brand">{ CarWords.brand}</FormLabel>
               <FormInput type="text" name="brand" onChange={handleOnChange} placeholder="Insira a Marca" value={formData.brand} />
-              <FormLabel htmlFor="name">{ CarWords.year}</FormLabel>
+              <FormLabel htmlFor="year">{ CarWords.year}</FormLabel>
               <FormInput type="number" name="year" onChange={handleOnChange} placeholder="Insira o Ano de Fabricação" value={formData.year} />
               <FormButton type="submit" >{Words.send}</FormButton>
             </FormStyle>

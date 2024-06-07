@@ -1,6 +1,6 @@
-import { ReselerModel } from "../model/Model";
+import { ResselerModel } from "../model/Model";
 
-type ModelType = ReselerModel
+type ModelType = ResselerModel
 
 export class ReselerService{
     private apiUrl: string = 'http://localhost:5167/Reseller';
