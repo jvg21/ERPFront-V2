@@ -4,6 +4,8 @@ export type CarModuleLanguageType = {
         model: string,
         brand: string,
         year: string,
+        color:string,
+        price:string,
         createNotificationDescription: string
         updateNotificationDescription: string
         deleteNotificationDescription: string

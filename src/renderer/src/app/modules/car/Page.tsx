@@ -15,10 +15,12 @@ export function CarMainPage() {
   type ModelType = CarModel
   const ApiService = new CarService();
   const defaltValue: ModelType = {
-    id: undefined,
-    name: '',
+    idCar: undefined,
+    model: '',
     brand: '',
-    year: 0
+    year: 0,
+    price: 0,
+    color: 0
   }
 
   const [entries, setEntries] = useState<ModelType[]>([]);
@@ -32,7 +34,7 @@ export function CarMainPage() {
 
   useEffect(() => {
     setList();
-  }, [])
+  }, [showModal])
 
   async function setList() {
     const response = await ApiService.getAll();
@@ -92,8 +94,8 @@ export function CarMainPage() {
 
   const handleUpdateSubmit = async (event: React.FormEvent<HTMLFormElement>, data: ModelType) => {
     event.preventDefault()
-    if (data.id) {
-      const response = await ApiService.update(data.id, data)
+    if (data.idCar) {
+      const response = await ApiService.update(data.idCar, data)
       if (response) {
         notification.success({
           message: Words.success,
@@ -122,23 +124,44 @@ export function CarMainPage() {
     }));
   }
 
+  function handleOnSelect(e: React.ChangeEvent<HTMLSelectElement>) { // Alterando para ChangeEvent<HTMLSelectElement>
+    const { name, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  }
+  
+
   const columns: TableProps<ModelType>['columns'] = [
     {
-      title: 'Id',
-      dataIndex: 'id',
-      key: 'id',
+      title: 'IdCar',
+      dataIndex: 'idCar',
+      key: 'idCar',
       render: (text) => <a>{text}</a>,
     },
     {
       title: CarWords.model,
-      dataIndex: 'name',
-      key: 'name',
+      dataIndex: 'model',
+      key: 'model',
       render: (text) => <a>{text}</a>,
     },
     {
       title: CarWords.brand,
       dataIndex: 'brand',
       key: 'brand',
+      render: (text) => <a>{text}</a>,
+    },
+    {
+      title: CarWords.color,
+      dataIndex: 'color',
+      key: 'model',
+      render: (text) => <a>{text}</a>,
+    },
+    {
+      title: CarWords.price,
+      dataIndex: 'price',
+      key: 'price',
       render: (text) => <a>{text}</a>,
     },
     {
@@ -171,13 +194,35 @@ export function CarMainPage() {
           <ModalContent>
             <CloseButton onClick={handleCloseModal}>&times;</CloseButton>
             <FormStyle onSubmit={handleSubmit}>
-              <FormInput type="hidden" name="id" disabled value={formData.id} />
-              <FormLabel htmlFor="name"> {CarWords.model}</FormLabel>
-              <FormInput type="text" name="name" onChange={handleOnChange} placeholder="Insira o Modelo" value={formData.name} />
-              <FormLabel htmlFor="name">{ CarWords.brand}</FormLabel>
+              <FormInput type="hidden" name="id" disabled value={formData.idCar} />
+              <FormLabel htmlFor="model"> {CarWords.model}</FormLabel>
+              <FormInput type="text" name="model" onChange={handleOnChange} placeholder="Insira o Modelo" value={formData.model} />
+              <FormLabel htmlFor="brand">{CarWords.brand}</FormLabel>
               <FormInput type="text" name="brand" onChange={handleOnChange} placeholder="Insira a Marca" value={formData.brand} />
-              <FormLabel htmlFor="name">{ CarWords.year}</FormLabel>
-              <FormInput type="number" name="year" onChange={handleOnChange} placeholder="Insira o Ano de Fabricação" value={formData.year} />
+              <FormLabel htmlFor="price">{CarWords.price}</FormLabel>
+              <FormInput type="text" name="price" onChange={handleOnChange} placeholder="Insira a Marca" value={formData.price} />
+              <FormLabel htmlFor="color">{CarWords.color}</FormLabel>
+              <select name="color" onChange={handleOnSelect} value={formData.color}>
+                <option value="0">Red</option>
+                <option value="1">Blue</option>
+                <option value="2">Green</option>
+                <option value="3">Yellow</option>
+              </select>
+
+              <FormLabel htmlFor="year">{CarWords.year}</FormLabel>
+              <select name="year" onChange={handleOnSelect} value={formData.year}>
+                <option>2024</option>
+                <option>2023</option>
+                <option>2022</option>
+                <option>2020</option>
+                <option>2019</option>
+                <option>2018</option>
+                <option>2017</option>
+                <option>2016</option>
+                <option>2015</option>
+                <option>2014</option>
+              </select>
+              {/* <FormInput type="number" name="year" onChange={handleOnChange} placeholder="Insira o Ano de Fabricação" value={formData.year} /> */}
               <FormButton type="submit" >{Words.send}</FormButton>
             </FormStyle>
           </ModalContent>
@@ -190,7 +235,7 @@ export function CarMainPage() {
 
             <ModalContent>
               <p>{Words.confirmationDelete}</p>
-              <Button onClick={() => handleConfirmDelete(formData.id)}>{Words.confirm}</Button>
+              <Button onClick={() => handleConfirmDelete(formData.idCar)}>{Words.confirm}</Button>
               <Button onClick={() => setConfirmDelete(false)}>{Words.cancel}</Button>
 
             </ModalContent>
@@ -202,5 +247,5 @@ export function CarMainPage() {
 }
 
 const ModuleTitleStyle = styled.h1`
-    color:${(props)=>props.theme.text}
+    color:${(props) => props.theme.text}
 `;
