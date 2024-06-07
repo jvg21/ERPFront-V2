@@ -1,5 +1,5 @@
 export type CarModel = {
-    id: number|undefined;
+    idCar: number|undefined;
     model: string;
     brand: string;
     year: number;
