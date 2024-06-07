@@ -8,8 +8,11 @@ export const CarModuleBrazilianPortuguese:CarModuleLanguageType = {
         year: "Ano",
         color:"Cor",
         price:"Preço",
-        createNotificationDescription: "Car Created",
-        updateNotificationDescription: "Car Updated",
-        deleteNotificationDescription: "Car Deleted"
+        placeholdermodel: "Inserir Modelo",
+        placeholderbrand: "Inserir Marca",
+        placeholderprice: "Inserir Preço",
+        createNotificationDescription: "Carro Criado",
+        updateNotificationDescription: "Carro Atualizado",
+        deleteNotificationDescription: "Carro Deletado"
     }
 }
