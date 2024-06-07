@@ -8,6 +8,25 @@ export type LanguageType = {
     name:string,
     abbreviation:string,
     icon?: ReactElement,
+    color:{
+        red: string,
+        silver: string,
+        blue: string,
+        green: string,
+        black: string,
+        white: string,
+        yellow: string,
+        Beige: string,
+        grey: string,
+        pink: string,
+        Purple: string,
+        brown: string,
+        orange: string,
+        Violet: string,
+        lilac: string,
+        indigo: string,
+        darkblue: string
+    }
     words:{
         send:string,
         create:string,
