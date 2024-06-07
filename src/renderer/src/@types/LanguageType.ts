@@ -1,7 +1,10 @@
+import { CarModuleLanguageType } from "@renderer/app/modules/car/language/CarModuleLanguageType"
+import { PersonModuleLanguageType } from "@renderer/app/modules/person/language/PersonModuleLanguageType"
+import { ResellerModuleLanguageType } from "@renderer/app/modules/reseller/language/ResellerModuleLanguageType"
 import { ReactElement } from "react"
 
 export type LanguageType = {
-    code:string,
+    label:string,
     name:string,
     abbreviation:string,
     icon?: ReactElement,
@@ -19,9 +22,12 @@ export type LanguageType = {
         confirmationDelete:string
         edit:string,
         delete:string,
-        confirm:string
+        confirm:string,
+        success:string
     },
     modules:{
-        carModule:null
+        carModule:CarModuleLanguageType,
+        resellerModule:ResellerModuleLanguageType,
+        personModule:PersonModuleLanguageType
     }
 }

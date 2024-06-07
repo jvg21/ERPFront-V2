@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Button, Space, Table } from 'antd';
 import type { TableProps } from 'antd';
 import { notification } from 'antd';
@@ -7,6 +7,8 @@ import { CarService } from "./service/Service";
 import { CloseButton, Modal, ModalContent, ModuleContainer } from "@renderer/components/layout/modal/ModalComponents";
 import { FormButton, FormInput, FormLabel, FormStyle } from "@renderer/components/layout/form/FormComponents";
 import { StaticConfig } from "@renderer/app/config/config";
+import { LanguageContext } from "@renderer/app/contexts/LanguageContext";
+import styled from "styled-components";
 
 export function CarMainPage() {
 
@@ -24,6 +26,9 @@ export function CarMainPage() {
   const [formData, setFormData] = useState<ModelType>(defaltValue);
   const [formSubmit, setFormSubmit] = useState<string>(StaticConfig.createFormId)
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const { language } = useContext(LanguageContext)
+  const Words = language.words
+  const CarWords = language.modules.carModule.words
 
   useEffect(() => {
     setList();
@@ -53,25 +58,21 @@ export function CarMainPage() {
     setList()
   }
 
-  const handleConfirmDelete = async (id: number|undefined) => {
+  const handleConfirmDelete = async (id: number | undefined) => {
     if (id) {
       const response = await ApiService.delete(id);
       if (response) {
-        console.log("deletando");
         notification.success({
-          message: 'Carro deletado com sucesso',
-          description: `O carro foi deletado com sucesso.`,
+          message: Words.success,
+          description: CarWords.deleteNotificationDescription,
         });
-        setList(); 
-      } else {
-        
-        console.log("Falha ao deletar");
+        setList();
       }
     }
-    setConfirmDelete(false); 
+    setConfirmDelete(false);
   };
 
-  const handleDelete = (entry:ModelType) => {
+  const handleDelete = (entry: ModelType) => {
     setFormData(entry)
     setConfirmDelete(true);
   };
@@ -81,30 +82,24 @@ export function CarMainPage() {
     const response = await ApiService.create(data)
     if (response) {
       notification.success({
-        message: 'Carro criado com sucesso',
-        description: `O carro ${response.name} foi criado com sucesso.`,
+        message: Words.success,
+        description: CarWords.createNotificationDescription,
       });
       setList()
-    } else {
-      console.log("Falha");
-
     }
     handleCloseModal()
   }
 
-  const handleUpdateSubmit = async (event: React.FormEvent<HTMLFormElement>,  data: ModelType) => {
+  const handleUpdateSubmit = async (event: React.FormEvent<HTMLFormElement>, data: ModelType) => {
     event.preventDefault()
     if (data.id) {
       const response = await ApiService.update(data.id, data)
       if (response) {
-        console.log("Criado com sucesso");
         notification.success({
-          message: 'Carro Alterado com sucesso',
-          description: `O carro ${response.name} foi alterado com sucesso.`,
+          message: Words.success,
+          description: CarWords.updateNotificationDescription,
         });
         setList()
-      } else {
-        console.log("Falha");
       }
     }
     handleCloseModal()
@@ -118,7 +113,6 @@ export function CarMainPage() {
       handleUpdateSubmit(event, formData);
     }
   }
-
 
   function handleOnChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
@@ -136,30 +130,30 @@ export function CarMainPage() {
       render: (text) => <a>{text}</a>,
     },
     {
-      title: 'Modelo',
+      title: CarWords.model,
       dataIndex: 'name',
       key: 'name',
       render: (text) => <a>{text}</a>,
     },
     {
-      title: 'Marca',
+      title: CarWords.brand,
       dataIndex: 'brand',
       key: 'brand',
       render: (text) => <a>{text}</a>,
     },
     {
-      title: 'Ano',
+      title: CarWords.year,
       dataIndex: 'year',
       key: 'year',
       render: (text) => <a>{text}</a>,
     },
     {
-      title: 'Ações',
+      title: Words.actions,
       key: 'actions',
       render: (text, record) => (
         <Space size="middle">
-          <Button onClick={() => handleEdit(record)}>Editar</Button>
-          <Button onClick={() => handleDelete(record)}>Deletar</Button>
+          <Button onClick={() => handleEdit(record)}>{Words.edit}</Button>
+          <Button onClick={() => handleDelete(record)}>{Words.cancel}</Button>
         </Space>
       ),
     }
@@ -168,9 +162,9 @@ export function CarMainPage() {
 
   return (
     <ModuleContainer>
-      <h1>Carros</h1>
-      <FormButton onClick={() => handleCreate()} >Criar</FormButton>
-      <Table columns={columns} dataSource={entries} style={{width:"90%"}} />
+      <ModuleTitleStyle>{language.modules.carModule.label}</ModuleTitleStyle>
+      <FormButton onClick={() => handleCreate()} >{Words.create}</FormButton>
+      <Table columns={columns} dataSource={entries} style={{ width: "90%" }} />
 
       {showModal &&
         <Modal>
@@ -178,13 +172,13 @@ export function CarMainPage() {
             <CloseButton onClick={handleCloseModal}>&times;</CloseButton>
             <FormStyle onSubmit={handleSubmit}>
               <FormInput type="hidden" name="id" disabled value={formData.id} />
-              <FormLabel htmlFor="name">Modelo</FormLabel>
+              <FormLabel htmlFor="name"> {CarWords.model}</FormLabel>
               <FormInput type="text" name="name" onChange={handleOnChange} placeholder="Insira o Modelo" value={formData.name} />
-              <FormLabel htmlFor="name">Marca</FormLabel>
+              <FormLabel htmlFor="name">{ CarWords.brand}</FormLabel>
               <FormInput type="text" name="brand" onChange={handleOnChange} placeholder="Insira a Marca" value={formData.brand} />
-              <FormLabel htmlFor="name">Ano</FormLabel>
+              <FormLabel htmlFor="name">{ CarWords.year}</FormLabel>
               <FormInput type="number" name="year" onChange={handleOnChange} placeholder="Insira o Ano de Fabricação" value={formData.year} />
-              <FormButton type="submit" >Enviar</FormButton>
+              <FormButton type="submit" >{Words.send}</FormButton>
             </FormStyle>
           </ModalContent>
         </Modal>
@@ -192,22 +186,21 @@ export function CarMainPage() {
       }
       {confirmDelete && (
         <Modal>
-            <div style={{display:"flex",alignItems:"center",textAlign:"center",justifyContent:"center"}}>
+          <div style={{ display: "flex", alignItems: "center", textAlign: "center", justifyContent: "center" }}>
 
-          <ModalContent>
-              <p>Tem certeza que deseja deletar este carro?</p>
-              <Button onClick={() => handleConfirmDelete(formData.id)}>Sim</Button>
-              <Button onClick={() => setConfirmDelete(false)}>Cancelar</Button>
-            
-          </ModalContent>
+            <ModalContent>
+              <p>{Words.confirmationDelete}</p>
+              <Button onClick={() => handleConfirmDelete(formData.id)}>{Words.confirm}</Button>
+              <Button onClick={() => setConfirmDelete(false)}>{Words.cancel}</Button>
+
+            </ModalContent>
           </div>
         </Modal>
       )}
     </ModuleContainer>
-
-
   )
-
-
-
 }
+
+const ModuleTitleStyle = styled.h1`
+    color:${(props)=>props.theme.text}
+`;

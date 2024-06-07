@@ -1,11 +1,11 @@
 import { CarModuleLanguageType } from "./CarModuleLanguageType";
 
-export const CarModuleEnglish:CarModuleLanguageType = {
-    label: "Car",
+export const CarModuleBrazilianPortuguese:CarModuleLanguageType = {
+    label: "Carro",
     words: {
-        model: "Model",
-        brand: "Brand",
-        year: "Year",
+        model: "Modelo",
+        brand: "Marca",
+        year: "Ano",
         createNotificationDescription: "Car Created",
         updateNotificationDescription: "Car Updated",
         deleteNotificationDescription: "Car Deleted"

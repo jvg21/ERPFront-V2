@@ -1,28 +1,23 @@
 import { createContext, useState, ReactNode } from 'react';
 import { ThemeType } from '../../@types/ThemeType';
-import { LightTheme } from '@renderer/app/themes/Light.theme';
+import { ActiveThemes } from '../config/ActiveThemes';
+import { StaticConfig } from '../config/config';
 
 type ThemeContextType = {
   themeString: ThemeType;
-  changeTheme: (theme:ThemeType) => void;
 };
 
 const defaultValue = {
-  themeString:LightTheme,
-  changeTheme:(_:ThemeType)=>{},
+  themeString: ActiveThemes[localStorage.getItem(StaticConfig.themeKeyString)||"Light"],
 }
 
-export const ThemeStyleContext = createContext<ThemeContextType >(defaultValue);
+export const ThemeStyleContext = createContext<ThemeContextType>(defaultValue);
 
 export function ThemeStyleContextProvider({ children }: { children: ReactNode }) {
-  const [themeString, setThemeString] = useState(defaultValue.themeString);
+  const [themeString, _] = useState(defaultValue.themeString);
 
-  function changeTheme(theme:ThemeType){
-    setThemeString(theme)
-  }
-  
   return (
-    <ThemeStyleContext.Provider value={{ themeString, changeTheme }}>
+    <ThemeStyleContext.Provider value={{ themeString }}>
       {children}
     </ThemeStyleContext.Provider>
   );

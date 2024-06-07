@@ -7,6 +7,11 @@ import { useNavigate } from "react-router-dom";
 import DashRoutes from '@renderer/app/routes/Router';
 import { SidebarContext } from '@renderer/app/contexts/SidebarContext';
 import { ActiveModules, ActiveModulesIndexes } from '@renderer/app/config/ActiveModules';
+import { LayoutHeader } from './header/LayoutHeader';
+import { LanguageContext } from '@renderer/app/contexts/LanguageContext';
+import { ActiveLanguages } from '@renderer/app/config/ActiveLanguages';
+import { StaticConfig } from '@renderer/app/config/config';
+import styled from 'styled-components';
 
 
 const { Header, Content, Sider } = Layout;
@@ -48,18 +53,15 @@ function getMenuItems() {
 
 const AppLayout = () => {
 
-  const [menuItems,_] = useState<MenuItem[]>(getMenuItems());
   const navigate = useNavigate();
+  const {isSidebarActive, setSidebarActive} = useContext(SidebarContext);
+  const {language} = useContext(LanguageContext)
+  const [menuItems,_] = useState<MenuItem[]>(getMenuItems());
 
   const onClick: MenuProps['onClick'] = (e) => {
     console.log('click ', e);
     navigate(e.key)    
   };
-
-  const {isSidebarActive, setSidebarActive} = useContext(SidebarContext);
-  const {
-    token: { colorBgContainer, borderRadiusLG },
-  } = theme.useToken();
 
   return (
     <Layout style={{ minHeight: '100vh', width: "100vw" }}>
@@ -68,24 +70,30 @@ const AppLayout = () => {
         <Menu theme="dark" onClick={onClick} defaultSelectedKeys={['1']} mode="inline" items={menuItems} />
       </Sider>
       <Layout>
-        <Header style={{ padding: 0, background: colorBgContainer }} />
-        <Content style={{ margin: '0 16px' }}>
-          <div
-            style={{
-              padding: 24,
-              minHeight: "95%",
-              background: colorBgContainer,
-              borderRadius: borderRadiusLG,
-              margin: '16px 0',
-              overflow:'hidden'
-            }}
-          >
+        <LayoutHeader />
+        <ContentContainerStyle >
+          <ContentStyle>
             <DashRoutes/>
-          </div>
-        </Content>
+          </ContentStyle>
+        </ContentContainerStyle>
       </Layout>
     </Layout>
   );
 };
 
 export default AppLayout;
+
+const ContentContainerStyle = styled(Content)`
+  background-color: ${(props)=>props.theme.body};
+`;
+const ContentStyle = styled(Content)`
+  background-color: ${(props)=>props.theme.background};
+  padding: 24px;
+  min-height: 95%;
+  margin: 16px;
+  border-radius: 4px;
+  overflow-y: auto;
+  max-height: calc(100vh - 128px);
+
+`;
+
