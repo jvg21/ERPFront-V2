@@ -1,6 +1,5 @@
 import { LanguageType } from "../../@types/LanguageType";
 import { CarModuleSpanish } from "../modules/car/language/Spanish";
-import { ResellerModuleEnglish } from "../modules/reseller/language/English";
 import { UserModuleEnglish } from "../modules/user/language/English";
 
 export const SpanishLanguage: LanguageType = {
@@ -23,11 +22,38 @@ export const SpanishLanguage: LanguageType = {
         delete: "Eliminar",
         edit: "Editar",
         success: "Éxito",
-        error:"error"
+        error:"error",
+        email: "Correo electrónico",
+        confirmationLogoutMessage: "¿Quiere confirmar su cierre de sesión?",
+        continue: "Continuar",
+        login: "Iniciar sesión",
+        loginSuccessfulMessage: "Su inicio de sesión fue exitoso",
+        logout: "Cerrar sesión",
+        password: "Contraseña",
+        return: "Volver",
+
+    },
+    color:{
+        red: "Rojo",
+        silver: "Plateado",
+        blue: "Azul",
+        green: "Verde",
+        black: "Negro",
+        white: "Blanco",
+        yellow: "Amarillo",
+        Beige: "Beige",
+        grey: "Gris",
+        pink: "Rosado",
+        Purple: "Morado",
+        brown: "Marrón",
+        orange: "Naranja",
+        Violet: "Violeta",
+        lilac: "Lila",
+        indigo: "Índigo",
+        darkblue: "Azul oscuro"
     },
     modules: {
         carModule: CarModuleSpanish,
-        resellerModule:ResellerModuleEnglish,
         userModule: UserModuleEnglish
     }
 }
