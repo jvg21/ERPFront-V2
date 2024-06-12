@@ -3,6 +3,7 @@ import { FaBuilding, FaCar } from "react-icons/fa";
 import { CarMainPage } from "../modules/car/Page";
 import { PersonMainPage } from "../modules/person/Page";
 import { FaPerson } from "react-icons/fa6";
+import { UserMainPage } from "../modules/user/Page";
 
 type ActiveModulesType = {
     carModule:ModuleType,
@@ -26,10 +27,10 @@ export const ActiveModules:ActiveModulesType = {
         icon:<FaBuilding/>
     },
     personModule:{
-        name:"Person",
-        label:"Person",
-        path:"/person",
-        element:<PersonMainPage/>,
+        name:"User",
+        label:"User",
+        path:"/User",
+        element:<UserMainPage/>,
         icon:<FaPerson />
 
     }

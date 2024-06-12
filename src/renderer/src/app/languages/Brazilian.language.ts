@@ -1,7 +1,7 @@
 import { LanguageType } from "../../@types/LanguageType";
 import { CarModuleBrazilianPortuguese } from "../modules/car/language/BrazilianPortuguese";
-import { CarModuleEnglish } from "../modules/car/language/English";
 import { ResellerModuleEnglish } from "../modules/reseller/language/English";
+import { UserModuleEnglish } from "../modules/user/language/English";
 
 export const BrazilianLanguage: LanguageType = {
     label: "Portugues-Br",
@@ -22,11 +22,12 @@ export const BrazilianLanguage: LanguageType = {
         confirm: "Confirmar",
         delete: "Deletar",
         edit: "Editar",
-        success: "Sucesso"
+        success: "Sucesso",
+        error:"Erro"
     },
     modules: {
         carModule: CarModuleBrazilianPortuguese,
         resellerModule:ResellerModuleEnglish,
-        personModule:null
+        userModule: UserModuleEnglish
     }
 }

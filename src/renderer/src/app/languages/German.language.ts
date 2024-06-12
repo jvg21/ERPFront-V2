@@ -1,8 +1,7 @@
 import { LanguageType } from "../../@types/LanguageType";
-import { CarModuleEnglish } from "../modules/car/language/English";
 import { CarModuleGerman } from "../modules/car/language/German";
-import { PersonModuleEnglish } from "../modules/person/language/English";
 import { ResellerModuleEnglish } from "../modules/reseller/language/English";
+import { UserModuleEnglish } from "../modules/user/language/English";
 
 
 export const GermanLanguage: LanguageType = {
@@ -24,11 +23,12 @@ export const GermanLanguage: LanguageType = {
         confirm: "Bestätigen",
         delete: "Löschen",
         edit: "Bearbeiten",
-        success: "Erfolg"
+        success: "Erfolg",
+        error:"Fehler"
     },
     modules: {
         carModule: CarModuleGerman,
         resellerModule: ResellerModuleEnglish,
-        personModule: PersonModuleEnglish
+        userModule: UserModuleEnglish
     }
 }

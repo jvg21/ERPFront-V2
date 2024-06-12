@@ -1,6 +1,6 @@
 import { CarModuleLanguageType } from "@renderer/app/modules/car/language/CarModuleLanguageType"
-import { PersonModuleLanguageType } from "@renderer/app/modules/person/language/PersonModuleLanguageType"
 import { ResellerModuleLanguageType } from "@renderer/app/modules/reseller/language/ResellerModuleLanguageType"
+import { UserModuleLanguageType } from "@renderer/app/modules/user/language/PersonModuleLanguageType"
 import { ReactElement } from "react"
 
 export type LanguageType = {
@@ -8,7 +8,7 @@ export type LanguageType = {
     name:string,
     abbreviation:string,
     icon?: ReactElement,
-    color:{
+    color?:{
         red: string,
         silver: string,
         blue: string,
@@ -42,11 +42,12 @@ export type LanguageType = {
         edit:string,
         delete:string,
         confirm:string,
-        success:string
+        success:string,
+        error:string
     },
     modules:{
         carModule:CarModuleLanguageType,
         resellerModule:ResellerModuleLanguageType,
-        personModule:PersonModuleLanguageType
+        userModule:UserModuleLanguageType
     }
 }
