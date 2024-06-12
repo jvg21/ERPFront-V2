@@ -1,18 +1,42 @@
-import { useState } from "react";
-import { FormButton, FormInput, FormLabel } from "./layout/form/FormComponents";
+import { StaticConfig } from '@renderer/app/config/config';
+import React, { useState } from 'react';
+import { FormButton, FormInput, FormLabel } from './layout/form/FormComponents';
+import { Modal, ModalContent } from './layout/modal/ModalComponents';
+import { Button } from 'antd';
 
-
-export function LoginPage() {
+export const LoginPage: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState<string | null>(null);
+    const [showModal, setShowModal] = useState(false);
+
 
     const handleLogin = async (event: React.FormEvent) => {
         event.preventDefault();
-        localStorage.setItem("USER_DATA", "adm@adm.com")
-        localStorage.setItem("AUTH_TOKEN", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkFkbSIsImVtYWlsIjoiYWRtQGFkbS5jb20iLCJyb2xlIjoiQSIsIm5hbWVpZCI6IjEiLCJuYmYiOjE3MTgxNjE3NDQsImV4cCI6MTcxODE3MjU0NCwiaWF0IjoxNzE4MTYxNzQ0fQ.dvfC3DghHmwgtpyycQkY0MRVDy48To1mtpfnrIaE_0s")
-        window.location.reload()
-    }
+        setError(null);
+
+        try {
+            const response = await fetch(`${StaticConfig.host}/User/authenticate?Email=${email}&Password=${password}`, {
+                method: 'POST',
+            });
+
+            if (!response.ok) {
+                const errorMessage = await response.json();
+                throw new Error(errorMessage.message);
+            }
+
+            const data = await response.json();
+            localStorage.setItem(StaticConfig.authTokenKeyString, data.token);
+            setShowModal(true)
+        } catch (error) {
+            if (error instanceof Error) {
+                setError(error.message);
+            } else {
+                setError('Something went wrong');
+            }
+        }
+    };
+
     return (
         <div>
             <form onSubmit={handleLogin}>
@@ -36,7 +60,17 @@ export function LoginPage() {
                 </div>
                 <FormButton type="submit">Login</FormButton>
                 {error && <p style={{ color: 'red' }}>{error}</p>}
+                {showModal && (
+                    <Modal>
+                        <ModalContent>
+                            <div style={{ display: "flex", flexDirection: "column" }}>
+                                <p>Login Realizado</p>
+                                <Button onClick={() => window.location.reload()}>Continuar</Button>
+                            </div>
+                        </ModalContent>
+                    </Modal>
+                )}
             </form>
         </div>
-    )
-}
+    );
+};
