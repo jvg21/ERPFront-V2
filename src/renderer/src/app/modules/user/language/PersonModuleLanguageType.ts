@@ -1,4 +1,4 @@
-export type PersonModuleLanguageType = {
+export type UserModuleLanguageType = {
     label: string,
     words: {
         name: string,

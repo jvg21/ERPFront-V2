@@ -1,18 +1,22 @@
 import { CarModuleLanguageType } from "./CarModuleLanguageType";
 
-export const CarModuleGerman:CarModuleLanguageType = {
+export const CarModuleGerman: CarModuleLanguageType = {
     label: "Auto",
     words: {
         model: "Modell",
         brand: "Marke",
         year: "Jahr",
         color: "Farbe",
-        price:"Preis",
+        price: "Preis",
         placeholdermodel: "Ein Modell Einfügen",
-        placeholderbrand: "Ein Marke Einfügen",
-        placeholderprice: "Ein Preis Einfügen",
-        createNotificationDescription: "Auto Erstellen",
+        placeholderbrand: "Eine Marke Einfügen",
+        placeholderprice: "Einen Preis Einfügen",
+        createNotificationDescription: "Auto Erstellt",
         updateNotificationDescription: "Auto Aktualisiert",
-        deleteNotificationDescription: "Auto Geloscht"
+        deleteNotificationDescription: "Auto Gelöscht",
+        createNotificationError: "Fehler beim Erstellen des Autos",
+        deleteNotificationError: "Fehler beim Löschen des Autos",
+        fetchNotificationError: "Fehler beim Abrufen der Autos",
+        updateNotificationError: "Fehler beim Aktualisieren des Autos"
     }
 }

@@ -1,7 +1,7 @@
-import { PersonModuleLanguageType } from "./PersonModuleLanguageType";
+import {  UserModuleLanguageType } from "./PersonModuleLanguageType";
 
-export const PersonModuleEnglish: PersonModuleLanguageType = {
-    label: "Person",
+export const UserModuleEnglish: UserModuleLanguageType = {
+    label: "User",
     words: {
         name: "Name",
         birth: "Birth",

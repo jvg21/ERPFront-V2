@@ -24,11 +24,13 @@ export const FormInput = styled.input`
 `;
 
 export const FormSelect = styled.select`
+  background-color: ${(props)=>props.theme.secondaryBackground};
+  color: ${(props)=>props.theme.text};
   height: 35px;
   width:100%;
   border-radius: 5px;
   padding-inline-start:10px;
-  border:1px solid lightgray;
+  border:1px solid black;
 `;
 
 
@@ -44,3 +46,12 @@ export const FormButton = styled.button`
     background-color: ${(props)=>props.theme.secondaryAccent};
   }
 `;
+
+
+const FormError = styled.div`
+  color: ${(props)=>props.theme.error};
+  font-size: 12px;
+  margin-top: 5px;
+`;
+
+export default FormError;

@@ -1,9 +1,9 @@
-import { PersonModel } from "../model/Model";
+import { UserModel } from "../model/Model";
 
-type ModelType = PersonModel
+type ModelType = UserModel
 
-export class PersonService{
-    private apiUrl: string = 'http://localhost:5167/person';
+export class UserService{
+    private apiUrl: string = 'http://localhost:5167/User';
 
     constructor(){}
 

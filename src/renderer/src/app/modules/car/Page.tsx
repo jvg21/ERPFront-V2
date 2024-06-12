@@ -1,118 +1,161 @@
 import { useContext, useEffect, useState } from "react";
-import { Button, Space, Table } from 'antd';
+import { Button, Space, Table, notification } from 'antd';
 import type { TableProps } from 'antd';
-import { notification } from 'antd';
 import { CarModel } from "./model/Model";
 import { CarService } from "./service/Service";
 import { CloseButton, Modal, ModalContent, ModuleContainer } from "@renderer/components/layout/modal/ModalComponents";
-import { FormButton, FormInput, FormLabel, FormStyle } from "@renderer/components/layout/form/FormComponents";
+import FormError, { FormButton, FormInput, FormLabel, FormSelect, FormStyle } from "@renderer/components/layout/form/FormComponents";
 import { StaticConfig } from "@renderer/app/config/config";
 import { LanguageContext } from "@renderer/app/contexts/LanguageContext";
 import styled from "styled-components";
+import { Colors, getColorLabel } from "@renderer/app/enum/Colors";
 
 export function CarMainPage() {
-
-  type ModelType = CarModel
+  type ModelType = CarModel;
   const ApiService = new CarService();
-  const defaltValue: ModelType = {
+  const defaultValue: ModelType = {
     idCar: undefined,
     model: '',
     brand: '',
     year: 0,
     price: 0,
-    color: 0
-  }
+    color: 0,
+  };
 
   const [entries, setEntries] = useState<ModelType[]>([]);
   const [showModal, setShowModal] = useState(false);
-  const [formData, setFormData] = useState<ModelType>(defaltValue);
-  const [formSubmit, setFormSubmit] = useState<string>(StaticConfig.createFormId)
+  const [formData, setFormData] = useState<ModelType>(defaultValue);
+  const [formSubmit, setFormSubmit] = useState<string>(StaticConfig.createFormId);
   const [confirmDelete, setConfirmDelete] = useState(false);
-  const { language } = useContext(LanguageContext)
-  const Words = language.words
-  const CarWords = language.modules.carModule.words
+  const { language } = useContext(LanguageContext);
+  const Words = language.words;
+  const CarWords = language.modules.carModule.words;
+
+  const [formErrors, setFormErrors] = useState<Record<string, string>>({});
 
   useEffect(() => {
     setList();
-  }, [showModal])
+  }, []);
 
   async function setList() {
-    const response = await ApiService.getAll();
-    if (response) setEntries(response)
+    try {
+      const response = await ApiService.getAll();
+      if (response) setEntries(response);
+    } catch (error) {
+      notification.error({
+        message: Words.error,
+        description: CarWords.fetchNotificationError,
+      });
+    }
   }
 
   function handleCloseModal() {
     setShowModal(false);
-    setFormData(defaltValue);
-  };
+    setFormData(defaultValue);
+    setFormErrors({});
+  }
 
   function handleCreate() {
-    setFormSubmit(StaticConfig.createFormId)
-    setShowModal(true)
-    setFormData(defaltValue)
-    setList()
+    setFormSubmit(StaticConfig.createFormId);
+    setShowModal(true);
+    setFormData(defaultValue);
+    setFormErrors({});
   }
 
   function handleEdit(entry: ModelType) {
-    setFormSubmit(StaticConfig.updateFormId)
-    setShowModal(true)
-    setFormData(entry)
-    setList()
+    setFormSubmit(StaticConfig.updateFormId);
+    setShowModal(true);
+    setFormData(entry);
+    setFormErrors({});
   }
 
   const handleConfirmDelete = async (id: number | undefined) => {
     if (id) {
-      const response = await ApiService.delete(id);
-      if (response) {
-        notification.success({
-          message: Words.success,
-          description: CarWords.deleteNotificationDescription,
+      try {
+        const response = await ApiService.delete(id);
+        if (response) {
+          notification.success({
+            message: Words.success,
+            description: CarWords.deleteNotificationDescription,
+          });
+          setList();
+        }
+      } catch (error) {
+        notification.error({
+          message: Words.error,
+          description: CarWords.deleteNotificationError,
         });
-        setList();
       }
     }
     setConfirmDelete(false);
   };
 
   const handleDelete = (entry: ModelType) => {
-    setFormData(entry)
+    setFormData(entry);
     setConfirmDelete(true);
   };
 
-  const handleCreateSubmit = async (event: React.FormEvent<HTMLFormElement>, data: ModelType) => {
-    event.preventDefault()
-    const response = await ApiService.create(data)
-    if (response) {
-      notification.success({
-        message: Words.success,
-        description: CarWords.createNotificationDescription,
-      });
-      setList()
-    }
-    handleCloseModal()
-  }
-
-  const handleUpdateSubmit = async (event: React.FormEvent<HTMLFormElement>, data: ModelType) => {
-    event.preventDefault()
-    if (data.idCar) {
-      const response = await ApiService.update(data.idCar, data)
+  const handleCreateSubmit = async (data: ModelType) => {
+    try {
+      const response = await ApiService.create(data);
       if (response) {
         notification.success({
           message: Words.success,
-          description: CarWords.updateNotificationDescription,
+          description: CarWords.createNotificationDescription,
         });
-        setList()
+        setList();
+      }
+    } catch (error) {
+      notification.error({
+        message: Words.error,
+        description: CarWords.createNotificationError,
+      });
+    }
+    handleCloseModal();
+  }
+
+  const handleUpdateSubmit = async (data: ModelType) => {
+    if (data.idCar) {
+      try {
+        const response = await ApiService.update(data.idCar, data);
+        if (response) {
+          notification.success({
+            message: Words.success,
+            description: CarWords.updateNotificationDescription,
+          });
+        }
+      } catch (error) {
+        notification.error({
+          message: Words.error,
+          description: CarWords.updateNotificationError,
+        });
       }
     }
-    handleCloseModal()
+    handleCloseModal();
+  }
+
+  function validateForm(data: ModelType) {
+    const errors: Record<string, string> = {};
+    if (!data.model) errors.model = CarWords.modelValidation;
+    if (!data.brand) errors.brand = CarWords.brandValidation;
+    if (!data.price) errors.price = CarWords.priceValidation;
+    if (data.price && isNaN(Number(data.price))) errors.price = CarWords.priceValidationNaN;
+    if (!data.color && data.color !== 0) errors.color = CarWords.colorValidation;
+    if (!data.year) errors.year = CarWords.yearValidation;
+    return errors;
   }
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (formSubmit === StaticConfig.createFormId) {
-      handleCreateSubmit(event, formData);
-    } else if (formSubmit === StaticConfig.updateFormId) {
-      handleUpdateSubmit(event, formData);
+    const errors = validateForm(formData);
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors);
+    } else {
+      if (formSubmit === StaticConfig.createFormId) {
+        handleCreateSubmit(formData);
+      } else if (formSubmit === StaticConfig.updateFormId) {
+        handleUpdateSubmit(formData);
+      }
     }
   }
 
@@ -122,16 +165,23 @@ export function CarMainPage() {
       ...prevFormData,
       [name]: value,
     }));
+    setFormErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: '',
+    }));
   }
 
-  function handleOnSelect(e: React.ChangeEvent<HTMLSelectElement>) { // Alterando para ChangeEvent<HTMLSelectElement>
+  function handleOnSelect(e: React.ChangeEvent<HTMLSelectElement>) {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [name]: value,
+      [name]: name === "color" ? Number(value) : value,
+    }));
+    setFormErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: '',
     }));
   }
-  
 
   const columns: TableProps<ModelType>['columns'] = [
     {
@@ -155,8 +205,8 @@ export function CarMainPage() {
     {
       title: CarWords.color,
       dataIndex: 'color',
-      key: 'model',
-      render: (text) => <a>{text}</a>,
+      key: 'color',
+      render: (text) => <a>{getColorLabel(Number(text))}</a>,
     },
     {
       title: CarWords.price,
@@ -173,79 +223,100 @@ export function CarMainPage() {
     {
       title: Words.actions,
       key: 'actions',
-      render: (text, record) => (
+      render: (_, record) => (
         <Space size="middle">
           <Button onClick={() => handleEdit(record)}>{Words.edit}</Button>
-          <Button onClick={() => handleDelete(record)}>{Words.cancel}</Button>
+          <Button onClick={() => handleDelete(record)}>{Words.delete}</Button>
         </Space>
       ),
     }
-  ]
-
+  ];
 
   return (
     <ModuleContainer>
       <ModuleTitleStyle>{language.modules.carModule.label}</ModuleTitleStyle>
-      <FormButton onClick={() => handleCreate()} >{Words.create}</FormButton>
-      <Table columns={columns} dataSource={entries} style={{ width: "90%" }} />
+      <FormButton onClick={handleCreate}>{Words.create}</FormButton>
+      <Table columns={columns} dataSource={entries} rowKey="idCar" style={{ width: "90%" }} />
 
       {showModal &&
         <Modal>
           <ModalContent>
             <CloseButton onClick={handleCloseModal}>&times;</CloseButton>
             <FormStyle onSubmit={handleSubmit}>
-              <FormInput type="hidden" name="id" disabled value={formData.idCar} />
-              <FormLabel htmlFor="model"> {CarWords.model}</FormLabel>
-              <FormInput type="text" name="model" onChange={handleOnChange} placeholder="Insira o Modelo" value={formData.model} />
+              <FormInput type="hidden" name="idCar" value={formData.idCar} />
+              <FormLabel htmlFor="model">{CarWords.model}</FormLabel>
+              <FormInput
+                type="text"
+                name="model"
+                onChange={handleOnChange}
+                placeholder={CarWords.placeholdermodel}
+                value={formData.model}
+              />
+              {formErrors.model && <FormError>{formErrors.model}</FormError>}
               <FormLabel htmlFor="brand">{CarWords.brand}</FormLabel>
-              <FormInput type="text" name="brand" onChange={handleOnChange} placeholder="Insira a Marca" value={formData.brand} />
+              <FormInput
+                type="text"
+                name="brand"
+                onChange={handleOnChange}
+                placeholder={CarWords.placeholderbrand}
+                value={formData.brand}
+              />
+              {formErrors.brand && <FormError>{formErrors.brand}</FormError>}
               <FormLabel htmlFor="price">{CarWords.price}</FormLabel>
-              <FormInput type="text" name="price" onChange={handleOnChange} placeholder="Insira a Marca" value={formData.price} />
+              <FormInput
+                type="number"
+                name="price"
+                onChange={handleOnChange}
+                placeholder={CarWords.placeholderprice}
+                value={formData.price}
+              />
+              {formErrors.price && <FormError>{formErrors.price}</FormError>}
               <FormLabel htmlFor="color">{CarWords.color}</FormLabel>
-              <select name="color" onChange={handleOnSelect} value={formData.color}>
-                <option value="0">Red</option>
-                <option value="1">Blue</option>
-                <option value="2">Green</option>
-                <option value="3">Yellow</option>
-              </select>
-
+              <FormSelect name="color" onChange={handleOnSelect} value={formData.color}>
+                <option value="">--------</option>
+                {Object.keys(Colors).map((key) => (
+                  <option key={Colors[key as keyof typeof Colors]} value={Colors[key as keyof typeof Colors]}>
+                    {getColorLabel(Colors[key as keyof typeof Colors])}
+                  </option>
+                ))}
+              </FormSelect>
+              {formErrors.color && <FormError>{formErrors.color}</FormError>}
               <FormLabel htmlFor="year">{CarWords.year}</FormLabel>
-              <select name="year" onChange={handleOnSelect} value={formData.year}>
-                <option>2024</option>
-                <option>2023</option>
-                <option>2022</option>
-                <option>2020</option>
-                <option>2019</option>
-                <option>2018</option>
-                <option>2017</option>
-                <option>2016</option>
-                <option>2015</option>
-                <option>2014</option>
-              </select>
-              {/* <FormInput type="number" name="year" onChange={handleOnChange} placeholder="Insira o Ano de Fabricação" value={formData.year} /> */}
-              <FormButton type="submit" >{Words.send}</FormButton>
+              <FormSelect name="year" onChange={handleOnSelect} value={formData.year}>
+                <option value="">--------</option>
+                <option value="2024">2024</option>
+                <option value="2023">2023</option>
+                <option value="2022">2022</option>
+                <option value="2020">2020</option>
+                <option value="2019">2019</option>
+                <option value="2018">2018</option>
+                <option value="2017">2017</option>
+                <option value="2016">2016</option>
+                <option value="2015">2015</option>
+                <option value="2014">2014</option>
+              </FormSelect>
+              {formErrors.year && <FormError>{formErrors.year}</FormError>}
+              <FormButton type="submit">{Words.send}</FormButton>
             </FormStyle>
           </ModalContent>
         </Modal>
-
       }
+
       {confirmDelete && (
         <Modal>
-          <div style={{ display: "flex", alignItems: "center", textAlign: "center", justifyContent: "center" }}>
-
-            <ModalContent>
-              <p>{Words.confirmationDelete}</p>
-              <Button onClick={() => handleConfirmDelete(formData.idCar)}>{Words.confirm}</Button>
-              <Button onClick={() => setConfirmDelete(false)}>{Words.cancel}</Button>
-
-            </ModalContent>
-          </div>
+          <ModalContent>
+            <div style={{display:"flex",flexDirection:"column"}}>
+            <p>{Words.confirmationDelete}</p>
+            <Button onClick={() => handleConfirmDelete(formData.idCar)}>{Words.confirm}</Button>
+            <Button onClick={() => setConfirmDelete(false)}>{Words.cancel}</Button>
+            </div>
+          </ModalContent>
         </Modal>
       )}
     </ModuleContainer>
-  )
+  );
 }
 
 const ModuleTitleStyle = styled.h1`
-    color:${(props) => props.theme.text}
+  color: ${(props) => props.theme.text};
 `;
