@@ -9,6 +9,7 @@ import { StaticConfig } from "@renderer/app/config/config";
 import { LanguageContext } from "@renderer/app/contexts/LanguageContext";
 import styled from "styled-components";
 import { Colors, getColorLabel } from "@renderer/app/enum/Colors";
+import { ModuleTitleStyle } from "@renderer/components/Styles";
 
 export function CarMainPage() {
   type ModelType = CarModel;
@@ -306,7 +307,7 @@ export function CarMainPage() {
         <Modal>
           <ModalContent>
             <div style={{display:"flex",flexDirection:"column"}}>
-            <p>{Words.confirmationDelete}</p>
+            <p>{Words.confirmationDeleteMessage}</p>
             <Button onClick={() => handleConfirmDelete(formData.idCar)}>{Words.confirm}</Button>
             <Button onClick={() => setConfirmDelete(false)}>{Words.cancel}</Button>
             </div>
@@ -317,6 +318,3 @@ export function CarMainPage() {
   );
 }
 
-const ModuleTitleStyle = styled.h1`
-  color: ${(props) => props.theme.text};
-`;

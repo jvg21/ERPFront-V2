@@ -1,10 +1,7 @@
-import { LanguageContext } from "@renderer/app/contexts/LanguageContext";
-import { ThemeStyleContext } from "@renderer/app/contexts/ThemeStyleContext";
-import LanguageSelect from "@renderer/components/utils/LanguageSelect";
-import { Logout } from "@renderer/components/utils/Logout";
-import ThemeSelect from "@renderer/components/utils/ThemeSelect";
+
 import { Header } from "antd/es/layout/layout";
-import { useContext } from "react";
+import { FaGear } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const HeaderStyle = styled(Header)`
@@ -15,15 +12,11 @@ const HeaderStyle = styled(Header)`
 `;
 
 export function LayoutHeader(){
-    const {language} = useContext(LanguageContext)
-    const {themeString} = useContext(ThemeStyleContext)
+    const navigate = useNavigate();
+
     return(
         <HeaderStyle>
-            <p>{language.name}</p>
-            <p>{themeString.name}</p>
-        <LanguageSelect/>
-        <ThemeSelect/>
-        <button onClick={()=>Logout()}>Logout</button>
+        <button onClick={()=>navigate('config')}><FaGear/></button>
         </HeaderStyle>
 
     )

@@ -17,7 +17,7 @@ export const GermanLanguage: LanguageType = {
         theme: "Thema",
         user: "Benutzer",
         actions: "Aktionen",
-        confirmationDelete: "Sind Sie sicher, dass Sie löschen möchten?",
+        confirmationDeleteMessage: "Sind Sie sicher, dass Sie löschen möchten?",
         create: "Erstellen",
         id: "ID",
         confirm: "Bestätigen",

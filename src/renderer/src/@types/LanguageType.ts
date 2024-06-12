@@ -8,6 +8,7 @@ export type LanguageType = {
     name:string,
     abbreviation:string,
     icon?: ReactElement,
+    dataFormat:string
     color?:{
         red: string,
         silver: string,
@@ -38,13 +39,21 @@ export type LanguageType = {
         config:string,
         theme:string,
         options:string
-        confirmationDelete:string
         edit:string,
         delete:string,
         confirm:string,
         success:string,
-        error:string
-    },
+        error:string,
+        login:string,
+        logout:string,
+        return:string,
+        email:string,
+        password:string,
+        continue:string,
+        loginSuccessfulMessage:string,
+        confirmationLogoutMessage:string,
+        confirmationDeleteMessage:string
+        },
     modules:{
         carModule:CarModuleLanguageType,
         resellerModule:ResellerModuleLanguageType,
