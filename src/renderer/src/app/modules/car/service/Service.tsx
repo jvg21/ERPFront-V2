@@ -1,3 +1,4 @@
+import { StaticConfig } from "@renderer/app/config/config";
 import { CarModel } from "../model/Model";
 
 type ModelType = CarModel
@@ -9,7 +10,12 @@ export class CarService{
 
     public async getAll(): Promise<ModelType[]> {
         try {
-          const response = await fetch(`${this.apiUrl}`);
+          const response = await fetch(`${this.apiUrl}`,
+            {
+              headers:{
+                'Authorization':`Bearer ${localStorage.getItem(StaticConfig.authTokenKeyString)}`
+              }
+            });
           if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
           }

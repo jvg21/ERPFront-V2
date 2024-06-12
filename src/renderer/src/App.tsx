@@ -4,20 +4,25 @@ import { ThemeStyleContext, ThemeStyleContextProvider } from "./app/contexts/The
 import { SidebarContextProvider } from "./app/contexts/SidebarContext"
 import AppLayout from "./components/layout/AppLayout"
 import { useContext } from "react"
+import { LoginPage } from "./components/LoginPage"
+import { UserContext, UserContextProvider } from "./app/contexts/UserContext"
 
 function App(): JSX.Element {
   // const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
   const { themeString } = useContext(ThemeStyleContext)
-  console.log(themeString);
-  
+  const { Token } = useContext(UserContext)
+  const logado = Token ? true : false
+
   return (
     <BrowserRouter>
       <ThemeStyleContextProvider>
-        <ThemeProvider theme={themeString.style}>
-          <SidebarContextProvider>
-            <AppLayout/>
-          </SidebarContextProvider>
-        </ThemeProvider>
+        <UserContextProvider>
+          <ThemeProvider theme={themeString.style}>
+            <SidebarContextProvider>
+              {logado && <AppLayout /> || <LoginPage />}
+            </SidebarContextProvider>
+          </ThemeProvider>
+        </UserContextProvider>
       </ThemeStyleContextProvider>
     </BrowserRouter>
   )
