@@ -1,6 +1,7 @@
 import { LanguageContext } from "@renderer/app/contexts/LanguageContext";
 import { ThemeStyleContext } from "@renderer/app/contexts/ThemeStyleContext";
 import LanguageSelect from "@renderer/components/utils/LanguageSelect";
+import { Logout } from "@renderer/components/utils/Logout";
 import ThemeSelect from "@renderer/components/utils/ThemeSelect";
 import { Header } from "antd/es/layout/layout";
 import { useContext } from "react";
@@ -22,6 +23,7 @@ export function LayoutHeader(){
             <p>{themeString.name}</p>
         <LanguageSelect/>
         <ThemeSelect/>
+        <button onClick={()=>Logout()}>Logout</button>
         </HeaderStyle>
 
     )
