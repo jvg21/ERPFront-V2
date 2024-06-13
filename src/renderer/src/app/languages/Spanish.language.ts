@@ -31,6 +31,11 @@ export const SpanishLanguage: LanguageType = {
         logout: "Cerrar sesión",
         password: "Contraseña",
         return: "Volver",
+        "administator": "administrador",
+        "client": "cliente",
+        "seller": "vendedor",
+        "female": "mujer",
+        "male": "hombre"
 
     },
     color:{

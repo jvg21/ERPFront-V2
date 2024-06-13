@@ -7,9 +7,9 @@ import { CloseButton, Modal, ModalContent, ModuleContainer } from "@renderer/com
 import FormError, { FormButton, FormInput, FormLabel, FormSelect, FormStyle } from "@renderer/components/layout/form/FormComponents";
 import { StaticConfig } from "@renderer/app/config/config";
 import { LanguageContext } from "@renderer/app/contexts/LanguageContext";
-import styled from "styled-components";
 import { Colors, getColorLabel } from "@renderer/app/enum/Colors";
 import { ModuleTitleStyle } from "@renderer/components/Styles";
+import { marcas } from "@renderer/app/enum/Marcas";
 
 export function CarMainPage() {
   type ModelType = CarModel;
@@ -36,7 +36,7 @@ export function CarMainPage() {
 
   useEffect(() => {
     setList();
-  }, []);
+  }, [showModal]);
 
   async function setList() {
     try {
@@ -79,7 +79,7 @@ export function CarMainPage() {
             message: Words.success,
             description: CarWords.deleteNotificationDescription,
           });
-          setList();
+          setList()
         }
       } catch (error) {
         notification.error({
@@ -99,13 +99,10 @@ export function CarMainPage() {
   const handleCreateSubmit = async (data: ModelType) => {
     try {
       const response = await ApiService.create(data);
-      if (response) {
-        notification.success({
-          message: Words.success,
-          description: CarWords.createNotificationDescription,
-        });
-        setList();
-      }
+      notification.success({
+        message: Words.success,
+        description: CarWords.createNotificationDescription,
+      });
     } catch (error) {
       notification.error({
         message: Words.error,
@@ -119,12 +116,10 @@ export function CarMainPage() {
     if (data.idCar) {
       try {
         const response = await ApiService.update(data.idCar, data);
-        if (response) {
-          notification.success({
-            message: Words.success,
-            description: CarWords.updateNotificationDescription,
-          });
-        }
+        notification.success({
+          message: Words.success,
+          description: CarWords.updateNotificationDescription,
+        });
       } catch (error) {
         notification.error({
           message: Words.error,
@@ -213,7 +208,7 @@ export function CarMainPage() {
       title: CarWords.price,
       dataIndex: 'price',
       key: 'price',
-      render: (text) => <a>{text}</a>,
+      render: (text) => <a>R$ {text},00</a>,
     },
     {
       title: CarWords.year,
@@ -255,13 +250,19 @@ export function CarMainPage() {
               />
               {formErrors.model && <FormError>{formErrors.model}</FormError>}
               <FormLabel htmlFor="brand">{CarWords.brand}</FormLabel>
-              <FormInput
+              {/* <FormInput
                 type="text"
                 name="brand"
                 onChange={handleOnChange}
                 placeholder={CarWords.placeholderbrand}
                 value={formData.brand}
-              />
+              /> */}
+              <FormSelect name="brand" onChange={handleOnSelect} value={formData.brand}>
+                <option>--------</option>
+                {marcas.map((marca) => (
+                  <option key={marca} value={marca}>{marca}</option>
+                ))}
+              </FormSelect>
               {formErrors.brand && <FormError>{formErrors.brand}</FormError>}
               <FormLabel htmlFor="price">{CarWords.price}</FormLabel>
               <FormInput
@@ -274,12 +275,15 @@ export function CarMainPage() {
               {formErrors.price && <FormError>{formErrors.price}</FormError>}
               <FormLabel htmlFor="color">{CarWords.color}</FormLabel>
               <FormSelect name="color" onChange={handleOnSelect} value={formData.color}>
-                <option value="">--------</option>
-                {Object.keys(Colors).map((key) => (
-                  <option key={Colors[key as keyof typeof Colors]} value={Colors[key as keyof typeof Colors]}>
-                    {getColorLabel(Colors[key as keyof typeof Colors])}
-                  </option>
-                ))}
+                <option>--------</option>
+                {Object.values(Colors)
+                  .filter(value => typeof value === 'number')
+                  .map((colorValue) => (
+                    <option key={colorValue as number} value={colorValue as number}>
+                      {getColorLabel(colorValue as number)}
+                    </option>
+                  ))}
+
               </FormSelect>
               {formErrors.color && <FormError>{formErrors.color}</FormError>}
               <FormLabel htmlFor="year">{CarWords.year}</FormLabel>
@@ -306,10 +310,10 @@ export function CarMainPage() {
       {confirmDelete && (
         <Modal>
           <ModalContent>
-            <div style={{display:"flex",flexDirection:"column"}}>
-            <p>{Words.confirmationDeleteMessage}</p>
-            <Button onClick={() => handleConfirmDelete(formData.idCar)}>{Words.confirm}</Button>
-            <Button onClick={() => setConfirmDelete(false)}>{Words.cancel}</Button>
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <p>{Words.confirmationDeleteMessage}</p>
+              <Button onClick={() => handleConfirmDelete(formData.idCar)}>{Words.confirm}</Button>
+              <Button onClick={() => setConfirmDelete(false)}>{Words.cancel}</Button>
             </div>
           </ModalContent>
         </Modal>

@@ -1,3 +1,6 @@
+import { useContext } from "react";
+import { LanguageContext } from "../contexts/LanguageContext";
+
 export enum Colors{
     Silver = 1,
     Blue = 2,
@@ -20,43 +23,46 @@ export enum Colors{
 }
 
 export function getColorLabel(colorValue: number): string {
-    // Retorna o nome da cor com base no valor do enum Colors
-    switch (colorValue) {
-      case Colors.Red:
-        return "Red";
-      case Colors.Silver:
-        return "Silver";
-      case Colors.Blue:
-        return "Blue";
-      case Colors.Green:
-        return "Green";
-      case Colors.Black:
-        return "Black";
-      case Colors.White:
-        return "White";
-      case Colors.Yellow:
-        return "Yellow";
-      case Colors.Beige:
-        return "Beige";
-      case Colors.Grey:
-        return "Grey";
-      case Colors.Pink:
-        return "Pink";
-      case Colors.Purple:
-        return "Purple";
-      case Colors.Brown:
-        return "Brown";
-      case Colors.Orange:
-        return "Orange";
-      case Colors.Violet:
-        return "Violet";
-      case Colors.Lilac:
-        return "Lilac";
-      case Colors.Indigo:
-        return "Indigo";
-      case Colors.DarkBlue:
-        return "Dark Blue";
-      default:
-        return "";
-    }
+  const { language } = useContext(LanguageContext);
+  const ColorsWords = language.color;
+
+  // Retorna o nome da cor com base no valor do enum Colors
+  switch (colorValue) {
+    case Colors.Red:
+      return ColorsWords.red;
+    case Colors.Silver:
+      return ColorsWords.silver;
+    case Colors.Blue:
+      return ColorsWords.blue;
+    case Colors.Green:
+      return ColorsWords.green;
+    case Colors.Black:
+      return ColorsWords.black;
+    case Colors.White:
+      return ColorsWords.white;
+    case Colors.Yellow:
+      return ColorsWords.yellow;
+    case Colors.Beige:
+      return ColorsWords.beige;
+    case Colors.Grey:
+      return ColorsWords.grey;
+    case Colors.Pink:
+      return ColorsWords.pink;
+    case Colors.Purple:
+      return ColorsWords.purple;
+    case Colors.Brown:
+      return ColorsWords.brown;
+    case Colors.Orange:
+      return ColorsWords.orange;
+    case Colors.Violet:
+      return ColorsWords.Violet;
+    case Colors.Lilac:
+      return ColorsWords.lilac;
+    case Colors.Indigo:
+      return ColorsWords.indigo;
+    case Colors.DarkBlue:
+      return ColorsWords.darkblue;
+    default:
+      return "";
   }
+}

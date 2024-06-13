@@ -8,7 +8,7 @@ export type LanguageType = {
     abbreviation:string,
     icon?: ReactElement,
     dataFormat?:string
-    color?:{
+    color:{
         red: string,
         silver: string,
         blue: string,
@@ -16,10 +16,10 @@ export type LanguageType = {
         black: string,
         white: string,
         yellow: string,
-        Beige: string,
+        beige: string,
         grey: string,
         pink: string,
-        Purple: string,
+        purple: string,
         brown: string,
         orange: string,
         Violet: string,
@@ -49,6 +49,11 @@ export type LanguageType = {
         email:string,
         password:string,
         continue:string,
+        male:string,
+        female:string,
+        administator:string,
+        seller:string,
+        client:string,
         loginSuccessfulMessage:string,
         confirmationLogoutMessage:string,
         confirmationDeleteMessage:string

@@ -30,7 +30,12 @@ export const BrazilianLanguage: LanguageType = {
         loginSuccessfulMessage: "Seu login foi bem sucedido",
         logout: "Log out",
         password: "Senha",
-        return: "Retornar" 
+        return: "Retornar",
+        administator:"administrador",
+        client:"Cliente",
+        seller:"Vendedor",
+        female:"Feminino",
+        male:"Masculino"
     },
     color:{
         red: "Vermelho",

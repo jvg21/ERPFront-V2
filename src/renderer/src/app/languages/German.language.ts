@@ -32,6 +32,12 @@ export const GermanLanguage: LanguageType = {
         logout: "Abmelden",
         password: "Passwort",
         return: "Zurück",
+        "administator": "Administrator",
+        "client": "Kunde",
+        "seller": "Verkäufer",
+        "female": "weiblich",
+        "male": "männlich"
+    
     },
     color:{
         red: "Rot",
