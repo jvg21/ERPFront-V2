@@ -2,6 +2,7 @@ import { ActiveLanguages } from '@renderer/app/config/ActiveLanguages';
 import { StaticConfig } from '@renderer/app/config/config';
 import { LanguageContext } from '@renderer/app/contexts/LanguageContext';
 import { useContext } from 'react';
+import { FormSelect } from '../layout/form/FormComponents';
 
 const LanguageSelect = () => {
     const {language} = useContext(LanguageContext)
@@ -13,7 +14,7 @@ const LanguageSelect = () => {
     };
 
     return (
-        <select onChange={handleChange}>
+        <FormSelect onChange={handleChange}>
             {Object.entries(ActiveLanguages).map(([key, Language]) =>
                 Language.name === language.name && (
                     <option key={key} value={key} selected>
@@ -26,7 +27,7 @@ const LanguageSelect = () => {
                     </option>
                 )
             )}
-        </select>
+        </FormSelect>
     );
 };
 

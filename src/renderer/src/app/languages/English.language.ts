@@ -31,7 +31,6 @@ export const EnglishLanguage: LanguageType = {
         logout: "Log out",
         password: "Password",
         return: "Return",
-       
     },
     color:{
         red: "Red",

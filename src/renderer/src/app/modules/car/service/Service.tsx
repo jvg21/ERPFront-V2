@@ -47,6 +47,7 @@ export class CarService{
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
+              'Authorization':`Bearer ${localStorage.getItem(StaticConfig.authTokenKeyString)}`
             },
             body: JSON.stringify(data),
           });
@@ -67,6 +68,8 @@ export class CarService{
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json',
+              'Authorization':`Bearer ${localStorage.getItem(StaticConfig.authTokenKeyString)}`
+
             },
             body: JSON.stringify(entry),
           });
@@ -85,6 +88,9 @@ export class CarService{
         try {
           const response = await fetch(`${this.apiUrl}/${id}`, {
             method: 'DELETE',
+            headers:{
+            'Authorization':`Bearer ${localStorage.getItem(StaticConfig.authTokenKeyString)}`,
+            }
           });
           if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);

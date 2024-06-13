@@ -1,13 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Button, Space, Table, notification } from 'antd';
 import { CloseButton, Modal, ModalContent, ModuleContainer } from "@renderer/components/layout/modal/ModalComponents";
-import { FormButton, FormInput, FormLabel, FormStyle } from "@renderer/components/layout/form/FormComponents";
+import { FormButton, FormInput, FormLabel, FormSelect, FormStyle } from "@renderer/components/layout/form/FormComponents";
 import { StaticConfig } from "@renderer/app/config/config";
 import { LanguageContext } from "@renderer/app/contexts/LanguageContext";
 import { FormatCPF } from "@renderer/components/utils/FormatCpf";
 import { formatDateToISO } from "@renderer/components/utils/FormatDate";
 import { UserModel } from "./model/Model";
 import { UserService } from "./service/Service";
+import { getSex } from "@renderer/app/enum/Sexs";
 
 export function UserMainPage() {
     type ModelType = UserModel;
@@ -81,13 +82,10 @@ export function UserMainPage() {
     const handleCreateSubmit = async (event: React.FormEvent<HTMLFormElement>, data: ModelType) => {
         event.preventDefault();
         const response = await ApiService.create(data);
-        if (response) {
-            notification.success({
-                message: Words.success,
-                description: 'Successfully created.',
-            });
-            setList();
-        }
+        notification.success({
+            message: Words.success,
+            description: 'Successfully created.',
+        });
         handleCloseModal();
     };
 
@@ -95,13 +93,10 @@ export function UserMainPage() {
         event.preventDefault();
         if (data.idUser) {
             const response = await ApiService.update(data.idUser, data);
-            if (response) {
-                notification.success({
-                    message: Words.success,
-                    description: 'Successfully updated.',
-                });
-                setList();
-            }
+            notification.success({
+                message: Words.success,
+                description: 'Successfully updated.',
+            });
         }
         handleCloseModal();
     };
@@ -153,7 +148,7 @@ export function UserMainPage() {
             title: 'Gender',
             dataIndex: 'sex',
             key: 'sex',
-            render: (text: string) => <a>{text}</a>,
+            render: (text: string) => <a>{getSex(Number(text))}</a>,
         },
         {
             title: 'Phone',
@@ -190,10 +185,10 @@ export function UserMainPage() {
                             <FormLabel htmlFor="birth">Birth</FormLabel>
                             <FormInput type="date" name="birth" value={formData.birth} onChange={handleOnChange} />
                             <FormLabel htmlFor="sex">Gender</FormLabel>
-                            <select name="sex" value={formData.sex} onChange={handleOnChange}>
+                            <FormSelect name="sex" value={formData.sex} onChange={handleOnChange}>
                                 <option value={0}>Male</option>
                                 <option value={1}>Female</option>
-                            </select>
+                            </FormSelect>
                             <FormLabel htmlFor="phone">Phone</FormLabel>
                             <FormInput type="text" name="phone" onChange={handleOnChange} placeholder="Enter Phone" value={formData.phone} />
                             <FormLabel htmlFor="cpf">CPF</FormLabel>
@@ -207,7 +202,7 @@ export function UserMainPage() {
                 <Modal>
                     <div style={{ display: "flex", alignItems: "center", textAlign: "center", justifyContent: "center" }}>
                         <ModalContent>
-                            <p>{Words.confirmationDelete}</p>
+                            <p>{Words.confirmationDeleteMessage}</p>
                             <Button onClick={() => handleConfirmDelete(formData.idUser)}>{Words.confirm}</Button>
                             <Button onClick={() => setConfirmDelete(false)}>{Words.cancel}</Button>
                         </ModalContent>

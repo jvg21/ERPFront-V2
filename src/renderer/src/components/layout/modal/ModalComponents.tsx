@@ -20,6 +20,7 @@ export const Modal = styled.div`
 
 export const ModalContent = styled.div`
   background-color: ${(props)=>props.theme.background};
+  color: ${(props)=>props.theme.text};
   margin: 15% auto;
   padding: 20px;
   border: 1px solid #888;

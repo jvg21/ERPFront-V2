@@ -63,7 +63,7 @@ export const LoginPage: React.FC = () => {
                 {showModal && (
                     <Modal>
                         <ModalContent>
-                            <div style={{ display: "flex", flexDirection: "column" }}>
+                            <div style={{ display: "flex", flexDirection: "column",gap:"15px" }}>
                                 <p>Login Realizado</p>
                                 <Button onClick={() => window.location.reload()}>Continuar</Button>
                             </div>

@@ -1,3 +1,4 @@
+import { StaticConfig } from "@renderer/app/config/config";
 import { UserModel } from "../model/Model";
 
 type ModelType = UserModel
@@ -9,7 +10,12 @@ export class UserService{
 
     public async getAll(): Promise<ModelType[]> {
         try {
-          const response = await fetch(`${this.apiUrl}`);
+          const response = await fetch(`${this.apiUrl}`,
+            {
+              headers:{
+                'Authorization':`Bearer ${localStorage.getItem(StaticConfig.authTokenKeyString)}`
+              }
+            });
           if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
           }
@@ -23,7 +29,12 @@ export class UserService{
 
       public async getById(id: number): Promise<ModelType | null> {
         try {
-          const response = await fetch(`${this.apiUrl}/${id}`);
+          const response = await fetch(`${this.apiUrl}/${id}`,
+            {
+              headers:{
+                'Authorization':`Bearer ${localStorage.getItem(StaticConfig.authTokenKeyString)}`
+              }
+            });
           if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
           }
@@ -41,6 +52,7 @@ export class UserService{
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
+              'Authorization':`Bearer ${localStorage.getItem(StaticConfig.authTokenKeyString)}`
             },
             body: JSON.stringify(data),
           });
@@ -61,6 +73,7 @@ export class UserService{
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json',
+              'Authorization':`Bearer ${localStorage.getItem(StaticConfig.authTokenKeyString)}`
             },
             body: JSON.stringify(entry),
           });
@@ -79,6 +92,9 @@ export class UserService{
         try {
           const response = await fetch(`${this.apiUrl}/${id}`, {
             method: 'DELETE',
+            headers:{
+              'Authorization':`Bearer ${localStorage.getItem(StaticConfig.authTokenKeyString)}`
+            }
           });
           if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
