@@ -195,9 +195,9 @@ export function UserMainPage() {
                                 <option value={0}>{Words.male}</option>
                                 <option value={1}>{Words.female}</option>
                             </select>
-                            <FormLabel htmlFor="phone">Phone</FormLabel>
+                            <FormLabel htmlFor="phone">{UserWords.phone}</FormLabel>
                             <FormInput type="text" name="phone" onChange={handleOnChange} placeholder={UserWords.placeholderPhone} value={formData.phone} />
-                            <FormLabel htmlFor="cpf">CPF</FormLabel>
+                            <FormLabel htmlFor="cpf">{UserWords.cpf}</FormLabel>
                             <FormInput type="text" maxLength={14} name="cpf" onChange={handleOnChange} disabled={formSubmit === StaticConfig.updateFormId} placeholder={UserWords.placeholderCpf} value={formData.cpf} />
                             <FormButton type="submit">{Words.send}</FormButton>
                         </FormStyle>
