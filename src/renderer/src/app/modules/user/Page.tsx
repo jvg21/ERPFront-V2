@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Button, Space, Table, notification } from 'antd';
 import { CloseButton, Modal, ModalContent, ModuleContainer } from "@renderer/components/layout/modal/ModalComponents";
-import { FormButton, FormInput, FormLabel, FormStyle } from "@renderer/components/layout/form/FormComponents";
+import { FormButton, FormInput, FormLabel, FormSelect, FormStyle } from "@renderer/components/layout/form/FormComponents";
 import { StaticConfig } from "@renderer/app/config/config";
 import { LanguageContext } from "@renderer/app/contexts/LanguageContext";
 import { FormatCPF } from "@renderer/components/utils/FormatCpf";
@@ -191,10 +191,10 @@ export function UserMainPage() {
                             <FormLabel htmlFor="birth">{UserWords.birth}</FormLabel>
                             <FormInput type="date" name="birth" value={formData.birth} onChange={handleOnChange} />
                             <FormLabel htmlFor="sex">{UserWords.sex}</FormLabel>
-                            <select name="sex" value={formData.sex} onChange={handleOnChange}>
+                            <FormSelect name="sex" value={formData.sex} onChange={handleOnChange}>
                                 <option value={0}>{Words.male}</option>
                                 <option value={1}>{Words.female}</option>
-                            </select>
+                            </FormSelect>
                             <FormLabel htmlFor="phone">{UserWords.phone}</FormLabel>
                             <FormInput type="text" name="phone" onChange={handleOnChange} placeholder={UserWords.placeholderPhone} value={formData.phone} />
                             <FormLabel htmlFor="cpf">{UserWords.cpf}</FormLabel>

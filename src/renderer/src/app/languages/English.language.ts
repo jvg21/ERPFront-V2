@@ -36,7 +36,6 @@ export const EnglishLanguage: LanguageType = {
         seller:"Seller",
         female:"Female",
         male:"Male"
-       
     },
     color:{
         red: "Red",
@@ -46,10 +45,10 @@ export const EnglishLanguage: LanguageType = {
         black: "Black",
         white: "White",
         yellow: "Yellow",
-        Beige: "Beige",
+        beige: "Beige",
         grey: "Grey",
         pink: "Pink",
-        Purple: "Purple",
+        purple: "Purple",
         brown: "Brown",
         orange: "Orange",
         Violet: "Violet",
