@@ -5,7 +5,7 @@ import { FormButton, FormInput, FormLabel, FormSelect, FormStyle } from "@render
 import { StaticConfig } from "@renderer/app/config/config";
 import { LanguageContext } from "@renderer/app/contexts/LanguageContext";
 import { FormatCPF } from "@renderer/components/utils/FormatCpf";
-import { formatDateToISO } from "@renderer/components/utils/FormatDate";
+import { formatDate, formatDateToISO } from "@renderer/components/utils/FormatDate";
 import { UserModel } from "./model/Model";
 import { UserService } from "./service/Service";
 
@@ -142,7 +142,7 @@ export function UserMainPage() {
             title: UserWords.birth,
             dataIndex: 'birth',
             key: 'birth',
-            render: (text: string) => <a>{text}</a>,
+            render: (text: string) => <a>{formatDate(new Date(text),'DD-MM-YYYY')}</a>,
         },
         {
             title: UserWords.cpf,
@@ -165,7 +165,7 @@ export function UserMainPage() {
         {
             title: Words.actions,
             key: 'actions',
-            render: (text: any, record: ModelType) => (
+            render: (_: any, record: ModelType) => (
                 <Space size="middle">
                     <Button onClick={() => handleEdit(record)}>{Words.edit}</Button>
                     <Button onClick={() => handleDelete(record)}>{Words.cancel}</Button>
