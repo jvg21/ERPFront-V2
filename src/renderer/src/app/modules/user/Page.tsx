@@ -207,7 +207,7 @@ export function UserMainPage() {
                 <Modal>
                     <div style={{ display: "flex", alignItems: "center", textAlign: "center", justifyContent: "center" }}>
                         <ModalContent>
-                            <p>{Words.confirmationDelete}</p>
+                            <p>{Words.confirmationDeleteMessage}</p>
                             <Button onClick={() => handleConfirmDelete(formData.idUser)}>{Words.confirm}</Button>
                             <Button onClick={() => setConfirmDelete(false)}>{Words.cancel}</Button>
                         </ModalContent>
