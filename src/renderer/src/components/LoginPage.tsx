@@ -19,10 +19,10 @@ export const LoginPage: React.FC = () => {
             const response = await fetch(`${StaticConfig.host}/User/authenticate?Email=${email}&Password=${password}`, {
                 method: 'POST',
             });
-
+            // if(response.body === "Incorrect User or Password")throw new Error('Incorrect User or Password')
             if (!response.ok) {
-                const errorMessage = await response.json();
-                throw new Error(errorMessage.message);
+                // const errorMessage = await response.json();
+                throw new Error("Internal Server Error");
             }
 
             const data = await response.json();

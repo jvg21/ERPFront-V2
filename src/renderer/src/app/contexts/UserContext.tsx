@@ -2,21 +2,21 @@ import { createContext, useState, ReactNode } from 'react';
 import { StaticConfig } from '../config/config';
 
 type UserContextType = {
-  Email: string|null;
+  Id: number|null;
   Token: string|null
 };
 
 const defaultValue = {
-  Email:localStorage.getItem(StaticConfig.userDataKeyString)||null,
+  Id:Number(localStorage.getItem(StaticConfig.userDataKeyString))||null,
   Token:localStorage.getItem(StaticConfig.authTokenKeyString)||null,
 }
 export const UserContext = createContext<UserContextType >(defaultValue);
 
 export function UserContextProvider({ children }: { children: ReactNode }) {
-  const [Email, _] = useState(defaultValue.Email);
+  const [Id, _] = useState(defaultValue.Id);
   const [Token, __] = useState(defaultValue.Token);
   return (
-    <UserContext.Provider value={{ Email,Token }}>
+    <UserContext.Provider value={{ Id,Token }}>
       {children}
     </UserContext.Provider>
   );

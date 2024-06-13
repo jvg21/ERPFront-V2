@@ -133,9 +133,13 @@ export function CarMainPage() {
   function validateForm(data: ModelType) {
     const errors: Record<string, string> = {};
     if (!data.model) errors.model = CarWords.modelValidation;
-    if (!data.brand) errors.brand = CarWords.brandValidation;
-    if (!data.price) errors.price = CarWords.priceValidation;
-    if (data.price && isNaN(Number(data.price))) errors.price = CarWords.priceValidationNaN;
+    if (!data.brand || data.brand === "--------") errors.brand = CarWords.brandValidation;
+    if (!data.price) {
+      errors.price = CarWords.priceValidation;
+    } else if (data.price <= 0) {
+      errors.price = CarWords.priceValidation;
+    }
+    if (isNaN(Number(data.price))) errors.price = CarWords.priceValidationNaN;
     if (!data.color && data.color !== 0) errors.color = CarWords.colorValidation;
     if (!data.year) errors.year = CarWords.yearValidation;
     return errors;
@@ -159,7 +163,7 @@ export function CarMainPage() {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [name]: value,
+      [name]: name === 'price' ? Number(value) : value,
     }));
     setFormErrors((prevErrors) => ({
       ...prevErrors,
@@ -171,7 +175,7 @@ export function CarMainPage() {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [name]: name === "color" ? Number(value) : value,
+      [name]: name === "color" || name === "year" ? Number(value) : value,
     }));
     setFormErrors((prevErrors) => ({
       ...prevErrors,
@@ -181,7 +185,7 @@ export function CarMainPage() {
 
   const columns: TableProps<ModelType>['columns'] = [
     {
-      title: 'IdCar',
+      title: 'ID',
       dataIndex: 'idCar',
       key: 'idCar',
       render: (text) => <a>{text}</a>,
@@ -250,13 +254,6 @@ export function CarMainPage() {
               />
               {formErrors.model && <FormError>{formErrors.model}</FormError>}
               <FormLabel htmlFor="brand">{CarWords.brand}</FormLabel>
-              {/* <FormInput
-                type="text"
-                name="brand"
-                onChange={handleOnChange}
-                placeholder={CarWords.placeholderbrand}
-                value={formData.brand}
-              /> */}
               <FormSelect name="brand" onChange={handleOnSelect} value={formData.brand}>
                 <option>--------</option>
                 {Branches.map((marca) => (
@@ -321,4 +318,3 @@ export function CarMainPage() {
     </ModuleContainer>
   );
 }
-

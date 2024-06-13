@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const FormLabel = styled.label`
   margin:5px;
+  color: ${(props)=>props.theme.text};
 
 `;
 
