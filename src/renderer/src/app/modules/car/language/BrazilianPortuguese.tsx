@@ -17,6 +17,12 @@ export const CarModuleBrazilianPortuguese: CarModuleLanguageType = {
         createNotificationError: "Erro ao criar o carro",
         deleteNotificationError: "Erro ao excluir o carro",
         fetchNotificationError: "Erro ao buscar os carros",
-        updateNotificationError: "Erro ao atualizar o carro"
+        updateNotificationError: "Erro ao atualizar o carro",
+        brandValidation: "Insira a marca válida",
+        colorValidation: "Insira a cor válida",
+        modelValidation: "Insira um modelo válido",
+        priceValidation: "Insira um preço válido",
+        priceValidationNaN: "Preço não é um número",
+        yearValidation: "Insira um ano válido"
     }
 }

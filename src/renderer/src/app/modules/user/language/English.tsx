@@ -7,8 +7,14 @@ export const UserModuleEnglish: UserModuleLanguageType = {
         birth: "Birth",
         sex: "Sex",
         cpf: "CPF",
-        createNotificationDescription: "Person Created",
-        updateNotificationDescription: "Person Updated",
-        deleteNotificationDescription: "Person Deleted"
+        createNotificationDescription: "User Created",
+        updateNotificationDescription: "User Updated",
+        deleteNotificationDescription: "User Deleted",
+        confirmCreateDescription: "User successfully created",
+        confirmDeleteDescription: "User successfully deleted",
+        confirmUpdateDescription: "User successfully updated",
+        phone: "Phone",
+        placeholderName: "Insert a name",
+        placeholderPhone: "Insert a phone"
     }
 }
