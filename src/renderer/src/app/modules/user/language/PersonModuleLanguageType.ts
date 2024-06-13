@@ -5,8 +5,15 @@ export type UserModuleLanguageType = {
         birth: string,
         sex: string,
         cpf: string,
-        createNotificationDescription: "Person Created",
-        updateNotificationDescription: "Person Updated",
-        deleteNotificationDescription: "Person Deleted"
+        phone: string,
+        placeholderName: string,
+        placeholderPhone: string,
+        createNotificationDescription: string,
+        updateNotificationDescription: string,
+        deleteNotificationDescription: string,
+        confirmDeleteDescription: string,
+        confirmCreateDescription: string,
+        confirmUpdateDescription: string
+
     }
 }
