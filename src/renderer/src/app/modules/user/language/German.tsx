@@ -15,6 +15,7 @@ export const UserModuleGerman: UserModuleLanguageType = {
         confirmUpdateDescription: "Benutzer erfolgreich aktualisiert",
         phone: "Telefon",
         placeholderName: "Geben Sie einen Namen ein",
-        placeholderPhone: "Geben Sie eine Telefonnummer ein"
+        placeholderPhone: "Geben Sie eine Telefonnummer ein",
+        placeholderCpf:"Geben Sie einen CPF ein"
     }
 }

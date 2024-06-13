@@ -8,6 +8,7 @@ export type UserModuleLanguageType = {
         phone: string,
         placeholderName: string,
         placeholderPhone: string,
+        placeholderCpf: string,
         createNotificationDescription: string,
         updateNotificationDescription: string,
         deleteNotificationDescription: string,

@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Button, Space, Table, notification } from 'antd';
 import { CloseButton, Modal, ModalContent, ModuleContainer } from "@renderer/components/layout/modal/ModalComponents";
-import { FormButton, FormInput, FormLabel, FormStyle } from "@renderer/components/layout/form/FormComponents";
+import { FormButton, FormInput, FormLabel, FormSelect, FormStyle } from "@renderer/components/layout/form/FormComponents";
 import { StaticConfig } from "@renderer/app/config/config";
 import { LanguageContext } from "@renderer/app/contexts/LanguageContext";
 import { FormatCPF } from "@renderer/components/utils/FormatCpf";
-import { formatDateToISO } from "@renderer/components/utils/FormatDate";
+import { formatDate, formatDateToISO } from "@renderer/components/utils/FormatDate";
 import { UserModel } from "./model/Model";
 import { UserService } from "./service/Service";
 
@@ -30,6 +30,7 @@ export function UserMainPage() {
     const [confirmDelete, setConfirmDelete] = useState(false);
     const { language } = useContext(LanguageContext);
     const Words = language.words;
+    const UserWords = language.modules.userModule.words
 
     useEffect(() => {
         setList();
@@ -65,7 +66,7 @@ export function UserMainPage() {
             if (response) {
                 notification.success({
                     message: Words.success,
-                    description: 'Successfully deleted.',
+                    description: Words.confirmationDeleteMessage,
                 });
                 setList();
             }
@@ -84,7 +85,7 @@ export function UserMainPage() {
         if (response) {
             notification.success({
                 message: Words.success,
-                description: 'Successfully created.',
+                description: UserWords.createNotificationDescription,
             });
             setList();
         }
@@ -98,7 +99,7 @@ export function UserMainPage() {
             if (response) {
                 notification.success({
                     message: Words.success,
-                    description: 'Successfully updated.',
+                    description: UserWords.updateNotificationDescription,
                 });
                 setList();
             }
@@ -132,31 +133,31 @@ export function UserMainPage() {
             render: (text: number) => <a>{text}</a>,
         },
         {
-            title: 'Name',
+            title: UserWords.name,
             dataIndex: 'nameUser',
             key: 'nameUser',
             render: (text: string) => <a>{text}</a>,
         },
         {
-            title: 'Birth',
+            title: UserWords.birth,
             dataIndex: 'birth',
             key: 'birth',
-            render: (text: string) => <a>{text}</a>,
+            render: (text: string) => <a>{formatDate(new Date(text),'DD-MM-YYYY')}</a>,
         },
         {
-            title: 'CPF',
+            title: UserWords.cpf,
             dataIndex: 'cpf',
             key: 'cpf',
             render: (text: string) => <a>{text}</a>,
         },
         {
-            title: 'Gender',
+            title: UserWords.sex,
             dataIndex: 'sex',
             key: 'sex',
             render: (text: string) => <a>{text}</a>,
         },
         {
-            title: 'Phone',
+            title: UserWords.phone,
             dataIndex: 'phone',
             key: 'phone',
             render: (text: string) => <a>{text}</a>,
@@ -164,7 +165,7 @@ export function UserMainPage() {
         {
             title: Words.actions,
             key: 'actions',
-            render: (text: any, record: ModelType) => (
+            render: (_: any, record: ModelType) => (
                 <Space size="middle">
                     <Button onClick={() => handleEdit(record)}>{Words.edit}</Button>
                     <Button onClick={() => handleDelete(record)}>{Words.cancel}</Button>
@@ -185,19 +186,19 @@ export function UserMainPage() {
                         <CloseButton onClick={handleCloseModal}>&times;</CloseButton>
                         <FormStyle onSubmit={handleSubmit}>
                             <FormInput type="hidden" name="idUser" disabled value={formData.idUser} />
-                            <FormLabel htmlFor="nameUser">Name</FormLabel>
-                            <FormInput type="text" name="nameUser" onChange={handleOnChange} placeholder="Enter Name" value={formData.nameUser} />
-                            <FormLabel htmlFor="birth">Birth</FormLabel>
+                            <FormLabel htmlFor="nameUser">{UserWords.name}</FormLabel>
+                            <FormInput type="text" name="nameUser" onChange={handleOnChange} placeholder={UserWords.placeholderName} value={formData.nameUser} />
+                            <FormLabel htmlFor="birth">{UserWords.birth}</FormLabel>
                             <FormInput type="date" name="birth" value={formData.birth} onChange={handleOnChange} />
-                            <FormLabel htmlFor="sex">Gender</FormLabel>
-                            <select name="sex" value={formData.sex} onChange={handleOnChange}>
-                                <option value={0}>Male</option>
-                                <option value={1}>Female</option>
-                            </select>
-                            <FormLabel htmlFor="phone">Phone</FormLabel>
-                            <FormInput type="text" name="phone" onChange={handleOnChange} placeholder="Enter Phone" value={formData.phone} />
-                            <FormLabel htmlFor="cpf">CPF</FormLabel>
-                            <FormInput type="text" maxLength={14} name="cpf" onChange={handleOnChange} disabled={formSubmit === StaticConfig.updateFormId} placeholder="Enter CPF" value={formData.cpf} />
+                            <FormLabel htmlFor="sex">{UserWords.sex}</FormLabel>
+                            <FormSelect name="sex" value={formData.sex} onChange={handleOnChange}>
+                                <option value={0}>{Words.male}</option>
+                                <option value={1}>{Words.female}</option>
+                            </FormSelect>
+                            <FormLabel htmlFor="phone">{UserWords.phone}</FormLabel>
+                            <FormInput type="text" name="phone" onChange={handleOnChange} placeholder={UserWords.placeholderPhone} value={formData.phone} />
+                            <FormLabel htmlFor="cpf">{UserWords.cpf}</FormLabel>
+                            <FormInput type="text" maxLength={14} name="cpf" onChange={handleOnChange} disabled={formSubmit === StaticConfig.updateFormId} placeholder={UserWords.placeholderCpf} value={formData.cpf} />
                             <FormButton type="submit">{Words.send}</FormButton>
                         </FormStyle>
                     </ModalContent>

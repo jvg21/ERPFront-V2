@@ -9,7 +9,7 @@ import { StaticConfig } from "@renderer/app/config/config";
 import { LanguageContext } from "@renderer/app/contexts/LanguageContext";
 import { Colors, getColorLabel } from "@renderer/app/enum/Colors";
 import { ModuleTitleStyle } from "@renderer/components/Styles";
-import { marcas } from "@renderer/app/enum/Marcas";
+import { Branches } from "@renderer/app/enum/Marcas";
 
 export function CarMainPage() {
   type ModelType = CarModel;
@@ -259,7 +259,7 @@ export function CarMainPage() {
               /> */}
               <FormSelect name="brand" onChange={handleOnSelect} value={formData.brand}>
                 <option>--------</option>
-                {marcas.map((marca) => (
+                {Branches.map((marca) => (
                   <option key={marca} value={marca}>{marca}</option>
                 ))}
               </FormSelect>
