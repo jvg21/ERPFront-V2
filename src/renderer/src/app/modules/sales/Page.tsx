@@ -346,7 +346,7 @@ export function SalesMainPage() {
                     <FormInput type="number" name="precoFIM" onChange={handleFilterChange} value={filters.precoFIM} />
                 </div>
                 <div style={{ flexBasis: "100%", textAlign: "center" }}>
-                    <Button onClick={handleFilter}>{Words.filter}</Button>
+                    <Button onClick={handleFilter}>{SalesWords.filter}</Button>
                 </div>
             </div>
 
