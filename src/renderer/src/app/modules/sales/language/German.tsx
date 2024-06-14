@@ -27,6 +27,10 @@ export const SaleModuleGerman: SalesModuleLanguageType = {
         filterNotificationError: "Nicht gefiltert",
         idVendedor: "Verkäufer-ID",
         precoFIM: "Endpreis",
-        precoINI: "Anfangspreis"
+        precoINI: "Anfangspreis",
+        topFiveSales: "Top fünf Verkäufe",
+        topSellers: "Top Verkäufer",
+        totalRevenue: "Gesamteinnahmen"
+
     }
 }
