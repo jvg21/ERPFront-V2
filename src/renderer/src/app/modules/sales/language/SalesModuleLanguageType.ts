@@ -29,6 +29,7 @@ export type SalesModuleLanguageType = {
         totalRevenue:string;
         topFiveSales:string;
         topSellers:string;
+        salesByBrand:string;
         
         
 

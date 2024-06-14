@@ -40,7 +40,8 @@ export const GermanLanguage: LanguageType = {
         male: "männlich",
         selectDataFormat: "Datenformat auswählen",
         selectLanguage: "Sprache auswählen",
-        selectTheme: "Thema auswählen"
+        selectTheme: "Thema auswählen",
+        charts:"Diagramme"
 
     
     },

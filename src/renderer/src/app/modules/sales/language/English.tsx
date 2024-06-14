@@ -30,7 +30,8 @@ export const SaleModuleEnglish: SalesModuleLanguageType = {
         precoINI: "Initial price",
         topFiveSales: "Top Five Sales",
         topSellers: "Top Sellers",
-        totalRevenue: "Total Revenue"
+        totalRevenue: "Total Revenue",
+        salesByBrand:"Sales per Brand"
 
     }
 }

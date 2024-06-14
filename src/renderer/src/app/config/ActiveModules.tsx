@@ -1,5 +1,5 @@
 import { ModuleType } from "@renderer/@types/ModuleType";
-import { FaCar } from "react-icons/fa";
+import { FaCar, FaChartBar } from "react-icons/fa";
 import { MdAttachMoney } from "react-icons/md";
 import { CarMainPage } from "../modules/car/Page";
 import { FaPerson } from "react-icons/fa6";
@@ -47,7 +47,7 @@ export const ActiveModules: ActiveModulesType = {
         label: "Chart",
         path: "/chart",
         element: <MainChartPage />,
-        icon: <MdAttachMoney />,
+        icon: <FaChartBar/>,
         permitionLevel: 2
 
     }

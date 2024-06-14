@@ -11,6 +11,7 @@ import { LanguageContext } from "@renderer/app/contexts/LanguageContext";
 import { FormInput, FormLabel } from "@renderer/components/layout/form/FormComponents";
 import { ModuleTitleStyle } from "@renderer/components/Styles";
 import { ModuleContainer } from "@renderer/components/layout/modal/ModalComponents";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 const { Title, Text } = Typography;
 
@@ -72,7 +73,7 @@ export function MainChartPage() {
 
     useEffect(() => {
         setList();
-    }, []);
+    }, [entries]);
 
     function calculateSummaries(sales: SalesModel[]) {
         const total = sales.reduce((sum, sale) => sum + (sale.price || 0), 0);
@@ -111,32 +112,41 @@ export function MainChartPage() {
         }));
     }
 
-    const handleFilter = async () => {
-        try {
-            const ApiService = new SalesService();
-            const response = await ApiService.filter(filters);
-            if (response) {
-                setEntries(response);
-                calculateSummaries(response);
-            }
+    const handleFilter = () => {
+        // Filtrando as vendas com base nas datas selecionadas
+        const filteredEntries = entries.filter(entry => {
+            const saleDate = new Date(entry.dthRegister);
+            const startDate = filters.dthRegistroINI ? new Date(filters.dthRegistroINI) : null;
+            const endDate = filters.dthRegistroFIM ? new Date(filters.dthRegistroFIM) : null;
 
-            notification.success({
-                message: Words.success,
-                description: SalesWords.filterNotificationDescription,
-            });
-        } catch (error) {
-            notification.error({
-                message: Words.error,
-                description: SalesWords.filterNotificationError,
-            });
-        }
-    }
+            if (startDate && endDate) {
+                return saleDate >= startDate && saleDate <= endDate;
+            } else if (startDate) {
+                return saleDate >= startDate;
+            } else if (endDate) {
+                return saleDate <= endDate;
+            } else {
+                return true;
+            }
+        });
+
+        setEntries(filteredEntries);
+        calculateSummaries(filteredEntries);
+    };
+
+    const salesData = entries.map(sale => {
+        const saleDate = new Date(sale.dthRegister).toLocaleDateString(); // Formatar a data conforme necessário
+        return {
+            date: saleDate,
+            price: sale.price || 0
+        };
+    });
 
     return (
         <ModuleContainer>
-            <ModuleTitleStyle>{language.modules.salesModule.label}</ModuleTitleStyle>
+            <ModuleTitleStyle>{language.words.charts}</ModuleTitleStyle>
 
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}>
+            {/* <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}>
                 <div style={{ flex: "1" }}>
                     <FormLabel htmlFor="dthRegistroINI">{SalesWords.dthRegistroINI}</FormLabel>
                     <FormInput type="date" name="dthRegistroINI" onChange={handleFilterChange} value={filters.dthRegistroINI} />
@@ -148,7 +158,7 @@ export function MainChartPage() {
                 <div style={{ flexBasis: "100%", textAlign: "center" }}>
                     <Button onClick={handleFilter}>{SalesWords.filter}</Button>
                 </div>
-            </div>
+            </div> */}
 
             {/* Display Summaries */}
             <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '2rem' }}>
@@ -181,6 +191,19 @@ export function MainChartPage() {
                         ))}
                     </ul>
                 </Card>
+            </div>
+
+            <div style={{ width: '100%', height: 400, marginTop: '2rem' }}>
+                <ResponsiveContainer>
+                    <LineChart data={salesData}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="date"/>
+                        <YAxis />
+                        <Tooltip />
+                        <Legend />
+                        <Line type="monotone" dataKey="price" stroke="#8884d8" activeDot={{ r: 8 }} />
+                    </LineChart>
+                </ResponsiveContainer>
             </div>
         </ModuleContainer>
     );

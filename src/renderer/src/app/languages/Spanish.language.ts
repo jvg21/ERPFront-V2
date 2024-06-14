@@ -39,9 +39,8 @@ export const SpanishLanguage: LanguageType = {
         male: "hombre",
         selectDataFormat: "Seleccionar formato de datos",
         selectLanguage: "Seleccionar idioma",
-        selectTheme: "Seleccionar tema"
-
-
+        selectTheme: "Seleccionar tema",
+        charts:"gráficos"
     },
     color:{
         red: "Rojo",
@@ -60,7 +59,7 @@ export const SpanishLanguage: LanguageType = {
         Violet: "Violeta",
         lilac: "Lila",
         indigo: "Índigo",
-        darkblue: "Azul oscuro"
+        darkblue: "Azul oscuro",
     },
     modules: {
         carModule: CarModuleSpanish,

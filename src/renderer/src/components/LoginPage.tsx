@@ -10,8 +10,7 @@ export const LoginPage: React.FC = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState<string | null>(null);
     const [showModal, setShowModal] = useState(false);
-    const {language} = useContext(LanguageContext)
-
+    const { language } = useContext(LanguageContext)
 
     const handleLogin = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -21,21 +20,26 @@ export const LoginPage: React.FC = () => {
             const response = await fetch(`${StaticConfig.host}/User/authenticate?Email=${email}&Password=${password}`, {
                 method: 'POST',
             });
-            // if(response.body === "Incorrect User or Password")throw new Error('Incorrect User or Password')
+
             if (!response.ok) {
-                // const errorMessage = await response.json();
-                throw new Error("Internal Server Error");
+                if (response.status === 400) {
+                    throw new Error('Usuário ou senha incorretos.');
+                }
+                if (response.status === 500) {
+                    throw new Error('Erro interno do servidor.');
+                }
+                throw new Error('Algo deu errado.');
             }
 
             const data = await response.json();
             localStorage.setItem(StaticConfig.authTokenKeyString, data.token);
             localStorage.setItem(StaticConfig.userDataKeyString, data.idUser);
-            setShowModal(true)
+            setShowModal(true);
         } catch (error) {
             if (error instanceof Error) {
                 setError(error.message);
             } else {
-                setError('Something went wrong');
+                setError('Algo deu errado.');
             }
         }
     };
@@ -61,7 +65,7 @@ export const LoginPage: React.FC = () => {
                         required
                     />
                 </div>
-                <FormButton type="submit">{language.words.logout}</FormButton>
+                <FormButton type="submit">{language.words.login}</FormButton>
                 {error && <p style={{ color: 'red' }}>{error}</p>}
                 {showModal && (
                     <Modal>
