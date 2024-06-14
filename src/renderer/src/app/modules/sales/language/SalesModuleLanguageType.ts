@@ -18,5 +18,16 @@ export type SalesModuleLanguageType = {
         sellerValidation:string;
         carValidation:string;
         priceValidation:string;
+        filterNotificationDescription:string;
+        filterNotificationError:string;
+        dthRegistroINI:string;
+        dthRegistroFIM:string;
+        idVendedor:string;
+        precoINI:string;
+        precoFIM:string;
+        filter:string;
+        
+
+
     }
 }
