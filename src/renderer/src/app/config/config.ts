@@ -6,5 +6,6 @@ export const StaticConfig = {
     themeKeyString:'THEME_STRING',
     userDataKeyString:"USER_DATA",
     authTokenKeyString:"AUTH_TOKEN",
+    DataFormatString:"DATA_FORMAT",
     host:"http://localhost:5167"
 }

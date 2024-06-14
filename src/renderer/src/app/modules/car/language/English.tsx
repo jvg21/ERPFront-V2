@@ -18,7 +18,6 @@ export const CarModuleEnglish: CarModuleLanguageType = {
         deleteNotificationError: "Error deleting car. Please try again.",
         fetchNotificationError: "Error fetching cars. Please try again.",
         updateNotificationError: "Error updating car. Please try again.",
-        
         modelValidation: "Model is required.",
         brandValidation: "Brand is required.",
         priceValidation: "Price is required.",

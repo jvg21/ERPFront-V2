@@ -1,29 +1,29 @@
-import { ActiveLanguages } from '@renderer/app/config/ActiveLanguages';
 import { StaticConfig } from '@renderer/app/config/config';
-import { LanguageContext } from '@renderer/app/contexts/LanguageContext';
 import { useContext } from 'react';
 import { FormSelect } from '../layout/form/FormComponents';
+import { LanguageContext } from '@renderer/app/contexts/LanguageContext';
+import { DataFormat } from '@renderer/app/enum/DataFormat';
 
-const LanguageSelect = () => {
-    const {language} = useContext(LanguageContext)
+const DataFormatSelect = () => {
+    const {dataFormat} = useContext(LanguageContext)
 
     const handleChange = (event) => {
         const selectedKey = event.target.value;
-        localStorage.setItem(StaticConfig.languageKeyString,selectedKey)
+        localStorage.setItem(StaticConfig.DataFormatString,selectedKey)
         window.location.reload()
     };
 
     return (
         <FormSelect onChange={handleChange}>
-            {Object.entries(ActiveLanguages).map(([key, Language]) =>
-                Language.name === language.name && (
+            {Object.entries(DataFormat).map(([key, format]) =>
+                format === dataFormat.toString() && (
                     <option key={key} value={key} selected>
-                        {Language.name}
+                        {format}
                     </option>
                 ) ||
-                Language && (
+                format && (
                     <option key={key} value={key}>
-                        {Language.name}
+                        {format}
                     </option>
                 )
             )}
@@ -31,4 +31,4 @@ const LanguageSelect = () => {
     );
 };
 
-export default LanguageSelect;
+export default DataFormatSelect;

@@ -6,5 +6,6 @@ export type UserModel = {
     cpf: string,
     password:string,
     phone:string,
-    userType:1
+    email:string,
+    userType:number
 }
