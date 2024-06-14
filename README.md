@@ -1,34 +1,16 @@
-# xpfront
+Sistema de Gerenciamento de Venda de Carros
+Este projeto é um sistema de ERP desenvolvido em React e TypeScript para gerenciar o processo de venda de carros em uma concessionária.
 
-An Electron application with React and TypeScript
+Funcionalidades
+Cadastro de Veículos: Permite adicionar novos veículos ao estoque, especificando detalhes como marca, modelo, ano, quilometragem, preço, etc.
+Gestão de Vendas: Registra vendas realizadas, mantendo histórico de transações e informações do cliente.
+Controle de Acesso: Diferencia permissões de acesso com base no perfil do usuário (administrador, vendedor, gerente).
 
-## Recommended IDE Setup
+Tecnologias Utilizadas
+React: Biblioteca JavaScript para construção de interfaces de usuário.
+TypeScript: Superset do JavaScript que adiciona tipagem estática ao código.
+Styled-Components: Uma biblioteca para React e React Native que permite escrever CSS dentro do JavaScript
+Electron: Framework que permite criar aplicativos de desktop usando tecnologias web (HTML, CSS, JavaScript)
 
-- [VSCode](https://code.visualstudio.com/) + [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) + [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
-
-## Project Setup
-
-### Install
-
-```bash
-$ npm install
-```
-
-### Development
-
-```bash
-$ npm run dev
-```
-
-### Build
-
-```bash
-# For windows
-$ npm run build:win
-
-# For macOS
-$ npm run build:mac
-
-# For Linux
-$ npm run build:linux
-```
+Pré-requisitos
+Node.js e npm (ou yarn) instalados globalmente na máquina.
