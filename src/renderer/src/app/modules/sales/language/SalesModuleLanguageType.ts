@@ -14,5 +14,9 @@ export type SalesModuleLanguageType = {
         updateNotificationError: string,
         deleteNotificationError: string,
         confirmationDeleteMessage: string
+        clientValidation:string;
+        sellerValidation:string;
+        carValidation:string;
+        priceValidation:string;
     }
 }

@@ -106,7 +106,27 @@ export class SalesService {
       return false;
     }
   }
+  public async filter(filters: Record<string, string>): Promise<ModelType[]> {
+    const queryString = Object.keys(filters)
+      .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(filters[key])}`)
+      .join('&');
+    const filterUrl = `${this.apiUrl}/filter?${queryString}`;
 
-
-
+    try {
+      const response = await fetch(filterUrl, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem(StaticConfig.authTokenKeyString)}`
+        }
+      });
+      if (response.status === 401) Logout();
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const list: ModelType[] = await response.json();
+      return list;
+    } catch (error) {
+      console.error('Error filtering data:', error);
+      return [];
+    }
+  }
 }

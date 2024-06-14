@@ -15,6 +15,10 @@ export const SaleModuleEnglish: SalesModuleLanguageType = {
         createNotificationError: "Failed to create sale.",
         updateNotificationError: "Failed to update sale.",
         deleteNotificationError: "Failed to delete sale.",
-        confirmationDeleteMessage: "Are you sure you want to delete this sale?"
+        confirmationDeleteMessage: "Are you sure you want to delete this sale?",
+        carValidation:"Invalid Car",
+        clientValidation:"Invalid Client",
+        priceValidation:"Invalid Price",
+        sellerValidation:"Invalid Seller"
     }
 }

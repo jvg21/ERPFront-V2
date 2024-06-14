@@ -12,7 +12,7 @@ import { UserModel } from "../user/model/Model";
 import { CarService } from "../car/service/Service";
 import { UserService } from "../user/service/Service";
 import { ModuleTitleStyle } from "@renderer/components/Styles";
-import { FormButton } from "@renderer/components/layout/form/FormComponents";
+import FormError, { FormButton, FormSelect, FormStyle, FormLabel, FormInput } from "@renderer/components/layout/form/FormComponents";
 import { formatDate } from "@renderer/components/utils/FormatDate";
 
 export function SalesMainPage() {
@@ -29,16 +29,27 @@ export function SalesMainPage() {
 
     const [entries, setEntries] = useState<ModelType[]>([]);
     const [cars, setCars] = useState<CarModel[]>([]);
+    const [carsWithouSales, setCarsWithouSales] = useState<CarModel[]>([]);
     const [users, setUsers] = useState<UserModel[]>([]);
+    const [brands, setBrands] = useState<string[]>([]);
     const [showModal, setShowModal] = useState(false);
     const [formData, setFormData] = useState<ModelType>(defaultValue);
     const [formSubmit, setFormSubmit] = useState<string>(StaticConfig.createFormId);
     const [confirmDelete, setConfirmDelete] = useState(false);
-    const { language,dataFormat } = useContext(LanguageContext);
+    const { language, dataFormat } = useContext(LanguageContext);
     const { UserData } = useContext(UserContext);
     const Words = language.words;
-    const SalesWords = language.modules.salesModule.words
+    const SalesWords = language.modules.salesModule.words;
+    const CarWords = language.modules.carModule.words
     const [formErrors, setFormErrors] = useState<Record<string, string>>({});
+    const [filters, setFilters] = useState({
+        dthRegistroINI: '',
+        dthRegistroFIM: '',
+        marcaCarro: '',
+        idVendedor: '',
+        precoINI: '',
+        precoFIM: ''
+    });
 
     useEffect(() => {
         setList();
@@ -46,17 +57,48 @@ export function SalesMainPage() {
 
     async function setList() {
         try {
-            const response = await ApiService.getAll();
-            if (response) setEntries(response);
-            const cars = await new CarService().getAll()
-            if (cars) setCars(cars)
-            const users = await new UserService().getAll()
-            if (cars) setUsers(users)
+            const sales = await ApiService.getAll();
+            if (sales) setEntries(sales);
+
+            const carService = new CarService();
+            const userService = new UserService();
+
+            const allCars = await carService.getAll();
+            if (allCars) {
+                const soldCarIds = new Set(sales.map(sale => sale.fk_IdCar));
+                const carsWithoutSales = allCars.filter(car => {
+                    if(car.idCar)!soldCarIds.has(car.idCar)
+                    
+                });
+                setCarsWithouSales(carsWithoutSales);
+
+                const uniqueBrands = Array.from(new Set(allCars.map(car => car.brand)));
+                setBrands(uniqueBrands);
+            }
+            const allUsers = await userService.getAll();
+            if (allUsers) setUsers(allUsers);
 
         } catch (error) {
             notification.error({
                 message: Words.error,
                 description: SalesWords.fetchNotificationError,
+            });
+        }
+    }
+
+    const handleFilter = async () => {
+        try {
+            const response = await ApiService.filter(filters);
+            if (response) setEntries(response);
+
+            notification.success({
+                message: Words.success,
+                description: SalesWords.filterNotificationDescription,
+            });
+        } catch (error) {
+            notification.error({
+                message: Words.error,
+                description: SalesWords.filterNotificationError,
             });
         }
     }
@@ -70,7 +112,7 @@ export function SalesMainPage() {
                         message: Words.success,
                         description: SalesWords.deleteNotificationDescription,
                     });
-                    setList()
+                    setList();
                 }
             } catch (error) {
                 notification.error({
@@ -101,18 +143,21 @@ export function SalesMainPage() {
         setFormData(entry);
         setFormErrors({});
     }
+
     const handleDelete = (entry: ModelType) => {
         setFormData(entry);
         setConfirmDelete(true);
     };
 
     const handleCreateSubmit = async (data: ModelType) => {
+        data.dthRegister = new Date().toISOString();
         try {
             const response = await ApiService.create(data);
             notification.success({
                 message: Words.success,
                 description: SalesWords.createNotificationDescription,
             });
+            setList();
         } catch (error) {
             notification.error({
                 message: Words.error,
@@ -130,6 +175,7 @@ export function SalesMainPage() {
                     message: Words.success,
                     description: SalesWords.updateNotificationDescription,
                 });
+                setList();
             } catch (error) {
                 notification.error({
                     message: Words.error,
@@ -139,7 +185,17 @@ export function SalesMainPage() {
         }
         handleCloseModal();
     }
-    function validateForm(data: ModelType) { }
+
+    function validateForm(data: ModelType) {
+        const errors: Record<string, string> = {};
+
+        if (!data.fk_IdClient) errors.fk_IdClient = SalesWords.clientValidation;
+        if (!data.fk_IdSeller) errors.fk_IdSeller = SalesWords.sellerValidation;
+        if (!data.fk_IdCar) errors.fk_IdCar = SalesWords.carValidation;
+        if (data.price <= 0) errors.price = SalesWords.priceValidation;
+        
+        return errors;
+    }
 
     function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -171,11 +227,19 @@ export function SalesMainPage() {
         const { name, value } = e.target;
         setFormData((prevFormData) => ({
             ...prevFormData,
-            [name]: value,
+            [name]: Number(value),
         }));
         setFormErrors((prevErrors) => ({
             ...prevErrors,
             [name]: '',
+        }));
+    }
+
+    function handleFilterChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
+        const { name, value } = e.target;
+        setFilters((prevFilters) => ({
+            ...prevFilters,
+            [name]: value,
         }));
     }
 
@@ -223,14 +287,14 @@ export function SalesMainPage() {
             title: SalesWords.dthRegister,
             dataIndex: 'dthRegister',
             key: 'dthRegister',
-            render: (text) => <a>{formatDate(new Date(text),dataFormat)}</a>,
+            render: (text) => <a>{formatDate(new Date(text), dataFormat)}</a>,
         },
         {
             title: Words.actions,
             key: 'actions',
             render: (_, record) => (
                 <Space size="middle">
-                    <Button disabled={UserData.userType === Roles.Cliente} onClick={() => handleEdit(record)}>{Words.edit}</Button>
+                    <Button disabled={UserData.userType !== Roles.Adm} onClick={() => handleEdit(record)}>{Words.edit}</Button>
                     <Button disabled={UserData.userType !== Roles.Adm} onClick={() => handleDelete(record)}>{Words.delete}</Button>
                 </Space>
             ),
@@ -239,20 +303,102 @@ export function SalesMainPage() {
 
     return (
         <ModuleContainer>
-            <ModuleContainer>
-                <ModuleTitleStyle>{language.modules.salesModule.label}</ModuleTitleStyle>
-                <FormButton disabled={UserData.userType === Roles.Cliente} onClick={handleCreate}>{Words.create}</FormButton>
-                <Table columns={columns} dataSource={entries} rowKey="idCar" style={{ width: "100%", overflow: 'auto' }} />
-            </ModuleContainer>
-            {confirmDelete && (
+            <ModuleTitleStyle>{language.modules.salesModule.label}</ModuleTitleStyle>
+            <FormButton disabled={UserData.userType === Roles.Cliente} onClick={handleCreate}>{Words.create}</FormButton>
+
+            <div>
+                <FormLabel htmlFor="dthRegistroINI">{SalesWords.dthRegistroINI}</FormLabel>
+                <FormInput type="date" name="dthRegistroINI" onChange={handleFilterChange} value={filters.dthRegistroINI} />
+                
+                <FormLabel htmlFor="dthRegistroFIM">{SalesWords.dthRegistroFIM}</FormLabel>
+                <FormInput type="date" name="dthRegistroFIM" onChange={handleFilterChange} value={filters.dthRegistroFIM} />
+
+                <FormLabel htmlFor="marcaCarro">{CarWords.brand}</FormLabel>
+                <FormSelect name="marcaCarro" onChange={handleFilterChange} value={filters.marcaCarro}>
+                    <option value="">--------</option>
+                    {brands.map((marca) => (
+                        <option key={marca} value={marca}>{marca}</option>
+                    ))}
+                </FormSelect>
+
+                <FormLabel htmlFor="idVendedor">{SalesWords.idVendedor}</FormLabel>
+                <FormSelect name="idVendedor" value={filters.idVendedor} onChange={handleFilterChange}>
+                    <option value="">----------------</option>
+                    {users.filter(user => user.userType === 2).map(user => (
+                        <option key={user.idUser} value={user.idUser}>
+                            {user.nameUser}
+                        </option>
+                    ))}
+                </FormSelect>
+
+                <FormLabel htmlFor="precoINI">{SalesWords.precoINI}</FormLabel>
+                <FormInput type="number" name="precoINI" onChange={handleFilterChange} value={filters.precoINI} />
+
+                <FormLabel htmlFor="precoFIM">{SalesWords.precoFIM}</FormLabel>
+                <FormInput type="number" name="precoFIM" onChange={handleFilterChange} value={filters.precoFIM} />
+
+                <Button onClick={handleFilter}>{Words.filter}</Button>
+            </div>
+
+            <Table columns={columns} dataSource={entries} rowKey="idSale" style={{ width: "100%", overflow: 'auto' }} />
+
+            {showModal && (
                 <Modal>
                     <ModalContent>
-                        <div style={{ display: "flex", flexDirection: "column" }}>
+                        <Button onClick={handleCloseModal}>&times;</Button>
+                        <FormStyle onSubmit={handleSubmit}>
+                            <FormLabel htmlFor="fk_IdClient">{SalesWords.fk_IdClient}</FormLabel>
+                            <FormSelect name="fk_IdClient" value={formData.fk_IdClient ?? ''} onChange={handleOnSelect}>
+                                <option value="">----------------</option>
+                                {users.filter(user => user.userType === 3).map(user => (
+                                    <option key={user.idUser} value={user.idUser}>
+                                        {user.nameUser}
+                                    </option>
+                                ))}
+                            </FormSelect>
+                            {formErrors.fk_IdClient && <FormError>{formErrors.fk_IdClient}</FormError>}
+
+                            <FormLabel htmlFor="fk_IdSeller">{SalesWords.fk_IdSeller}</FormLabel>
+                            <FormSelect name="fk_IdSeller" value={formData.fk_IdSeller ?? ''} onChange={handleOnSelect}>
+                                <option value="">----------------</option>
+                                {users.filter(user => user.userType === 2).map(user => (
+                                    <option key={user.idUser} value={user.idUser}>
+                                        {user.nameUser}
+                                    </option>
+                                ))}
+                            </FormSelect>
+                            {formErrors.fk_IdSeller && <FormError>{formErrors.fk_IdSeller}</FormError>}
+
+                            <FormLabel htmlFor="fk_IdCar">{SalesWords.fk_IdCar}</FormLabel>
+                            <FormSelect name="fk_IdCar" value={formData.fk_IdCar ?? ''} onChange={handleOnSelect}>
+                                <option value="">----------------</option>
+                                {carsWithouSales.map(car => (
+                                    <option key={car.idCar} value={car.idCar}>
+                                        {car.brand} {car.model}
+                                    </option>
+                                ))}
+                            </FormSelect>
+                            {formErrors.fk_IdCar && <FormError>{formErrors.fk_IdCar}</FormError>}
+                            
+                            <FormLabel htmlFor="price">{SalesWords.price}</FormLabel>
+                            <FormInput type="number" name="price" onChange={handleOnChange} value={formData.price || ''} />
+                            {formErrors.price && <FormError>{formErrors.price}</FormError>}
+
+                            <FormButton type="submit">{Words.send}</FormButton>
+                        </FormStyle>
+                    </ModalContent>
+                </Modal>
+            )}
+            
+            {confirmDelete && (
+                <Modal>
+                    <div style={{ display: "flex", alignItems: "center", textAlign: "center", justifyContent: "center" }}>
+                        <ModalContent>
                             <p>{Words.confirmationDeleteMessage}</p>
                             <Button onClick={() => handleConfirmDelete(formData.idSale)}>{Words.confirm}</Button>
                             <Button onClick={() => setConfirmDelete(false)}>{Words.cancel}</Button>
-                        </div>
-                    </ModalContent>
+                        </ModalContent>
+                    </div>
                 </Modal>
             )}
         </ModuleContainer>
