@@ -1,14 +1,16 @@
 import { StaticConfig } from '@renderer/app/config/config';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { FormButton, FormInput, FormLabel } from './layout/form/FormComponents';
 import { Modal, ModalContent } from './layout/modal/ModalComponents';
 import { Button } from 'antd';
+import { LanguageContext } from '@renderer/app/contexts/LanguageContext';
 
 export const LoginPage: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState<string | null>(null);
     const [showModal, setShowModal] = useState(false);
+    const {language} = useContext(LanguageContext)
 
 
     const handleLogin = async (event: React.FormEvent) => {
@@ -42,7 +44,7 @@ export const LoginPage: React.FC = () => {
         <div>
             <form onSubmit={handleLogin}>
                 <div>
-                    <FormLabel>Email:</FormLabel>
+                    <FormLabel>{language.words.email}</FormLabel>
                     <FormInput
                         type="email"
                         value={email}
@@ -51,7 +53,7 @@ export const LoginPage: React.FC = () => {
                     />
                 </div>
                 <div>
-                    <FormLabel>Senha:</FormLabel>
+                    <FormLabel>{language.words.password}</FormLabel>
                     <FormInput
                         type="password"
                         value={password}
@@ -59,14 +61,14 @@ export const LoginPage: React.FC = () => {
                         required
                     />
                 </div>
-                <FormButton type="submit">Login</FormButton>
+                <FormButton type="submit">{language.words.logout}</FormButton>
                 {error && <p style={{ color: 'red' }}>{error}</p>}
                 {showModal && (
                     <Modal>
                         <ModalContent>
                             <div style={{ display: "flex", flexDirection: "column" }}>
-                                <p>Login Realizado</p>
-                                <Button onClick={() => window.location.reload()}>Continuar</Button>
+                                <p>{language.words.loginSuccessfulMessage}</p>
+                                <Button onClick={() => window.location.reload()}>{language.words.continue}</Button>
                             </div>
                         </ModalContent>
                     </Modal>

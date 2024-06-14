@@ -17,15 +17,15 @@ export function ConfigPage() {
         <>
             <ModuleTitleStyle>{Words.config}</ModuleTitleStyle>
             <div style={{ gap: "15px", padding: "20px" }}>
-                <FormLabel>Selecione a Linguagem</FormLabel>
+                <FormLabel>{language.words.selectLanguage}</FormLabel>
                 <LanguageSelect />
-                <FormLabel>Selecione o Tema</FormLabel>
+                <FormLabel>{language.words.selectTheme}</FormLabel>
                 <ThemeSelect />
-                <FormLabel>Selecione o Formato de Data</FormLabel>
+                <FormLabel>{language.words.selectDataFormat}</FormLabel>
                 <DataFormatSelect />
             </div>
 
-            <FormButton onClick={() => setShowModal(true)} >Logout</FormButton>
+            <FormButton onClick={() => setShowModal(true)} >{language.words.logout}</FormButton>
 
             {showModal && (
                 <Modal>

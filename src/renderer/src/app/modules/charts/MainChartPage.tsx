@@ -23,11 +23,12 @@ export function MainChartPage() {
     const [totalRevenue, setTotalRevenue] = useState<number>(0);
     const [topFiveSales, setTopFiveSales] = useState<SalesModel[]>([]);
     const [topSellers, setTopSellers] = useState<{ sellerId: string, sellerName: string, totalSales: number }[]>([]);
-    const { language, dataFormat } = useContext(LanguageContext);
+    const { language } = useContext(LanguageContext);
     const { UserData } = useContext(UserContext);
     const Words = language.words;
     const SalesWords = language.modules.salesModule.words;
     const CarWords = language.modules.carModule.words;
+
     const [filters, setFilters] = useState({
         dthRegistroINI: '',
         dthRegistroFIM: '',
@@ -144,7 +145,6 @@ export function MainChartPage() {
                     <FormLabel htmlFor="dthRegistroFIM">{SalesWords.dthRegistroFIM}</FormLabel>
                     <FormInput type="date" name="dthRegistroFIM" onChange={handleFilterChange} value={filters.dthRegistroFIM} />
                 </div>
-    
                 <div style={{ flexBasis: "100%", textAlign: "center" }}>
                     <Button onClick={handleFilter}>{SalesWords.filter}</Button>
                 </div>
@@ -158,9 +158,17 @@ export function MainChartPage() {
 
                 <Card title={<Title level={3}>{SalesWords.topFiveSales}</Title>} style={{ width: 300 }}>
                     <ul>
-                        {topFiveSales.map((sale) => (
-                            <li key={sale.idSale}><Text>${sale.price}</Text></li>
-                        ))}
+                        {topFiveSales.map((sale) => {
+                            const car = cars.find(car => car.idCar === sale.fk_IdCar);
+                            const seller = users.find(user => user.idUser === sale.fk_IdSeller);
+                            return (
+                                <li key={sale.idSale}>
+                                    <Text>
+                                        {language.modules.carModule.label}: {car?.model} -  {seller?.nameUser}<br/> • {CarWords.price}: ${sale.price}
+                                    </Text>
+                                </li>
+                            )
+                        })}
                     </ul>
                 </Card>
 
