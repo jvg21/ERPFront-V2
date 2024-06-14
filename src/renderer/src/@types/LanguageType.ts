@@ -57,7 +57,11 @@ export type LanguageType = {
         client:string,
         loginSuccessfulMessage:string,
         confirmationLogoutMessage:string,
-        confirmationDeleteMessage:string
+        confirmationDeleteMessage:string,
+        selectLanguage:string,
+        selectTheme:string,
+        selectDataFormat:string
+
         },
     modules:{
         carModule:CarModuleLanguageType,

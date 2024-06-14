@@ -1,6 +1,5 @@
 import { LanguageType } from "../../@types/LanguageType";
 import { CarModuleGerman } from "../modules/car/language/German";
-import { SaleModuleEnglish } from "../modules/sales/language/English";
 import { SaleModuleGerman } from "../modules/sales/language/German";
 import { UserModuleGerman } from "../modules/user/language/German";
 
@@ -34,11 +33,15 @@ export const GermanLanguage: LanguageType = {
         logout: "Abmelden",
         password: "Passwort",
         return: "Zurück",
-        "administator": "Administrator",
-        "client": "Kunde",
-        "seller": "Verkäufer",
-        "female": "weiblich",
-        "male": "männlich"
+        administator: "Administrator",
+        client: "Kunde",
+        seller: "Verkäufer",
+        female: "weiblich",
+        male: "männlich",
+        selectDataFormat: "Datenformat auswählen",
+        selectLanguage: "Sprache auswählen",
+        selectTheme: "Thema auswählen"
+
     
     },
     color:{
