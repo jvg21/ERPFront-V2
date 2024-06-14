@@ -13,6 +13,7 @@ import { getGender } from "@renderer/app/enum/Sexs";
 import { cpfRegex, emailRegex, phoneRegex } from "@renderer/app/regex/Regex";
 import { FormatPhone } from "@renderer/components/utils/FormatPhone";
 import { DataFormat } from "@renderer/app/enum/DataFormat";
+import { getRoles } from "@renderer/app/enum/Admin";
 
 export function UserMainPage() {
     type ModelType = UserModel;
@@ -173,6 +174,18 @@ export function UserMainPage() {
         }));
     }
 
+    function handleOnSelect(e: React.ChangeEvent<HTMLSelectElement>) {
+        const { name, value } = e.target;
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          [name]: name === "sex" ? Number(value) : value,
+        }));
+        setFormErrors((prevErrors) => ({
+          ...prevErrors,
+          [name]: '',
+        }));
+      }
+
     const columns: any[] = [
         {
             title: 'ID',
@@ -216,6 +229,12 @@ export function UserMainPage() {
             key: 'phone',
             render: (text: string) => <a>{text}</a>,
         },
+        {
+            title: Words.user,
+            dataIndex: 'userType',
+            key: 'userType',
+            render: (text: string) => <a>{getRoles(Number(text))}</a>,
+        },
 
         {
             title: Words.actions,
@@ -251,7 +270,7 @@ export function UserMainPage() {
                             <FormInput type="email" name="email" value={formData.email} onChange={handleOnChange} />
                             {formErrors.email && <FormError>{formErrors.email}</FormError>}
                             <FormLabel htmlFor="sex">{UserWords.sex}</FormLabel>
-                            <FormSelect name="sex" value={formData.sex} onChange={handleOnChange}>
+                            <FormSelect name="sex" value={formData.sex} onChange={handleOnSelect}>
                                 <option value="">----------------</option>
                                 <option value={0}>{Words.male}</option>
                                 <option value={1}>{Words.female}</option>

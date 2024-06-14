@@ -10,6 +10,7 @@ import { LanguageContext } from "@renderer/app/contexts/LanguageContext";
 import { Colors, getColorLabel } from "@renderer/app/enum/Colors";
 import { ModuleTitleStyle } from "@renderer/components/Styles";
 import { Branches } from "@renderer/app/enum/Marcas";
+import { UserContext } from "@renderer/app/contexts/UserContext";
 
 export function CarMainPage() {
   type ModelType = CarModel;
@@ -29,6 +30,7 @@ export function CarMainPage() {
   const [formSubmit, setFormSubmit] = useState<string>(StaticConfig.createFormId);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const { language } = useContext(LanguageContext);
+  const { UserData } = useContext(UserContext);
   const Words = language.words;
   const CarWords = language.modules.carModule.words;
 
@@ -226,7 +228,10 @@ export function CarMainPage() {
       render: (_, record) => (
         <Space size="middle">
           <Button onClick={() => handleEdit(record)}>{Words.edit}</Button>
-          <Button onClick={() => handleDelete(record)}>{Words.delete}</Button>
+          {
+
+            UserData.userType === 1 && <Button onClick={() => handleDelete(record)}>{Words.delete}</Button>
+          }
         </Space>
       ),
     }
@@ -236,7 +241,7 @@ export function CarMainPage() {
     <ModuleContainer>
       <ModuleTitleStyle>{language.modules.carModule.label}</ModuleTitleStyle>
       <FormButton onClick={handleCreate}>{Words.create}</FormButton>
-      <Table columns={columns} dataSource={entries} rowKey="idCar" style={{ width: "100%",overflow:'auto' }} />
+      <Table columns={columns} dataSource={entries} rowKey="idCar" style={{ width: "100%", overflow: 'auto' }} />
 
       {showModal &&
         <Modal>

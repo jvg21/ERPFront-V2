@@ -27,7 +27,7 @@ export const LoginPage: React.FC = () => {
 
             const data = await response.json();
             localStorage.setItem(StaticConfig.authTokenKeyString, data.token);
-            localStorage.setItem(StaticConfig.userDataKeyString, data.id);
+            localStorage.setItem(StaticConfig.userDataKeyString, data.idUser);
             setShowModal(true)
         } catch (error) {
             if (error instanceof Error) {

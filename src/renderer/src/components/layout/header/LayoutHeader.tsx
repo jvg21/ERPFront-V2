@@ -1,5 +1,7 @@
 
 import { LanguageContext } from "@renderer/app/contexts/LanguageContext";
+import { UserContext } from "@renderer/app/contexts/UserContext";
+import { getRoles } from "@renderer/app/enum/Admin";
 import { Header } from "antd/es/layout/layout";
 import { useContext } from "react";
 import { FaGear } from "react-icons/fa6";
@@ -27,9 +29,11 @@ const ConfigButton = styled.button`
 export function LayoutHeader(){
     const navigate = useNavigate();
     const {language} = useContext(LanguageContext)
+    const {UserData} = useContext(UserContext)
 
     return(
         <HeaderStyle>
+        {`Olá, ${UserData.nameUser} - ${getRoles(UserData.idUser||3)}`}
         <ConfigButton onClick={()=>navigate('config')}>{language.words.config}<FaGear/></ConfigButton>
         </HeaderStyle>
 
