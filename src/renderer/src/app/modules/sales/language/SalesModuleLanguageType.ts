@@ -26,6 +26,10 @@ export type SalesModuleLanguageType = {
         precoINI:string;
         precoFIM:string;
         filter:string;
+        totalRevenue:string;
+        topFiveSales:string;
+        topSellers:string;
+        
         
 
 

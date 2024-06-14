@@ -27,6 +27,10 @@ export const SaleModuleEnglish: SalesModuleLanguageType = {
         filterNotificationError: "Not filtered",
         idVendedor: "Id saler",
         precoFIM: "Final price",
-        precoINI: "Initial price"
+        precoINI: "Initial price",
+        topFiveSales: "Top Five Sales",
+        topSellers: "Top Sellers",
+        totalRevenue: "Total Revenue"
+
     }
 }
