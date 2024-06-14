@@ -6,4 +6,5 @@ export type ModuleType = {
     path:string,
     element: ReactElement,
     icon: ReactElement,
+    permitionLevel:number
 }
