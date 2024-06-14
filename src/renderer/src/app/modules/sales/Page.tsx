@@ -89,6 +89,7 @@ export function SalesMainPage() {
     }
 
     const handleFilter = async () => {
+        setList()
         try {
             const response = await ApiService.filter(filters);
             if (response) setEntries(response);
@@ -103,6 +104,18 @@ export function SalesMainPage() {
                 description: SalesWords.filterNotificationError,
             });
         }
+    }
+
+    const handleFilterReset = () => {
+        setFilters({
+            dthRegistroINI: '',
+            dthRegistroFIM: '',
+            marcaCarro: '',
+            idVendedor: '',
+            precoINI: '',
+            precoFIM: ''
+        });
+        setList();
     }
 
     const handleConfirmDelete = async (id: number | undefined) => {
@@ -296,7 +309,7 @@ export function SalesMainPage() {
             key: 'actions',
             render: (_, record) => (
                 <Space size="middle">
-                    <Button disabled={UserData.userType !== Roles.Adm} onClick={() => handleEdit(record)}>{Words.edit}</Button>
+                    <Button disabled={UserData.userType === Roles.Cliente} onClick={() => handleEdit(record)}>{Words.edit}</Button>
                     <Button disabled={UserData.userType !== Roles.Adm} onClick={() => handleDelete(record)}>{Words.delete}</Button>
                 </Space>
             ),
@@ -308,7 +321,7 @@ export function SalesMainPage() {
             <ModuleTitleStyle>{language.modules.salesModule.label}</ModuleTitleStyle>
             <FormButton disabled={UserData.userType === Roles.Cliente} onClick={handleCreate}>{Words.create}</FormButton>
 
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}>
+            <div style={{ display: "flex", justifyContent: 'center', alignItems: 'center', flexWrap: "wrap", gap: "1rem" }}>
                 <div style={{ flex: "1" }}>
                     <FormLabel htmlFor="dthRegistroINI">{SalesWords.dthRegistroINI}</FormLabel>
                     <FormInput type="date" name="dthRegistroINI" onChange={handleFilterChange} value={filters.dthRegistroINI} />
@@ -317,7 +330,7 @@ export function SalesMainPage() {
                     <FormLabel htmlFor="dthRegistroFIM">{SalesWords.dthRegistroFIM}</FormLabel>
                     <FormInput type="date" name="dthRegistroFIM" onChange={handleFilterChange} value={filters.dthRegistroFIM} />
                 </div>
-                <div style={{ flex: "1" }}>
+                {/* <div style={{ flex: "1" }}>
                     <FormLabel htmlFor="marcaCarro">{CarWords.brand}</FormLabel>
                     <FormSelect name="marcaCarro" onChange={handleFilterChange} value={filters.marcaCarro}>
                         <option value="">--------</option>
@@ -325,7 +338,7 @@ export function SalesMainPage() {
                             <option key={marca} value={marca}>{marca}</option>
                         ))}
                     </FormSelect>
-                </div>
+                </div> */}
                 <div style={{ flex: "1" }}>
                     <FormLabel htmlFor="idVendedor">{SalesWords.idVendedor}</FormLabel>
                     <FormSelect name="idVendedor" value={filters.idVendedor} onChange={handleFilterChange}>
@@ -345,9 +358,10 @@ export function SalesMainPage() {
                     <FormLabel htmlFor="precoFIM">{SalesWords.precoFIM}</FormLabel>
                     <FormInput type="number" name="precoFIM" onChange={handleFilterChange} value={filters.precoFIM} />
                 </div>
-                <div style={{ flexBasis: "100%", textAlign: "center" }}>
-                    <Button onClick={handleFilter}>{SalesWords.filter}</Button>
-                </div>
+                <div style={{gap:"15px"}}>
+                        <Button onClick={handleFilter}>{SalesWords.filter}</Button>
+                        <Button onClick={handleFilterReset}>{Words.cancel}</Button>
+                    </div>
             </div>
 
             <Table columns={columns} dataSource={entries} rowKey="idSale" style={{ width: "100%", overflow: 'auto' }} />
