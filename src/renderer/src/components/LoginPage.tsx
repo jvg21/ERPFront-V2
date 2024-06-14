@@ -4,6 +4,7 @@ import { FormButton, FormInput, FormLabel } from './layout/form/FormComponents';
 import { Modal, ModalContent } from './layout/modal/ModalComponents';
 import { Button } from 'antd';
 import { LanguageContext } from '@renderer/app/contexts/LanguageContext';
+import { ThemeStyleContext } from '@renderer/app/contexts/ThemeStyleContext';
 
 export const LoginPage: React.FC = () => {
     const [email, setEmail] = useState('');
@@ -11,6 +12,7 @@ export const LoginPage: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     const [showModal, setShowModal] = useState(false);
     const { language } = useContext(LanguageContext)
+    const { themeString } = useContext(ThemeStyleContext)
 
     const handleLogin = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -34,6 +36,7 @@ export const LoginPage: React.FC = () => {
             const data = await response.json();
             localStorage.setItem(StaticConfig.authTokenKeyString, data.token);
             localStorage.setItem(StaticConfig.userDataKeyString, data.idUser);
+            localStorage.setItem(StaticConfig.permitionString, data.userType);
             setShowModal(true);
         } catch (error) {
             if (error instanceof Error) {
@@ -46,7 +49,7 @@ export const LoginPage: React.FC = () => {
 
     return (
         <div>
-            <form onSubmit={handleLogin}>
+            <form onSubmit={handleLogin} style={{background:themeString.style.background,padding:"16px",borderRadius:"5px"}}>
                 <div>
                     <FormLabel>{language.words.email}</FormLabel>
                     <FormInput

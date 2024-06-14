@@ -10,6 +10,7 @@ import { ActiveModules, ActiveModulesIndexes } from '@renderer/app/config/Active
 import { LayoutHeader } from './header/LayoutHeader';
 import styled from 'styled-components';
 import { UserContext } from '@renderer/app/contexts/UserContext';
+import { StaticConfig } from '@renderer/app/config/config';
 
 
 const { Content, Sider } = Layout;
@@ -43,10 +44,9 @@ function getMenuItems() {
   const { UserData } = useContext(UserContext)
   const Items: MenuItem[] = []
   for (let i of ActiveModulesIndexes()) {
-    console.log(UserData)
-    // if (UserData.userType && ActiveModules[i].permitionLevel >= UserData.userType) {
+    const permi = Number(localStorage.getItem(StaticConfig.permitionString))
+    if(ActiveModules[i].permitionLevel>= permi)
       Items.push(assembleItem(i))
-    // }
   }
   return Items;
 }
@@ -61,6 +61,7 @@ const AppLayout = () => {
 
   const onClick: MenuProps['onClick'] = (e) => {
     console.log('click ', e);
+
     navigate(e.key)
   };
 

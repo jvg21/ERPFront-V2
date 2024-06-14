@@ -26,7 +26,7 @@ export function UserContextProvider({ children }: { children: ReactNode }) {
     const fetchUserData = async () => {
       if (Id) {
         const response = await new UserService().getById(Id);
-        setUserData(response || {});
+        setUserData(response||{});
       }
     };
     fetchUserData();
