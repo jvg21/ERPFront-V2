@@ -39,7 +39,8 @@ export const BrazilianLanguage: LanguageType = {
         male:"Masculino",
         selectDataFormat: "Selecionar formato de dados",
         selectLanguage: "Selecionar idioma",
-        selectTheme: "Selecionar tema"
+        selectTheme: "Selecionar tema",
+        charts:"Gráficos"
 
     },
     color:{

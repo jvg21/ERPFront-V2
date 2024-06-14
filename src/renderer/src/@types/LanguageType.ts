@@ -61,6 +61,7 @@ export type LanguageType = {
         selectLanguage:string,
         selectTheme:string,
         selectDataFormat:string
+        charts:string,
 
         },
     modules:{

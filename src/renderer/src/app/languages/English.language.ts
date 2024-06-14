@@ -39,7 +39,8 @@ export const EnglishLanguage: LanguageType = {
         male: "Male",
         selectDataFormat: "Select data format",
         selectLanguage: "Select language",
-        selectTheme: "Select theme"
+        selectTheme: "Select theme",
+        charts:"charts"
     },
     color:{
         red: "Red",
