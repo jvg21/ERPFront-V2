@@ -4,14 +4,14 @@ import { MdAttachMoney } from "react-icons/md";
 import { CarMainPage } from "../modules/car/Page";
 import { FaPerson } from "react-icons/fa6";
 import { UserMainPage } from "../modules/user/Page";
-import { useContext } from "react";
-import { LanguageContext } from "../contexts/LanguageContext";
 import { SalesMainPage } from "../modules/sales/Page";
+import { MainChartPage } from "../modules/charts/MainChartPage";
 
 type ActiveModulesType = {
     carModule: ModuleType,
     personModule: ModuleType,
-    salesModule: ModuleType
+    salesModule: ModuleType,
+    chartModule:ModuleType
 }
 
 
@@ -38,6 +38,15 @@ export const ActiveModules: ActiveModulesType = {
         label: "Sales",
         path: "/Sales",
         element: <SalesMainPage />,
+        icon: <MdAttachMoney />,
+        permitionLevel: 2
+
+    },
+    chartModule: {
+        name: "Chart",
+        label: "Chart",
+        path: "/chart",
+        element: <MainChartPage />,
         icon: <MdAttachMoney />,
         permitionLevel: 2
 
