@@ -32,11 +32,14 @@ export const EnglishLanguage: LanguageType = {
         logout: "Log out",
         password: "Password",
         return: "Return",
-        administator:"administrador",
-        client:"Client",
-        seller:"Seller",
-        female:"Female",
-        male:"Male"
+        administator: "administrador",
+        client: "Client",
+        seller: "Seller",
+        female: "Female",
+        male: "Male",
+        selectDataFormat: "Select data format",
+        selectLanguage: "Select language",
+        selectTheme: "Select theme"
     },
     color:{
         red: "Red",

@@ -1,7 +1,6 @@
 import { LanguageType } from "../../@types/LanguageType";
 import { CarModuleBrazilianPortuguese } from "../modules/car/language/BrazilianPortuguese";
 import { SaleModuleBrazilianPortuguese } from "../modules/sales/language/BrazilianPortuguese";
-import { SaleModuleEnglish } from "../modules/sales/language/English";
 import { UserModuleBrazilianPortuguese } from "../modules/user/language/BrazilianPortuguese";
 
 export const BrazilianLanguage: LanguageType = {
@@ -37,7 +36,11 @@ export const BrazilianLanguage: LanguageType = {
         client:"Cliente",
         seller:"Vendedor",
         female:"Feminino",
-        male:"Masculino"
+        male:"Masculino",
+        selectDataFormat: "Selecionar formato de dados",
+        selectLanguage: "Selecionar idioma",
+        selectTheme: "Selecionar tema"
+
     },
     color:{
         red: "Vermelho",
