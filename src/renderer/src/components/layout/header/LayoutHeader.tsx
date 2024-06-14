@@ -33,7 +33,7 @@ export function LayoutHeader(){
 
     return(
         <HeaderStyle>
-        {`Olá, ${UserData.nameUser} - ${getRoles(UserData.idUser||3)}`}
+        {`Olá, ${UserData.nameUser} - ${getRoles(Number(UserData.userType))}`}
         <ConfigButton onClick={()=>navigate('config')}>{language.words.config}<FaGear/></ConfigButton>
         </HeaderStyle>
 

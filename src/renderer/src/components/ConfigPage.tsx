@@ -4,8 +4,8 @@ import { ModuleTitleStyle } from "./Styles";
 import { FormButton, FormLabel } from "./layout/form/FormComponents";
 import LanguageSelect from "./utils/LanguageSelect";
 import ThemeSelect from "./utils/ThemeSelect";
-import { Button, Modal } from "antd";
-import { ModalContent } from "./layout/modal/ModalComponents";
+import { Button } from "antd";
+import { Modal, ModalContent } from "./layout/modal/ModalComponents";
 import { Logout } from "./utils/Logout";
 import DataFormatSelect from "./utils/DataFormatSelect";
 

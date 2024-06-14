@@ -11,6 +11,7 @@ import { Colors, getColorLabel } from "@renderer/app/enum/Colors";
 import { ModuleTitleStyle } from "@renderer/components/Styles";
 import { Branches } from "@renderer/app/enum/Marcas";
 import { UserContext } from "@renderer/app/contexts/UserContext";
+import { Roles } from "@renderer/app/enum/Admin";
 
 export function CarMainPage() {
   type ModelType = CarModel;
@@ -227,11 +228,8 @@ export function CarMainPage() {
       key: 'actions',
       render: (_, record) => (
         <Space size="middle">
-          <Button onClick={() => handleEdit(record)}>{Words.edit}</Button>
-          {
-
-            UserData.userType === 1 && <Button onClick={() => handleDelete(record)}>{Words.delete}</Button>
-          }
+          {UserData.userType !== Roles.Cliente  && <Button onClick={() => handleEdit(record)}>{Words.edit}</Button>}
+          {UserData.userType === Roles.Adm && <Button onClick={() => handleDelete(record)}>{Words.delete}</Button>}
         </Space>
       ),
     }
@@ -240,7 +238,7 @@ export function CarMainPage() {
   return (
     <ModuleContainer>
       <ModuleTitleStyle>{language.modules.carModule.label}</ModuleTitleStyle>
-      <FormButton onClick={handleCreate}>{Words.create}</FormButton>
+      {UserData.userType !== Roles.Cliente && <FormButton onClick={handleCreate}>{Words.create}</FormButton>}
       <Table columns={columns} dataSource={entries} rowKey="idCar" style={{ width: "100%", overflow: 'auto' }} />
 
       {showModal &&
