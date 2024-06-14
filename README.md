@@ -13,4 +13,4 @@ Styled-Components: Uma biblioteca para React e React Native que permite escrever
 Electron: Framework que permite criar aplicativos de desktop usando tecnologias web (HTML, CSS, JavaScript)
 
 Pré-requisitos
-Node.js e npm (ou yarn) instalados globalmente na máquina.
+Node.js e npm instalados globalmente na máquina.
