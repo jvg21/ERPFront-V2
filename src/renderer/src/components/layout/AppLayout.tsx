@@ -12,6 +12,7 @@ import { LanguageContext } from '@renderer/app/contexts/LanguageContext';
 import { ActiveLanguages } from '@renderer/app/config/ActiveLanguages';
 import { StaticConfig } from '@renderer/app/config/config';
 import styled from 'styled-components';
+import { UserContext } from '@renderer/app/contexts/UserContext';
 
 
 const { Header, Content, Sider } = Layout;
@@ -42,8 +43,10 @@ function assembleItem(id: string) {
 }
 
 function getMenuItems() {
+  const {UserData} = useContext(UserContext)
   const Items: MenuItem[] = []
   for (let i of ActiveModulesIndexes()) {
+    if(UserData.userType && ActiveModules[i].permitionLevel<=UserData.userType)
     Items.push(assembleItem(i))
 
   }

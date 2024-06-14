@@ -16,17 +16,18 @@ export const ActiveModules:ActiveModulesType = {
         path:"/car",
         element: <CarMainPage/>,
         icon: <FaCar />,
+        permitionLevel:3
     },
     personModule:{
         name:"User",
         label:"User",
         path:"/User",
         element:<UserMainPage/>,
-        icon:<FaPerson />
+        icon:<FaPerson />,
+        permitionLevel:2
 
     }
 }
-
 
 export function ActiveModulesIndexes(){
     const indexes:string[] = []

@@ -12,8 +12,8 @@ import { ModuleTitleStyle } from "@renderer/components/Styles";
 import { getGender } from "@renderer/app/enum/Sexs";
 import { cpfRegex, emailRegex, phoneRegex } from "@renderer/app/regex/Regex";
 import { FormatPhone } from "@renderer/components/utils/FormatPhone";
-import { DataFormat } from "@renderer/app/enum/DataFormat";
-import { getRoles } from "@renderer/app/enum/Admin";
+import { Roles, getRoles } from "@renderer/app/enum/Admin";
+import { UserContext } from "@renderer/app/contexts/UserContext";
 
 export function UserMainPage() {
     type ModelType = UserModel;
@@ -35,7 +35,8 @@ export function UserMainPage() {
     const [formData, setFormData] = useState<ModelType>(defaultValue);
     const [formSubmit, setFormSubmit] = useState<string>(StaticConfig.createFormId);
     const [confirmDelete, setConfirmDelete] = useState(false);
-    const { language,dataFormat } = useContext(LanguageContext);
+    const { language, dataFormat } = useContext(LanguageContext);
+    const { UserData } = useContext(UserContext);
     const Words = language.words;
     const UserWords = language.modules.userModule.words;
     const [formErrors, setFormErrors] = useState<Record<string, string>>({});
@@ -161,12 +162,12 @@ export function UserMainPage() {
             }
         }
     }
-    
+
     function handleOnChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
         const { name, value } = e.target;
         setFormData((prevFormData) => ({
             ...prevFormData,
-            [name]: name === 'cpf' ? FormatCPF(value) : name === 'phone'?FormatPhone(value): name === 'data'?new Date(value):value
+            [name]: name === 'cpf' ? FormatCPF(value) : name === 'phone' ? FormatPhone(value) : name === 'data' ? new Date(value) : value
         }));
         setFormErrors((prevErrors) => ({
             ...prevErrors,
@@ -177,14 +178,14 @@ export function UserMainPage() {
     function handleOnSelect(e: React.ChangeEvent<HTMLSelectElement>) {
         const { name, value } = e.target;
         setFormData((prevFormData) => ({
-          ...prevFormData,
-          [name]: name === "sex" ? Number(value) : value,
+            ...prevFormData,
+            [name]: name === "sex" || name==="userType"? Number(value) : value,
         }));
         setFormErrors((prevErrors) => ({
-          ...prevErrors,
-          [name]: '',
+            ...prevErrors,
+            [name]: '',
         }));
-      }
+    }
 
     const columns: any[] = [
         {
@@ -200,10 +201,10 @@ export function UserMainPage() {
             render: (text: string) => <a>{text}</a>,
         },
         {
-            title: UserWords.birth + " (" + dataFormat +")",
+            title: UserWords.birth + " (" + dataFormat + ")",
             dataIndex: 'birth',
             key: 'birth',
-            render: (text: string) => <a>{formatDate(new Date(text),dataFormat)}</a>,
+            render: (text: string) => <a>{formatDate(new Date(text), dataFormat)}</a>,
         },
         {
             title: UserWords.cpf,
@@ -241,8 +242,8 @@ export function UserMainPage() {
             key: 'actions',
             render: (_: any, record: ModelType) => (
                 <Space size="middle">
-                    <Button onClick={() => handleEdit(record)}>{Words.edit}</Button>
-                    <Button onClick={() => handleDelete(record)}>{Words.delete}</Button>
+                    <Button disabled={UserData.userType !== Roles.Adm} onClick={() => handleEdit(record)}>{Words.edit}</Button>
+                    <Button disabled={UserData.userType !== Roles.Adm} onClick={() => handleDelete(record)}>{Words.delete}</Button>
                 </Space>
             ),
         }
@@ -251,8 +252,8 @@ export function UserMainPage() {
     return (
         <ModuleContainer>
             <ModuleTitleStyle>{language.modules.userModule.label}</ModuleTitleStyle>
-            <FormButton onClick={() => handleCreate()}>{Words.create}</FormButton>
-            <Table columns={columns} dataSource={entries} rowKey="UserKey" style={{ width: "100%",overflow:'auto' }} />
+            <FormButton disabled={UserData.userType === Roles.Cliente} onClick={() => handleCreate()}>{Words.create}</FormButton>
+            <Table columns={columns} dataSource={entries} rowKey="UserKey" style={{ width: "100%", overflow: 'auto' }} />
 
             {showModal && (
                 <Modal>
@@ -277,11 +278,25 @@ export function UserMainPage() {
                             </FormSelect>
                             {formErrors.sex && <FormError>{formErrors.sex}</FormError>}
                             <FormLabel htmlFor="phone">{UserWords.phone}</FormLabel>
-                            <FormInput type="text" name="phone" onChange={handleOnChange} placeholder={UserWords.placeholderPhone} value={formData.phone} maxLength={14}/>
+                            <FormInput type="text" name="phone" onChange={handleOnChange} placeholder={UserWords.placeholderPhone} value={formData.phone} maxLength={14} />
                             {formErrors.phone && <FormError>{formErrors.phone}</FormError>}
                             <FormLabel htmlFor="cpf">{UserWords.cpf}</FormLabel>
                             <FormInput type="text" maxLength={14} minLength={14} name="cpf" onChange={handleOnChange} placeholder={UserWords.placeholderCpf} value={formData.cpf} />
                             {formErrors.cpf && <FormError>{formErrors.cpf}</FormError>}
+                            <FormLabel htmlFor="userType">{Words.user}</FormLabel>
+                            <FormSelect
+                                name="userType"
+                                onChange={handleOnSelect}
+                                value={formData.userType}
+                                disabled={UserData.userType !== Roles.Adm}
+                            >
+                                {Object.keys(Roles).filter(key => isNaN(Number(key))).map((key ,index)=> (
+                                    <option key={Roles[key]} value={index+1}>
+                                        {key}
+                                    </option>
+                                ))}
+                            </FormSelect>
+                            <FormInput type="hidden" name="password" value={formData.password}/>
                             <FormButton type="submit">{Words.send}</FormButton>
                         </FormStyle>
                     </ModalContent>

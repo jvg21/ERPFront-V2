@@ -228,8 +228,8 @@ export function CarMainPage() {
       key: 'actions',
       render: (_, record) => (
         <Space size="middle">
-          {UserData.userType !== Roles.Cliente  && <Button onClick={() => handleEdit(record)}>{Words.edit}</Button>}
-          {UserData.userType === Roles.Adm && <Button onClick={() => handleDelete(record)}>{Words.delete}</Button>}
+          <Button disabled={UserData.userType === Roles.Cliente} onClick={() => handleEdit(record)}>{Words.edit}</Button>
+          <Button disabled={UserData.userType !== Roles.Adm} onClick={() => handleDelete(record)}>{Words.delete}</Button>
         </Space>
       ),
     }
@@ -238,7 +238,7 @@ export function CarMainPage() {
   return (
     <ModuleContainer>
       <ModuleTitleStyle>{language.modules.carModule.label}</ModuleTitleStyle>
-      {UserData.userType !== Roles.Cliente && <FormButton onClick={handleCreate}>{Words.create}</FormButton>}
+      <FormButton disabled={UserData.userType === Roles.Cliente} onClick={handleCreate}>{Words.create}</FormButton>
       <Table columns={columns} dataSource={entries} rowKey="idCar" style={{ width: "100%", overflow: 'auto' }} />
 
       {showModal &&
@@ -300,6 +300,7 @@ export function CarMainPage() {
                 <option value="2015">2015</option>
                 <option value="2014">2014</option>
               </FormSelect>
+              
               {formErrors.year && <FormError>{formErrors.year}</FormError>}
               <FormButton type="submit">{Words.send}</FormButton>
             </FormStyle>

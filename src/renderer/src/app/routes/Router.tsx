@@ -10,7 +10,7 @@ export default function DashRoutes() {
     return (
         <>
             <Routes>
-                <Route path="/" element={<a />} />
+                <Route path="/" element={<CarMainPage/>} />
                 <Route path="/car" element={<CarMainPage />} />
                 <Route path="/config" element={<ConfigPage />} />
                 <Route path="/login" element={<LoginPage />} />
