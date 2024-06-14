@@ -15,6 +15,8 @@ import { FormatPhone } from "@renderer/components/utils/FormatPhone";
 import { Roles, getRoles } from "@renderer/app/enum/Admin";
 import { UserContext } from "@renderer/app/contexts/UserContext";
 
+// Nova Regex para validação de senha
+
 export function UserMainPage() {
     type ModelType = UserModel;
     const ApiService = new UserService();
@@ -35,6 +37,7 @@ export function UserMainPage() {
     const [formData, setFormData] = useState<ModelType>(defaultValue);
     const [formSubmit, setFormSubmit] = useState<string>(StaticConfig.createFormId);
     const [confirmDelete, setConfirmDelete] = useState(false);
+    const [showPasswordField, setShowPasswordField] = useState(false);
     const { language, dataFormat } = useContext(LanguageContext);
     const { UserData } = useContext(UserContext);
     const Words = language.words;
@@ -52,6 +55,7 @@ export function UserMainPage() {
 
     function handleCloseModal() {
         setShowModal(false);
+        setShowPasswordField(false);
         setFormData(defaultValue);
         setFormErrors({});
     }
@@ -59,6 +63,7 @@ export function UserMainPage() {
     function handleCreate() {
         setFormSubmit(StaticConfig.createFormId);
         setShowModal(true);
+        setShowPasswordField(true);
         setFormData(defaultValue);
         setFormErrors({});
         setList();
@@ -67,6 +72,7 @@ export function UserMainPage() {
     function handleEdit(entry: ModelType) {
         setFormSubmit(StaticConfig.updateFormId);
         setShowModal(true);
+        setShowPasswordField(false);
         setFormData(entry);
         setFormErrors({});
         setList();
@@ -133,6 +139,17 @@ export function UserMainPage() {
         handleCloseModal();
     };
 
+    const handleUpdatePassword = async () => {
+        const response = await ApiService.update(formData.idUser, formData);
+        if (response) {
+            notification.success({
+                message: Words.success,
+                description: UserWords.updatePasswordSuccess,
+            });
+            setList();
+        }
+    }
+
     function validateForm(data: ModelType): Record<string, string> {
         const errors: Record<string, string> = {};
 
@@ -150,8 +167,10 @@ export function UserMainPage() {
         else if (!emailRegex.test(data.email)) errors.email = UserWords.emailFormatValidation;
         if (!data.phone) errors.phone = UserWords.phoneValidation;
         else if (!phoneRegex.test(data.phone)) errors.phone = UserWords.phoneFormatValidation;
-        if (!data.password) errors.password = UserWords.passwordValidation;
-        else if (!passwordRegex.test(data.password)) errors.password = UserWords.passwordFormatValidation;
+        if (showPasswordField) {
+            if (!data.password) errors.password = UserWords.passwordValidation;
+            else if (!passwordRegex.test(data.password)) errors.password = UserWords.passwordFormatValidation;
+        }
 
         return errors;
     }
@@ -243,7 +262,6 @@ export function UserMainPage() {
             key: 'userType',
             render: (text: string) => <a>{getRoles(Number(text))}</a>,
         },
-
         {
             title: Words.actions,
             key: 'actions',
@@ -270,36 +288,32 @@ export function UserMainPage() {
                             <FormInput type="hidden" name="idUser" disabled value={formData.idUser} />
                             <FormLabel htmlFor="nameUser">{UserWords.name}</FormLabel>
                             <FormInput type="text" name="nameUser" onChange={handleOnChange} placeholder={UserWords.placeholderName} value={formData.nameUser} />
-                            {formErrors.nameUser && <FormError>{formErrors.nameUser}</FormError>}
-
+                            {formErrors.nameUser && <FormError>{formErrors.nameUser}</FormError>} 
+                            
                             <FormLabel htmlFor="birth">{UserWords.birth}</FormLabel>
                             <FormInput type="date" name="birth" value={formData.birth} onChange={handleOnChange} />
                             {formErrors.birth && <FormError>{formErrors.birth}</FormError>}
-
+                            
                             <FormLabel htmlFor="email">{Words.email}</FormLabel>
                             <FormInput type="email" name="email" value={formData.email} onChange={handleOnChange} />
                             {formErrors.email && <FormError>{formErrors.email}</FormError>}
-
-                            <FormLabel htmlFor="password">{Words.password}</FormLabel>
-                            <FormInput type="text" name="password" value={formData.password} onChange={handleOnChange} placeholder={UserWords.passwordPlaceholder} />
-                            {formErrors.password && <FormError>{formErrors.password}</FormError>}
-
+                            
                             <FormLabel htmlFor="sex">{UserWords.sex}</FormLabel>
                             <FormSelect name="sex" value={formData.sex} onChange={handleOnSelect}>
                                 <option value="">----------------</option>
-                                <option value={0}>{Words.male}</option>
-                                <option value={1}>{Words.female}</option>
+                                <option value={1}>{Words.male}</option>
+                                <option value={2}>{Words.female}</option>
                             </FormSelect>
                             {formErrors.sex && <FormError>{formErrors.sex}</FormError>}
-
+                            
                             <FormLabel htmlFor="phone">{UserWords.phone}</FormLabel>
                             <FormInput type="text" name="phone" onChange={handleOnChange} placeholder={UserWords.placeholderPhone} value={formData.phone} maxLength={14} />
                             {formErrors.phone && <FormError>{formErrors.phone}</FormError>}
-
+                            
                             <FormLabel htmlFor="cpf">{UserWords.cpf}</FormLabel>
                             <FormInput type="text" maxLength={14} minLength={14} name="cpf" onChange={handleOnChange} placeholder={UserWords.placeholderCpf} value={formData.cpf} />
                             {formErrors.cpf && <FormError>{formErrors.cpf}</FormError>}
-
+                            
                             <FormLabel htmlFor="userType">{Words.user}</FormLabel>
                             <FormSelect
                                 name="userType"
@@ -313,8 +327,20 @@ export function UserMainPage() {
                                     </option>
                                 ))}
                             </FormSelect>
+                            
+                            {showPasswordField && (
+                                <>
+                                    <FormLabel htmlFor="password">{Words.password}</FormLabel>
+                                    <FormInput type="text" name="password" value={formData.password} onChange={handleOnChange} placeholder={UserWords.passwordPlaceholder} />
+                                    {formErrors.password && <FormError>{formErrors.password}</FormError>}
+                                </>
+                            )}
+
                             <FormButton type="submit">{Words.send}</FormButton>
                         </FormStyle>
+                        {formSubmit === StaticConfig.updateFormId && !showPasswordField && (
+                            <Button onClick={() => setShowPasswordField(true)}>{UserWords.changePassword}</Button>
+                        )}
                     </ModalContent>
                 </Modal>
             )}

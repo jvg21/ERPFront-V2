@@ -34,6 +34,8 @@ export const UserModuleSpanish: UserModuleLanguageType = {
         updateNotificationError: "Error al actualizar el usuario",
         passwordFormatValidation: "Formato de Contraseña Inválido",
         passwordValidation: "Contraseña Inválida",
-        passwordPlaceholder:"Ingrese una Contraseña"
+        passwordPlaceholder:"Ingrese una Contraseña",
+        updatePasswordSuccess:"Usuario actualizado",
+        changePassword:"Actualiza contraseña"
     }
 };

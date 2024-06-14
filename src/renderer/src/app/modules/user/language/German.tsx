@@ -34,6 +34,8 @@ export const UserModuleGerman: UserModuleLanguageType = {
         updateNotificationError: "Fehler beim Aktualisieren des Benutzers",
         passwordFormatValidation: "Ungültiges Passwortformat",
         passwordValidation: "Ungültiges Passwort",
-        passwordPlaceholder:"Geben Sie ein Passwort ein"
+        passwordPlaceholder:"Geben Sie ein Passwort ein",
+        updatePasswordSuccess:"Benutzer aktualisiert",
+        changePassword:"Benutzer aktualisiert"
     }
 };

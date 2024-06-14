@@ -34,6 +34,8 @@ export const UserModuleBrazilianPortuguese: UserModuleLanguageType = {
         updateNotificationError: "Erro ao atualizar o usuário",
         passwordFormatValidation: "Formato de Senha Inválido",
         passwordValidation: "Senha Inválida",
-        passwordPlaceholder:"Insira um nome"
+        passwordPlaceholder:"Insira um nome",
+        updatePasswordSuccess:"Senha Atualizada",
+        changePassword:"Alterar senha"
     }
 };

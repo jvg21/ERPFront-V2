@@ -34,7 +34,9 @@ export const UserModuleEnglish: UserModuleLanguageType = {
         updateNotificationError: "Error updating user",
         passwordFormatValidation:"Password Format Invalid",
         passwordValidation:"Password Invalid",
-        passwordPlaceholder:"Insert a Password"
+        passwordPlaceholder:"Insert a Password",
+        updatePasswordSuccess:"User successfully updated",
+        changePassword:"Change Password"
         
     }
 };

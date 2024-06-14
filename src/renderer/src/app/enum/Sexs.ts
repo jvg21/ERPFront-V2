@@ -2,8 +2,8 @@ import { useContext } from "react";
 import { LanguageContext } from "../contexts/LanguageContext";
 
 export enum Sexs{
-    Male = 0,
-    Female = 1
+    Male = 1,
+    Female = 2
 }
 
 
@@ -12,7 +12,7 @@ export function getGender(Value: number): string {
     const Words = language.words;
 
     switch(Value){
-        case 0:
+        case 1:
             return Words.male
         default:
             return Words.female

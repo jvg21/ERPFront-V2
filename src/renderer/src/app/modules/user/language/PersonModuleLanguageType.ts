@@ -32,6 +32,8 @@ export type UserModuleLanguageType = {
         createNotificationError: string,
         passwordValidation:string,
         passwordFormatValidation:string,
-        passwordPlaceholder:string
+        passwordPlaceholder:string,
+        updatePasswordSuccess:string,
+        changePassword:string
     }
 };
