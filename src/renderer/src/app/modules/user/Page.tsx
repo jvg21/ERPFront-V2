@@ -93,6 +93,7 @@ export function UserMainPage() {
 
     const handleCreateSubmit = async (event: React.FormEvent<HTMLFormElement>, data: ModelType) => {
         event.preventDefault();
+        data.password = data.email
         try {
             const response = await ApiService.create(data);
             notification.success({
@@ -167,7 +168,7 @@ export function UserMainPage() {
         const { name, value } = e.target;
         setFormData((prevFormData) => ({
             ...prevFormData,
-            [name]: name === 'cpf' ? FormatCPF(value) : name === 'phone' ? FormatPhone(value) : name === 'data' ? new Date(value) : value
+            [name]: name === 'cpf' ? FormatCPF(value) : name === 'phone' ? FormatPhone(value) : name === 'data' ? new Date(value).toISOString() : value
         }));
         setFormErrors((prevErrors) => ({
             ...prevErrors,
@@ -296,7 +297,6 @@ export function UserMainPage() {
                                     </option>
                                 ))}
                             </FormSelect>
-                            <FormInput type="hidden" name="password" value={formData.password}/>
                             <FormButton type="submit">{Words.send}</FormButton>
                         </FormStyle>
                     </ModalContent>

@@ -1,5 +1,6 @@
 import { LanguageType } from "../../@types/LanguageType";
 import { CarModuleSpanish } from "../modules/car/language/Spanish";
+import { SaleModuleEnglish } from "../modules/sales/language/English";
 import { UserModuleSpanish } from "../modules/user/language/Spanish";
 
 export const SpanishLanguage: LanguageType = {
@@ -59,6 +60,7 @@ export const SpanishLanguage: LanguageType = {
     },
     modules: {
         carModule: CarModuleSpanish,
-        userModule: UserModuleSpanish
+        userModule: UserModuleSpanish,
+        salesModule: SaleModuleEnglish
     }
 }
