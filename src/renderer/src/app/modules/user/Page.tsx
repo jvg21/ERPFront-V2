@@ -12,6 +12,7 @@ import { ModuleTitleStyle } from "@renderer/components/Styles";
 import { getGender } from "@renderer/app/enum/Sexs";
 import { cpfRegex, emailRegex, phoneRegex } from "@renderer/app/regex/Regex";
 import { FormatPhone } from "@renderer/components/utils/FormatPhone";
+import { DataFormat } from "@renderer/app/enum/DataFormat";
 
 export function UserMainPage() {
     type ModelType = UserModel;
@@ -33,7 +34,7 @@ export function UserMainPage() {
     const [formData, setFormData] = useState<ModelType>(defaultValue);
     const [formSubmit, setFormSubmit] = useState<string>(StaticConfig.createFormId);
     const [confirmDelete, setConfirmDelete] = useState(false);
-    const { language } = useContext(LanguageContext);
+    const { language,dataFormat } = useContext(LanguageContext);
     const Words = language.words;
     const UserWords = language.modules.userModule.words;
     const [formErrors, setFormErrors] = useState<Record<string, string>>({});
@@ -164,7 +165,7 @@ export function UserMainPage() {
         const { name, value } = e.target;
         setFormData((prevFormData) => ({
             ...prevFormData,
-            [name]: name === 'cpf' ? FormatCPF(value) : name === 'phone'?FormatPhone(value): value
+            [name]: name === 'cpf' ? FormatCPF(value) : name === 'phone'?FormatPhone(value): name === 'data'?new Date(value):value
         }));
         setFormErrors((prevErrors) => ({
             ...prevErrors,
@@ -186,10 +187,10 @@ export function UserMainPage() {
             render: (text: string) => <a>{text}</a>,
         },
         {
-            title: UserWords.birth,
+            title: UserWords.birth + " (" + dataFormat +")",
             dataIndex: 'birth',
             key: 'birth',
-            render: (text: string) => <a>{formatDate(new Date(text), 'DD-MM-YYYY')}</a>,
+            render: (text: string) => <a>{formatDate(new Date(text),dataFormat)}</a>,
         },
         {
             title: UserWords.cpf,
@@ -215,6 +216,7 @@ export function UserMainPage() {
             key: 'phone',
             render: (text: string) => <a>{text}</a>,
         },
+
         {
             title: Words.actions,
             key: 'actions',
@@ -231,7 +233,7 @@ export function UserMainPage() {
         <ModuleContainer>
             <ModuleTitleStyle>{language.modules.userModule.label}</ModuleTitleStyle>
             <FormButton onClick={() => handleCreate()}>{Words.create}</FormButton>
-            <Table columns={columns} dataSource={entries} style={{ width: "90%" }} />
+            <Table columns={columns} dataSource={entries} rowKey="UserKey" style={{ width: "100%",overflow:'auto' }} />
 
             {showModal && (
                 <Modal>

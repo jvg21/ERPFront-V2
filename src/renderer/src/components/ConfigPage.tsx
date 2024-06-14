@@ -7,6 +7,7 @@ import ThemeSelect from "./utils/ThemeSelect";
 import { Button, Modal } from "antd";
 import { ModalContent } from "./layout/modal/ModalComponents";
 import { Logout } from "./utils/Logout";
+import DataFormatSelect from "./utils/DataFormatSelect";
 
 export function ConfigPage() {
     const [showModal, setShowModal] = useState(false);
@@ -20,6 +21,8 @@ export function ConfigPage() {
                 <LanguageSelect />
                 <FormLabel>Selecione o Tema</FormLabel>
                 <ThemeSelect />
+                <FormLabel>Selecione o Formato de Data</FormLabel>
+                <DataFormatSelect />
             </div>
 
             <FormButton onClick={() => setShowModal(true)} >Logout</FormButton>

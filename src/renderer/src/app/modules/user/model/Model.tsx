@@ -7,5 +7,5 @@ export type UserModel = {
     password:string,
     phone:string,
     email:string,
-    userType:1
+    userType:number
 }

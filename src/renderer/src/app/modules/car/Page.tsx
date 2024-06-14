@@ -236,7 +236,7 @@ export function CarMainPage() {
     <ModuleContainer>
       <ModuleTitleStyle>{language.modules.carModule.label}</ModuleTitleStyle>
       <FormButton onClick={handleCreate}>{Words.create}</FormButton>
-      <Table columns={columns} dataSource={entries} rowKey="idCar" style={{ width: "90%" }} />
+      <Table columns={columns} dataSource={entries} rowKey="idCar" style={{ width: "100%",overflow:'auto' }} />
 
       {showModal &&
         <Modal>

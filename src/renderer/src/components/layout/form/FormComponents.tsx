@@ -37,7 +37,7 @@ export const FormSelect = styled.select`
 
 export const FormButton = styled.button`
   background-color: ${(props)=>props.theme.accent};
-  color: ${(props)=>props.theme.white};
+  color: ${(props)=>props.theme.secondaryText};
   border: none;
   border-radius: 2px;
   min-width: 50%;

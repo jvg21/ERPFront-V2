@@ -7,7 +7,7 @@ export const LightTheme: ThemeType = {
         background: '#FFFFFF',
         secondaryBackground: '#EFEFEF',
         text: '#1A1A1A',
-        secondaryText: '#404040',
+        secondaryText: '#EFEFEF',
         accent: '#521888',
         secondaryAccent: '#6d11c2',
         error: '#E53935',
