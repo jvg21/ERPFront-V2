@@ -31,6 +31,9 @@ export const UserModuleGerman: UserModuleLanguageType = {
         confirmDeleteDescription: "Benutzer erfolgreich gelöscht",
         confirmUpdateDescription: "Benutzer erfolgreich aktualisiert",
         createNotificationError: "Fehler beim Erstellen des Benutzers",
-        updateNotificationError: "Fehler beim Aktualisieren des Benutzers"
+        updateNotificationError: "Fehler beim Aktualisieren des Benutzers",
+        passwordFormatValidation: "Ungültiges Passwortformat",
+        passwordValidation: "Ungültiges Passwort",
+        passwordPlaceholder:"Geben Sie ein Passwort ein"
     }
 };

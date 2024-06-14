@@ -10,7 +10,7 @@ import { UserModel } from "./model/Model";
 import { UserService } from "./service/Service";
 import { ModuleTitleStyle } from "@renderer/components/Styles";
 import { getGender } from "@renderer/app/enum/Sexs";
-import { cpfRegex, emailRegex, phoneRegex } from "@renderer/app/regex/Regex";
+import { cpfRegex, emailRegex, passwordRegex, phoneRegex } from "@renderer/app/regex/Regex";
 import { FormatPhone } from "@renderer/components/utils/FormatPhone";
 import { Roles, getRoles } from "@renderer/app/enum/Admin";
 import { UserContext } from "@renderer/app/contexts/UserContext";
@@ -27,7 +27,7 @@ export function UserMainPage() {
         password: '',
         phone: '',
         email: '',
-        userType: 1
+        userType: 3
     };
 
     const [entries, setEntries] = useState<ModelType[]>([]);
@@ -93,13 +93,15 @@ export function UserMainPage() {
 
     const handleCreateSubmit = async (event: React.FormEvent<HTMLFormElement>, data: ModelType) => {
         event.preventDefault();
-        data.password = data.email
         try {
             const response = await ApiService.create(data);
-            notification.success({
-                message: Words.success,
-                description: UserWords.createNotificationDescription,
-            });
+            if (response) {
+                notification.success({
+                    message: Words.success,
+                    description: UserWords.createNotificationDescription,
+                });
+            }
+            setList();
         } catch (error) {
             notification.error({
                 message: Words.error,
@@ -114,10 +116,13 @@ export function UserMainPage() {
         try {
             if (data.idUser) {
                 const response = await ApiService.update(data.idUser, data);
-                notification.success({
-                    message: Words.success,
-                    description: UserWords.updateNotificationDescription,
-                });
+                if (response) {
+                    notification.success({
+                        message: Words.success,
+                        description: UserWords.updateNotificationDescription,
+                    });
+                    setList();
+                }
             }
         } catch (error) {
             notification.error({
@@ -128,7 +133,7 @@ export function UserMainPage() {
         handleCloseModal();
     };
 
-    function validateForm(data: ModelType) {
+    function validateForm(data: ModelType): Record<string, string> {
         const errors: Record<string, string> = {};
 
         if (!data.nameUser) errors.nameUser = UserWords.nameValidation;
@@ -145,6 +150,8 @@ export function UserMainPage() {
         else if (!emailRegex.test(data.email)) errors.email = UserWords.emailFormatValidation;
         if (!data.phone) errors.phone = UserWords.phoneValidation;
         else if (!phoneRegex.test(data.phone)) errors.phone = UserWords.phoneFormatValidation;
+        if (!data.password) errors.password = UserWords.passwordValidation;
+        else if (!passwordRegex.test(data.password)) errors.password = UserWords.passwordFormatValidation;
 
         return errors;
     }
@@ -153,9 +160,8 @@ export function UserMainPage() {
         event.preventDefault();
         if (formData.birth) formData.birth = formatDateToISO(new Date(formData.birth));
         const errors = validateForm(formData);
-        if (Object.keys(errors).length > 0) {
-            setFormErrors(errors);
-        } else {
+        setFormErrors(errors);
+        if (Object.keys(errors).length === 0) {
             if (formSubmit === StaticConfig.createFormId) {
                 handleCreateSubmit(event, formData);
             } else if (formSubmit === StaticConfig.updateFormId) {
@@ -265,12 +271,19 @@ export function UserMainPage() {
                             <FormLabel htmlFor="nameUser">{UserWords.name}</FormLabel>
                             <FormInput type="text" name="nameUser" onChange={handleOnChange} placeholder={UserWords.placeholderName} value={formData.nameUser} />
                             {formErrors.nameUser && <FormError>{formErrors.nameUser}</FormError>}
+
                             <FormLabel htmlFor="birth">{UserWords.birth}</FormLabel>
                             <FormInput type="date" name="birth" value={formData.birth} onChange={handleOnChange} />
                             {formErrors.birth && <FormError>{formErrors.birth}</FormError>}
+
                             <FormLabel htmlFor="email">{Words.email}</FormLabel>
                             <FormInput type="email" name="email" value={formData.email} onChange={handleOnChange} />
                             {formErrors.email && <FormError>{formErrors.email}</FormError>}
+
+                            <FormLabel htmlFor="password">{Words.password}</FormLabel>
+                            <FormInput type="text" name="password" value={formData.password} onChange={handleOnChange} placeholder={UserWords.passwordPlaceholder} />
+                            {formErrors.password && <FormError>{formErrors.password}</FormError>}
+
                             <FormLabel htmlFor="sex">{UserWords.sex}</FormLabel>
                             <FormSelect name="sex" value={formData.sex} onChange={handleOnSelect}>
                                 <option value="">----------------</option>
@@ -278,12 +291,15 @@ export function UserMainPage() {
                                 <option value={1}>{Words.female}</option>
                             </FormSelect>
                             {formErrors.sex && <FormError>{formErrors.sex}</FormError>}
+
                             <FormLabel htmlFor="phone">{UserWords.phone}</FormLabel>
                             <FormInput type="text" name="phone" onChange={handleOnChange} placeholder={UserWords.placeholderPhone} value={formData.phone} maxLength={14} />
                             {formErrors.phone && <FormError>{formErrors.phone}</FormError>}
+
                             <FormLabel htmlFor="cpf">{UserWords.cpf}</FormLabel>
                             <FormInput type="text" maxLength={14} minLength={14} name="cpf" onChange={handleOnChange} placeholder={UserWords.placeholderCpf} value={formData.cpf} />
                             {formErrors.cpf && <FormError>{formErrors.cpf}</FormError>}
+
                             <FormLabel htmlFor="userType">{Words.user}</FormLabel>
                             <FormSelect
                                 name="userType"

@@ -31,6 +31,10 @@ export const UserModuleEnglish: UserModuleLanguageType = {
         confirmDeleteDescription: "User successfully deleted",
         confirmUpdateDescription: "User successfully updated",
         createNotificationError: "Error creating user",
-        updateNotificationError: "Error updating user"
+        updateNotificationError: "Error updating user",
+        passwordFormatValidation:"Password Format Invalid",
+        passwordValidation:"Password Invalid",
+        passwordPlaceholder:"Insert a Password"
+        
     }
 };

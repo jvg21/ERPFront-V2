@@ -29,6 +29,9 @@ export type UserModuleLanguageType = {
         confirmCreateDescription: string,
         confirmUpdateDescription: string,
         updateNotificationError: string,
-        createNotificationError: string
+        createNotificationError: string,
+        passwordValidation:string,
+        passwordFormatValidation:string,
+        passwordPlaceholder:string
     }
 };

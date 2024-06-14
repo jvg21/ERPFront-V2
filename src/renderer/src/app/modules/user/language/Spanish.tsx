@@ -31,6 +31,9 @@ export const UserModuleSpanish: UserModuleLanguageType = {
         confirmDeleteDescription: "Usuario eliminado exitosamente",
         confirmUpdateDescription: "Usuario actualizado exitosamente",
         createNotificationError: "Error al crear el usuario",
-        updateNotificationError: "Error al actualizar el usuario"
+        updateNotificationError: "Error al actualizar el usuario",
+        passwordFormatValidation: "Formato de Contraseña Inválido",
+        passwordValidation: "Contraseña Inválida",
+        passwordPlaceholder:"Ingrese una Contraseña"
     }
 };

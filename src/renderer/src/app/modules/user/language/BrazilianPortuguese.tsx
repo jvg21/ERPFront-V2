@@ -31,6 +31,9 @@ export const UserModuleBrazilianPortuguese: UserModuleLanguageType = {
         confirmDeleteDescription: "Usuário deletado com sucesso",
         confirmUpdateDescription: "Usuário atualizado com sucesso",
         createNotificationError: "Erro ao criar o usuário",
-        updateNotificationError: "Erro ao atualizar o usuário"
+        updateNotificationError: "Erro ao atualizar o usuário",
+        passwordFormatValidation: "Formato de Senha Inválido",
+        passwordValidation: "Senha Inválida",
+        passwordPlaceholder:"Insira um nome"
     }
 };
