@@ -29,7 +29,7 @@ export function SalesMainPage() {
 
     const [entries, setEntries] = useState<ModelType[]>([]);
     const [cars, setCars] = useState<CarModel[]>([]);
-    const [carsWithouSales, setCarsWithouSales] = useState<CarModel[]>([]);
+    const [carsWithoutSales, setCarsWithoutSales] = useState<CarModel[]>([]);
     const [users, setUsers] = useState<UserModel[]>([]);
     const [brands, setBrands] = useState<string[]>([]);
     const [showModal, setShowModal] = useState(false);
@@ -40,7 +40,7 @@ export function SalesMainPage() {
     const { UserData } = useContext(UserContext);
     const Words = language.words;
     const SalesWords = language.modules.salesModule.words;
-    const CarWords = language.modules.carModule.words
+    const CarWords = language.modules.carModule.words;
     const [formErrors, setFormErrors] = useState<Record<string, string>>({});
     const [filters, setFilters] = useState({
         dthRegistroINI: '',
@@ -67,10 +67,12 @@ export function SalesMainPage() {
             if (allCars) {
                 const soldCarIds = new Set(sales.map(sale => sale.fk_IdCar));
                 const carsWithoutSales = allCars.filter(car => {
-                    if(car.idCar)!soldCarIds.has(car.idCar)
-                    
+                    if (car.idCar) {
+                        !soldCarIds.has(car.idCar)
+                    }
                 });
-                setCarsWithouSales(carsWithoutSales);
+                setCarsWithoutSales(carsWithoutSales);
+                setCars(allCars);
 
                 const uniqueBrands = Array.from(new Set(allCars.map(car => car.brand)));
                 setBrands(uniqueBrands);
@@ -193,7 +195,7 @@ export function SalesMainPage() {
         if (!data.fk_IdSeller) errors.fk_IdSeller = SalesWords.sellerValidation;
         if (!data.fk_IdCar) errors.fk_IdCar = SalesWords.carValidation;
         if (data.price <= 0) errors.price = SalesWords.priceValidation;
-        
+
         return errors;
     }
 
@@ -306,38 +308,46 @@ export function SalesMainPage() {
             <ModuleTitleStyle>{language.modules.salesModule.label}</ModuleTitleStyle>
             <FormButton disabled={UserData.userType === Roles.Cliente} onClick={handleCreate}>{Words.create}</FormButton>
 
-            <div>
-                <FormLabel htmlFor="dthRegistroINI">{SalesWords.dthRegistroINI}</FormLabel>
-                <FormInput type="date" name="dthRegistroINI" onChange={handleFilterChange} value={filters.dthRegistroINI} />
-                
-                <FormLabel htmlFor="dthRegistroFIM">{SalesWords.dthRegistroFIM}</FormLabel>
-                <FormInput type="date" name="dthRegistroFIM" onChange={handleFilterChange} value={filters.dthRegistroFIM} />
-
-                <FormLabel htmlFor="marcaCarro">{CarWords.brand}</FormLabel>
-                <FormSelect name="marcaCarro" onChange={handleFilterChange} value={filters.marcaCarro}>
-                    <option value="">--------</option>
-                    {brands.map((marca) => (
-                        <option key={marca} value={marca}>{marca}</option>
-                    ))}
-                </FormSelect>
-
-                <FormLabel htmlFor="idVendedor">{SalesWords.idVendedor}</FormLabel>
-                <FormSelect name="idVendedor" value={filters.idVendedor} onChange={handleFilterChange}>
-                    <option value="">----------------</option>
-                    {users.filter(user => user.userType === 2).map(user => (
-                        <option key={user.idUser} value={user.idUser}>
-                            {user.nameUser}
-                        </option>
-                    ))}
-                </FormSelect>
-
-                <FormLabel htmlFor="precoINI">{SalesWords.precoINI}</FormLabel>
-                <FormInput type="number" name="precoINI" onChange={handleFilterChange} value={filters.precoINI} />
-
-                <FormLabel htmlFor="precoFIM">{SalesWords.precoFIM}</FormLabel>
-                <FormInput type="number" name="precoFIM" onChange={handleFilterChange} value={filters.precoFIM} />
-
-                <Button onClick={handleFilter}>{Words.filter}</Button>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}>
+                <div style={{ flex: "1" }}>
+                    <FormLabel htmlFor="dthRegistroINI">{SalesWords.dthRegistroINI}</FormLabel>
+                    <FormInput type="date" name="dthRegistroINI" onChange={handleFilterChange} value={filters.dthRegistroINI} />
+                </div>
+                <div style={{ flex: "1" }}>
+                    <FormLabel htmlFor="dthRegistroFIM">{SalesWords.dthRegistroFIM}</FormLabel>
+                    <FormInput type="date" name="dthRegistroFIM" onChange={handleFilterChange} value={filters.dthRegistroFIM} />
+                </div>
+                <div style={{ flex: "1" }}>
+                    <FormLabel htmlFor="marcaCarro">{CarWords.brand}</FormLabel>
+                    <FormSelect name="marcaCarro" onChange={handleFilterChange} value={filters.marcaCarro}>
+                        <option value="">--------</option>
+                        {brands.map((marca) => (
+                            <option key={marca} value={marca}>{marca}</option>
+                        ))}
+                    </FormSelect>
+                </div>
+                <div style={{ flex: "1" }}>
+                    <FormLabel htmlFor="idVendedor">{SalesWords.idVendedor}</FormLabel>
+                    <FormSelect name="idVendedor" value={filters.idVendedor} onChange={handleFilterChange}>
+                        <option value="">----------------</option>
+                        {users.filter(user => user.userType === 2).map(user => (
+                            <option key={user.idUser} value={user.idUser}>
+                                {user.nameUser}
+                            </option>
+                        ))}
+                    </FormSelect>
+                </div>
+                <div style={{ flex: "1" }}>
+                    <FormLabel htmlFor="precoINI">{SalesWords.precoINI}</FormLabel>
+                    <FormInput type="number" name="precoINI" onChange={handleFilterChange} value={filters.precoINI} />
+                </div>
+                <div style={{ flex: "1" }}>
+                    <FormLabel htmlFor="precoFIM">{SalesWords.precoFIM}</FormLabel>
+                    <FormInput type="number" name="precoFIM" onChange={handleFilterChange} value={filters.precoFIM} />
+                </div>
+                <div style={{ flexBasis: "100%", textAlign: "center" }}>
+                    <Button onClick={handleFilter}>{Words.filter}</Button>
+                </div>
             </div>
 
             <Table columns={columns} dataSource={entries} rowKey="idSale" style={{ width: "100%", overflow: 'auto' }} />
@@ -372,14 +382,14 @@ export function SalesMainPage() {
                             <FormLabel htmlFor="fk_IdCar">{SalesWords.fk_IdCar}</FormLabel>
                             <FormSelect name="fk_IdCar" value={formData.fk_IdCar ?? ''} onChange={handleOnSelect}>
                                 <option value="">----------------</option>
-                                {carsWithouSales.map(car => (
+                                {carsWithoutSales.map(car => (
                                     <option key={car.idCar} value={car.idCar}>
                                         {car.brand} {car.model}
                                     </option>
                                 ))}
                             </FormSelect>
                             {formErrors.fk_IdCar && <FormError>{formErrors.fk_IdCar}</FormError>}
-                            
+
                             <FormLabel htmlFor="price">{SalesWords.price}</FormLabel>
                             <FormInput type="number" name="price" onChange={handleOnChange} value={formData.price || ''} />
                             {formErrors.price && <FormError>{formErrors.price}</FormError>}
@@ -389,7 +399,7 @@ export function SalesMainPage() {
                     </ModalContent>
                 </Modal>
             )}
-            
+
             {confirmDelete && (
                 <Modal>
                     <div style={{ display: "flex", alignItems: "center", textAlign: "center", justifyContent: "center" }}>
