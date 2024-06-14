@@ -382,7 +382,7 @@ export function SalesMainPage() {
                             <FormLabel htmlFor="fk_IdCar">{SalesWords.fk_IdCar}</FormLabel>
                             <FormSelect name="fk_IdCar" value={formData.fk_IdCar ?? ''} onChange={handleOnSelect}>
                                 <option value="">----------------</option>
-                                {carsWithoutSales.map(car => (
+                                {cars.map(car => (
                                     <option key={car.idCar} value={car.idCar}>
                                         {car.brand} {car.model}
                                     </option>
